@@ -1,7 +1,7 @@
 import sys
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 
 from key_notifier import KeyNotifier
@@ -12,10 +12,13 @@ class SimMoveDemo(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.pix1 = QPixmap('skull_red.png')
+        self.pix1 = QPixmap('mario1.png')
         self.pix2 = QPixmap('skull_green.png')
         self.label1 = QLabel(self)
         self.label2 = QLabel(self)
+
+        self.movie1 = QMovie("right.gif");
+        self.movie2 = QMovie("left.gif");
 
         self.setWindowState(Qt.WindowMaximized)
         self.__init_ui__()
@@ -40,18 +43,23 @@ class SimMoveDemo(QWidget):
 
     def keyReleaseEvent(self, event):
         self.key_notifier.rem_key(event.key())
+        self.label1.setPixmap(self.pix1)
 
     def __update_position__(self, key):
         rec1 = self.label1.geometry()
         rec2 = self.label2.geometry()
 
         if key == Qt.Key_Right:
+            self.label1.setMovie(self.movie1);
+            self.movie1.start();
             self.label1.setGeometry(rec1.x() + 5, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
             self.label1.setGeometry(rec1.x(), rec1.y() + 5, rec1.width(), rec1.height())
         elif key == Qt.Key_Up:
             self.label1.setGeometry(rec1.x(), rec1.y() - 5, rec1.width(), rec1.height())
         elif key == Qt.Key_Left:
+            self.label1.setMovie(self.movie2);
+            self.movie2.start();
             self.label1.setGeometry(rec1.x() - 5, rec1.y(), rec1.width(), rec1.height())
 
         if key == Qt.Key_D:
