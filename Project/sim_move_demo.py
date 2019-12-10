@@ -1,11 +1,11 @@
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTime
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 
 from key_notifier import KeyNotifier
-
+import datetime
 
 class SimMoveDemo(QWidget):
 
@@ -19,6 +19,7 @@ class SimMoveDemo(QWidget):
 
         self.movie1 = QMovie("right.gif");
         self.movie2 = QMovie("left.gif");
+        self.pix3 = QPixmap('penjanje.png')
 
         self.setWindowState(Qt.WindowMaximized)
         self.__init_ui__()
@@ -39,9 +40,13 @@ class SimMoveDemo(QWidget):
         self.show()
 
     def keyPressEvent(self, event):
+        if event.isAutoRepeat():
+            return
         self.key_notifier.add_key(event.key())
 
     def keyReleaseEvent(self, event):
+        if event.isAutoRepeat():
+            return
         self.key_notifier.rem_key(event.key())
         self.label1.setPixmap(self.pix1)
 
@@ -54,8 +59,10 @@ class SimMoveDemo(QWidget):
             self.movie1.start();
             self.label1.setGeometry(rec1.x() + 5, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
+            self.label1.setPixmap(self.pix3)
             self.label1.setGeometry(rec1.x(), rec1.y() + 5, rec1.width(), rec1.height())
         elif key == Qt.Key_Up:
+            self.label1.setPixmap(self.pix3)
             self.label1.setGeometry(rec1.x(), rec1.y() - 5, rec1.width(), rec1.height())
         elif key == Qt.Key_Left:
             self.label1.setMovie(self.movie2);
