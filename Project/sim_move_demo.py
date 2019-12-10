@@ -12,6 +12,13 @@ class SimMoveDemo(QWidget):
     def __init__(self):
         super().__init__()
 
+        #background image
+        self.backgroundPicture = QPixmap('images\level\\background.png')
+        self.backgroundLabel = QLabel(self)
+
+
+
+
         self.pix1 = QPixmap('mario1.png')
         self.pix2 = QPixmap('skull_green.png')
         self.label1 = QLabel(self)
@@ -20,6 +27,8 @@ class SimMoveDemo(QWidget):
         self.movie1 = QMovie("right.gif");
         self.movie2 = QMovie("left.gif");
         self.pix3 = QPixmap('penjanje.png')
+
+
 
         self.setWindowState(Qt.WindowMaximized)
         self.__init_ui__()
@@ -30,14 +39,22 @@ class SimMoveDemo(QWidget):
 
     def __init_ui__(self):
 
+        self.backgroundLabel.setPixmap(self.backgroundPicture)
+        self.backgroundLabel.move(0, 0)
+
         self.label1.setPixmap(self.pix1)
-        self.label1.setGeometry(100, 40, 50, 50)
+        self.label1.setGeometry(100, 997, 100, 100)
+
 
         self.label2.setPixmap(self.pix2)
         self.label2.setGeometry(50, 40, 50, 50)
 
+
+
+
+
         self.setWindowTitle('Sim Slide')
-        self.show()
+        self.showFullScreen()
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():

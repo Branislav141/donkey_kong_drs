@@ -1,0 +1,7 @@
+1 ladder	935 + 51
+2 ladder	150 + 51
+3 ladder	1767 + 51
+4 ladder	358 + 51
+5 ladder	935 + 51
+
+last platform 672 + 576

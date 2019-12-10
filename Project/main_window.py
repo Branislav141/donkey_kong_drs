@@ -44,12 +44,12 @@ class MainWindow(QWidget):
         b2.setGeometry(200, 500, 350, 50)
         b2.clicked.connect(self.quit)
 
-        self.logoPic = QPixmap('donkey_logo.png')
+        self.logoPic = QPixmap('images\menu\donkey_logo.png')
         self.logoLabel = QtWidgets.QLabel(self)
         self.logoLabel.setPixmap(self.logoPic)
         self.logoLabel.move(880, 120)
 
-        self.monkeyPic = QPixmap('donkey_monkey.png')
+        self.monkeyPic = QPixmap('images\menu\donkey_monkey.png')
         self.monkeyLabel = QtWidgets.QLabel(self)
         self.monkeyLabel.setPixmap(self.monkeyPic)
         self.monkeyLabel.move(970, 300)
@@ -61,11 +61,6 @@ class MainWindow(QWidget):
         size = self.geometry()
         self.move((screen.width() - size.width()) / 2,
                   (screen.height() - size.height()) / 2)
-
-
-
-
-
 
 
 if __name__ == '__main__':
