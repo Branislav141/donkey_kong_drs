@@ -2,6 +2,7 @@ import sys
 
 from PyQt5.QtCore import Qt, QTime
 from PyQt5.QtGui import QPixmap, QMovie
+from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 
 from key_notifier import KeyNotifier
@@ -19,8 +20,6 @@ class SimMoveDemo(QWidget):
         # background image
         self.backgroundPicture = QPixmap('images\level\\background.png')
         self.backgroundLabel = QLabel(self)
-
-        self.pix2 = QPixmap('skull_green.png')
 
         # player labels
         self.player1Label = QLabel(self)
@@ -47,6 +46,12 @@ class SimMoveDemo(QWidget):
     def __init_ui__(self):
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
+
+        #QSound.play("sounds\level\strong_and_strike_8bit.wav")
+        self.levelMusic = QSound("sounds\level\strong_and_strike_8bit.wav")
+        self.levelMusic.setLoops(-1)
+        self.levelMusic.play()
+
 
         # initial state of player 1
         self.player1Label.setGeometry(100, 940, 120, 120)
