@@ -30,11 +30,13 @@ class SimMoveDemo(QWidget):
         self.player1RunRight = QMovie("images\characters\\naruto\\naruto_run_right.gif");
         self.player1RunLeft = QMovie("images\characters\\naruto\\naruto_run_left.gif");
         self.player1Climb = QMovie("images\characters\\naruto\\naruto_climb.gif");
+        self.player1ClimbPicture = QPixmap("images\characters\\naruto\\naruto_climb.gif");
 
         self.player2Idle = QMovie("images\characters\sasuke\sasuke_idle_left.gif");
         self.player2RunRight = QMovie("images\characters\sasuke\sasuke_run_right.gif");
         self.player2RunLeft = QMovie("images\characters\sasuke\sasuke_run_left.gif");
         self.player2Climb = QMovie("images\characters\sasuke\sasuke_climb.gif");
+        self.player2ClimbPicture = QPixmap("images\characters\sasuke\sasuke_climb.gif");
 
         self.setWindowState(Qt.WindowMaximized)
         self.__init_ui__()
@@ -44,14 +46,13 @@ class SimMoveDemo(QWidget):
         self.key_notifier.start()
 
     def __init_ui__(self):
+
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
 
-        #QSound.play("sounds\level\strong_and_strike_8bit.wav")
         self.levelMusic = QSound("sounds\level\strong_and_strike_8bit.wav")
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
-
 
         # initial state of player 1
         self.player1Label.setGeometry(100, 940, 120, 120)
@@ -76,11 +77,20 @@ class SimMoveDemo(QWidget):
             return
         self.key_notifier.rem_key(event.key())
 
-        self.player1Label.setMovie(self.player1Idle);
-        self.player1Idle.start();
+        rec1 = self.player1Label.geometry()
+        rec2 = self.player2Label.geometry()
 
-        self.player2Label.setMovie(self.player2Idle);
-        self.player2Idle.start();
+        if self.checkLeftRight(rec1.y()) == False:
+            self.player1Label.setPixmap(self.player1ClimbPicture);
+        else:
+            self.player1Label.setMovie(self.player1Idle);
+            self.player1Idle.start();
+
+        if self.checkLeftRight(rec2.y()) == False:
+            self.player2Label.setPixmap(self.player2ClimbPicture);
+        else:
+            self.player2Label.setMovie(self.player2Idle);
+            self.player2Idle.start();
 
     # check if character can move up
     def checkLadderUp(self, x, y):
