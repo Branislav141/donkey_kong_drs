@@ -7,28 +7,30 @@ from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 from key_notifier import KeyNotifier
 import datetime
 
+# list of values of Y axis where characters can move
+listOfValidYAxisValues = [940, 941, 942, 740, 741, 742, 540, 541, 542, 340, 341, 342, 140, 141, 142, -10, -9, -8]
+
+
 class SimMoveDemo(QWidget):
 
     def __init__(self):
         super().__init__()
 
-        #background image
+        # background image
         self.backgroundPicture = QPixmap('images\level\\background.png')
         self.backgroundLabel = QLabel(self)
 
-
-
-
-        self.pix1 = QPixmap('mario1.png')
         self.pix2 = QPixmap('skull_green.png')
-        self.label1 = QLabel(self)
+
+        # player labels
+        self.player1Label = QLabel(self)
         self.label2 = QLabel(self)
 
-        self.movie1 = QMovie("right.gif");
-        self.movie2 = QMovie("left.gif");
-        self.pix3 = QPixmap('penjanje.png')
-
-
+        # player 1 gif animations
+        self.player1Idle = QMovie("images\characters\\naruto\\naruto_idle_right.gif");
+        self.player1RunRight = QMovie("images\characters\\naruto\\naruto_run_right.gif");
+        self.player1RunLeft = QMovie("images\characters\\naruto\\naruto_run_left.gif");
+        self.player1Climb = QMovie("images\characters\\naruto\\naruto_climb.gif");
 
         self.setWindowState(Qt.WindowMaximized)
         self.__init_ui__()
@@ -38,22 +40,19 @@ class SimMoveDemo(QWidget):
         self.key_notifier.start()
 
     def __init_ui__(self):
-
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
 
-        self.label1.setPixmap(self.pix1)
-        self.label1.setGeometry(100, 997, 100, 100)
+        # initial state of player 1
+        self.player1Label.setGeometry(100, 940, 120, 120)
+        self.player1Label.setMovie(self.player1Idle);
+        self.player1Idle.start();
 
-
+        # initial state of player 2
         self.label2.setPixmap(self.pix2)
         self.label2.setGeometry(50, 40, 50, 50)
 
-
-
-
-
-        self.setWindowTitle('Sim Slide')
+        self.setWindowTitle('Donkey Kong The Game')
         self.showFullScreen()
 
     def keyPressEvent(self, event):
@@ -65,26 +64,94 @@ class SimMoveDemo(QWidget):
         if event.isAutoRepeat():
             return
         self.key_notifier.rem_key(event.key())
-        self.label1.setPixmap(self.pix1)
 
+        self.player1Label.setMovie(self.player1Idle);
+        self.player1Idle.start();
+
+    # check if character can move up
+    def checkLadderUp(self, x, y):
+        if 900 <= x <= (900 + 20) and y >= 741:
+            return True
+        elif 115 <= x <= (115 + 20) and 541 <= y <= 741:
+            return True
+        elif 1732 <= x <= (1732 + 20) and 341 <= y <= 541:
+            return True
+        elif 323 <= x <= (323 + 20) and 141 <= y <= 341:
+            return True
+        elif 900 <= x <= (900 + 20) and 0 <= y <= 141:
+            return True
+        else:
+            return False
+
+    # check if character can move down
+    def checkLadderDown(self, x, y):
+        if 900 <= x <= (900 + 20) and y >= 739:
+            return True
+        elif 115 <= x <= (115 + 20) and 539 <= y <= 739:
+            return True
+        elif 1732 <= x <= (1732 + 20) and 339 <= y <= 539:
+            return True
+        elif 323 <= x <= (323 + 20) and 139 <= y <= 339:
+            return True
+        elif 900 <= x <= (900 + 20) and -11 <= y <= 139:
+            return True
+        else:
+            return False
+
+    # check if character can move left or right (if on bricks)
+    def checkLeftRight(self, y):
+        if y in listOfValidYAxisValues:
+            return True
+        else:
+            return False
+
+    # check if character is on top ladder
+    def isTopLadder(self, y):
+        if y == -8 or y == -9 or y == -10:
+            return True
+        else:
+            return False
+
+    # updates position of character
     def __update_position__(self, key):
-        rec1 = self.label1.geometry()
+        rec1 = self.player1Label.geometry()
         rec2 = self.label2.geometry()
-
         if key == Qt.Key_Right:
-            self.label1.setMovie(self.movie1);
-            self.movie1.start();
-            self.label1.setGeometry(rec1.x() + 5, rec1.y(), rec1.width(), rec1.height())
+            if self.checkLeftRight(rec1.y()):
+                if self.isTopLadder(rec1.y()):
+                    if rec1.x() < 1160:
+                        self.player1Label.setMovie(self.player1RunRight);
+                        self.player1RunRight.start();
+                        self.player1Label.setGeometry(rec1.x() + 10, rec1.y(), rec1.width(), rec1.height())
+                else:
+                    if rec1.x() < 1825:
+                        self.player1Label.setMovie(self.player1RunRight);
+                        self.player1RunRight.start();
+                        self.player1Label.setGeometry(rec1.x() + 10, rec1.y(), rec1.width(), rec1.height())
         elif key == Qt.Key_Down:
-            self.label1.setPixmap(self.pix3)
-            self.label1.setGeometry(rec1.x(), rec1.y() + 5, rec1.width(), rec1.height())
+            if rec1.y() < 940:
+                if self.checkLadderDown(rec1.x(), rec1.y()):
+                    self.player1Label.setMovie(self.player1Climb);
+                    self.player1Climb.start();
+                    self.player1Label.setGeometry(rec1.x(), rec1.y() + 10, rec1.width(), rec1.height())
         elif key == Qt.Key_Up:
-            self.label1.setPixmap(self.pix3)
-            self.label1.setGeometry(rec1.x(), rec1.y() - 5, rec1.width(), rec1.height())
+            if self.checkLadderUp(rec1.x(), rec1.y()):
+                self.player1Label.setMovie(self.player1Climb);
+                self.player1Climb.start();
+                self.player1Label.setGeometry(rec1.x(), rec1.y() - 10, rec1.width(), rec1.height())
         elif key == Qt.Key_Left:
-            self.label1.setMovie(self.movie2);
-            self.movie2.start();
-            self.label1.setGeometry(rec1.x() - 5, rec1.y(), rec1.width(), rec1.height())
+            if self.checkLeftRight(rec1.y()):
+                if self.isTopLadder(rec1.y()):
+                    if rec1.x() > 645:
+                        self.player1Label.setMovie(self.player1RunLeft);
+                        self.player1RunLeft.start();
+                        self.player1Label.setGeometry(rec1.x() - 10, rec1.y(), rec1.width(), rec1.height())
+                else:
+                    if rec1.x() > -25:
+                        self.player1Label.setMovie(self.player1RunLeft);
+                        self.player1RunLeft.start();
+                        self.player1Label.setGeometry(rec1.x() - 10, rec1.y(), rec1.width(), rec1.height())
+
 
         if key == Qt.Key_D:
             self.label2.setGeometry(rec2.x() + 5, rec2.y(), rec2.width(), rec2.height())
@@ -97,5 +164,3 @@ class SimMoveDemo(QWidget):
 
     def closeEvent(self, event):
         self.key_notifier.die()
-
-
