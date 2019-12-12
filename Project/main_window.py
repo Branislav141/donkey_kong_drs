@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QDesktopWidget, 
 from PyQt5.QtGui import QPixmap
 import sys
 
-from sim_move_demo import SimMoveDemo
+from level_generator import LevelGenerator
 
 
 
@@ -16,7 +16,7 @@ class MainWindow(QWidget):
         self.initUI()
 
     def run(self):
-        self.smd = SimMoveDemo()
+        self.smd = LevelGenerator()
 
     def quit(self):
         self.close();
@@ -139,7 +139,7 @@ class MainWindow(QWidget):
         self.monkeyLabel.setPixmap(self.monkeyPic)
         self.monkeyLabel.move(970, 300)
 
-        self.showMaximized()
+        self.showFullScreen()
 
     def center(self):
         screen = QDesktopWidget().screenGeometry()

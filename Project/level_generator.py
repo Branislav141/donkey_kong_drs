@@ -14,7 +14,7 @@ from Character import Character
 listOfValidYAxisValues = [940, 941, 942, 740, 741, 742, 540, 541, 542, 340, 341, 342, 140, 141, 142, -10, -9, -8]
 
 
-class SimMoveDemo(QWidget):
+class LevelGenerator(QWidget):
 
     def __init__(self):
         super().__init__()
@@ -24,13 +24,13 @@ class SimMoveDemo(QWidget):
         self.backgroundLabel = QLabel(self)
 
         self.setWindowState(Qt.WindowMaximized)
-        self.__init_ui__()
+        self.newLevel()
 
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
 
-    def __init_ui__(self):
+    def newLevel(self):
 
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
