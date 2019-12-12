@@ -31,13 +31,8 @@ class LevelGenerator(QWidget):
 
         self.setLevelDesign()
         self.setLevelSoundtrack()
+        self.initPlayers()
 
-
-        #self.player1 = Character(self, 100, 940, "\\naruto")
-        self.player1 = Character(self, 100, 940, "\itachi")
-        self.player2 = Character(self, 1720, 940, "\sasuke")
-
-        self.setWindowTitle('Donkey Kong The Game')
         self.showFullScreen()
 
 
@@ -56,6 +51,11 @@ class LevelGenerator(QWidget):
         self.levelMusic = QSound("sounds\level\\" + self.song + ".wav")
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
+
+    def initPlayers(self):
+        #self.player1 = Character(self, 100, 940, "\\naruto")
+        self.player1 = Character(self, 100, 940, "\itachi")
+        self.player2 = Character(self, 1720, 940, "\sasuke")
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
