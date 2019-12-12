@@ -39,8 +39,8 @@ class SimMoveDemo(QWidget):
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
 
-        self.player1 = Character(self, 100, 940, 1)
-        self.player2 = Character(self, 1720, 940, 2)
+        self.player1 = Character(self, 100, 940, "\\naruto")
+        self.player2 = Character(self, 1720, 940, "\sasuke")
 
         self.setWindowTitle('Donkey Kong The Game')
         self.showFullScreen()
@@ -61,14 +61,22 @@ class SimMoveDemo(QWidget):
         if not self.checkLeftRight(rec1.y()):
             self.player1.playerLabel.setPixmap(self.player1.playerClimbPicture)
         else:
-            self.player1.playerLabel.setMovie(self.player1.playerIdle)
-            self.player1.playerIdle.start()
+            if rec1.x() >= rec2.x():
+                self.player1.playerLabel.setMovie(self.player1.playerIdleLeft)
+                self.player1.playerIdleLeft.start()
+            else:
+                self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
+                self.player1.playerIdleRight.start()
 
         if not self.checkLeftRight(rec2.y()):
             self.player2.playerLabel.setPixmap(self.player2.playerClimbPicture)
         else:
-            self.player2.playerLabel.setMovie(self.player2.playerIdle)
-            self.player2.playerIdle.start()
+            if rec1.x() >= rec2.x():
+                self.player2.playerLabel.setMovie(self.player2.playerIdleRight)
+                self.player2.playerIdleRight.start()
+            else:
+                self.player2.playerLabel.setMovie(self.player2.playerIdleLeft)
+                self.player2.playerIdleLeft.start()
 
     # check if character can move up
     def checkLadderUp(self, x, y):
@@ -119,7 +127,7 @@ class SimMoveDemo(QWidget):
         rec1 = self.player1.playerLabel.geometry()
         rec2 = self.player2.playerLabel.geometry()
 
-        if key == Qt.Key_Right:
+        if key == Qt.Key_D:
             if self.checkLeftRight(rec1.y()):
                 if self.isTopLadder(rec1.y()):
                     if rec1.x() < 1160:
@@ -131,18 +139,18 @@ class SimMoveDemo(QWidget):
                         self.player1.playerLabel.setMovie(self.player1.playerRunRight)
                         self.player1.playerRunRight.start()
                         self.player1.updatePosition(rec1.x() + 10, rec1.y())
-        elif key == Qt.Key_Down:
+        elif key == Qt.Key_S:
             if rec1.y() < 940:
                 if self.checkLadderDown(rec1.x(), rec1.y()):
                     self.player1.playerLabel.setMovie(self.player1.playerClimb)
                     self.player1.playerClimb.start()
                     self.player1.updatePosition(rec1.x(), rec1.y() + 10)
-        elif key == Qt.Key_Up:
+        elif key == Qt.Key_W:
             if self.checkLadderUp(rec1.x(), rec1.y()):
                 self.player1.playerLabel.setMovie(self.player1.playerClimb)
                 self.player1.playerClimb.start()
                 self.player1.updatePosition(rec1.x(), rec1.y() - 10)
-        elif key == Qt.Key_Left:
+        elif key == Qt.Key_A:
             if self.checkLeftRight(rec1.y()):
                 if self.isTopLadder(rec1.y()):
                     if rec1.x() > 645:
@@ -155,7 +163,7 @@ class SimMoveDemo(QWidget):
                         self.player1.playerRunLeft.start()
                         self.player1.updatePosition(rec1.x() - 10, rec1.y())
 
-        if key == Qt.Key_D:
+        if key == Qt.Key_Right:
             if self.checkLeftRight(rec2.y()):
                 if self.isTopLadder(rec2.y()):
                     if rec2.x() < 1160:
@@ -167,18 +175,18 @@ class SimMoveDemo(QWidget):
                         self.player2.playerLabel.setMovie(self.player2.playerRunRight)
                         self.player2.playerRunRight.start()
                         self.player2.updatePosition(rec2.x() + 10, rec2.y())
-        elif key == Qt.Key_S:
+        elif key == Qt.Key_Down:
             if rec2.y() < 940:
                 if self.checkLadderDown(rec2.x(), rec2.y()):
                     self.player2.playerLabel.setMovie(self.player2.playerClimb)
                     self.player2.playerClimb.start()
                     self.player2.updatePosition(rec2.x(), rec2.y() + 10)
-        elif key == Qt.Key_W:
+        elif key == Qt.Key_Up:
             if self.checkLadderUp(rec2.x(), rec2.y()):
                 self.player2.playerLabel.setMovie(self.player2.playerClimb)
                 self.player2.playerClimb.start()
                 self.player2.updatePosition(rec2.x(), rec2.y() - 10)
-        elif key == Qt.Key_A:
+        elif key == Qt.Key_Left:
             if self.checkLeftRight(rec2.y()):
                 if self.isTopLadder(rec2.y()):
                     if rec2.x() > 645:
