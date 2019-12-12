@@ -35,7 +35,7 @@ class LevelGenerator(QWidget):
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
 
-        self.levelMusic = QSound("sounds\level\senya.wav")
+        self.levelMusic = QSound("sounds\level\hyouhaku.wav")
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
 
