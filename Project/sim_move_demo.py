@@ -39,7 +39,8 @@ class SimMoveDemo(QWidget):
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
 
-        self.player1 = Character(self, 100, 940, "\\naruto")
+        #self.player1 = Character(self, 100, 940, "\\naruto")
+        self.player1 = Character(self, 100, 940, "\itachi")
         self.player2 = Character(self, 1720, 940, "\sasuke")
 
         self.setWindowTitle('Donkey Kong The Game')

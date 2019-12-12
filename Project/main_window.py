@@ -43,6 +43,7 @@ class MainWindow(QWidget):
         player1Cb.addItem("")
         player1Cb.addItem("Naruto")
         player1Cb.addItem("Sasuke")
+        player1Cb.addItem("Itachi")
         player1Cb.model().item(0).setEnabled(False)
         player1Cb.setGeometry(380, 305, 70, 20)
 
@@ -56,6 +57,7 @@ class MainWindow(QWidget):
         player2Cb.addItem("")
         player2Cb.addItem("Naruto")
         player2Cb.addItem("Sasuke")
+        player2Cb.addItem("Itachi")
         player2Cb.model().item(0).setEnabled(False)
         player2Cb.setGeometry(380, 355, 70, 20)
 
@@ -74,6 +76,7 @@ class MainWindow(QWidget):
         player3Cb.addItem("")
         player3Cb.addItem("Naruto")
         player3Cb.addItem("Sasuke")
+        player3Cb.addItem("Itachi")
         player3Cb.model().item(0).setEnabled(False)
         player3Cb.setGeometry(380, 405, 70, 20)
 
@@ -92,6 +95,7 @@ class MainWindow(QWidget):
         player4Cb.addItem("")
         player4Cb.addItem("Naruto")
         player4Cb.addItem("Sasuke")
+        player4Cb.addItem("Itachi")
         player4Cb.model().item(0).setEnabled(False)
         player4Cb.setGeometry(380, 455, 70, 20)
 
