@@ -35,7 +35,7 @@ class SimMoveDemo(QWidget):
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
 
-        self.levelMusic = QSound("sounds\level\strong_and_strike_8bit.wav")
+        self.levelMusic = QSound("sounds\level\senya.wav")
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
 
