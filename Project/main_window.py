@@ -19,7 +19,9 @@ class MainWindow(QWidget):
         self.levelGenerator = LevelGenerator()
 
     def quit(self):
-        self.close()
+        app = QApplication.instance()
+        app.closeAllWindows()
+
 
     def initUI(self):
 
@@ -145,17 +147,17 @@ class MainWindow(QWidget):
         self.player4Cb.setGeometry(380, 455, 70, 20)
 
     def initMainMenuButtons(self):
-        b1 = QtWidgets.QPushButton(self)
-        b1.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
-        b1.setText("START GAME")
-        b1.setGeometry(200, 600, 350, 50)
-        b1.clicked.connect(self.run)
+        self.startButton = QtWidgets.QPushButton(self)
+        self.startButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
+        self.startButton.setText("START GAME")
+        self.startButton.setGeometry(200, 600, 350, 50)
+        self.startButton.clicked.connect(self.run)
 
-        b2 = QtWidgets.QPushButton(self)
-        b2.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
-        b2.setText("QUIT")
-        b2.setGeometry(200, 700, 350, 50)
-        b2.clicked.connect(self.quit)
+        self.quitButton = QtWidgets.QPushButton(self)
+        self.quitButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
+        self.quitButton.setText("EXIT TO DESKTOP")
+        self.quitButton.setGeometry(200, 700, 350, 50)
+        self.quitButton.clicked.connect(self.quit)
 
     def initMainMenuImages(self):
         self.logoPic = QPixmap('images\menu\donkey_logo.png')

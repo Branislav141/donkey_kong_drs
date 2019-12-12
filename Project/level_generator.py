@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtCore import Qt, QTime
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtMultimedia import QSound
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton
 
 from key_notifier import KeyNotifier
 from Character import Character
@@ -45,6 +45,12 @@ class LevelGenerator(QWidget):
 
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
+
+        self.quitButton = QPushButton(self)
+        self.quitButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 18px; font-family: Segoe Script;");
+        self.quitButton.setText("QUIT")
+        self.quitButton.setGeometry(1400, 0, 90, 25)
+        self.quitButton.clicked.connect(self.quit)
 
     def setLevelSoundtrack(self):
         self.song = random.choice(listOfSoundtracks)
@@ -213,3 +219,7 @@ class LevelGenerator(QWidget):
 
     def closeEvent(self, event):
         self.key_notifier.die()
+
+    def quit(self):
+        self.levelMusic.stop()
+        self.close()
