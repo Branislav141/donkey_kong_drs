@@ -6,24 +6,21 @@ from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 
 from key_notifier import KeyNotifier
-import datetime
-
 from Character import Character
+
+import datetime
+import random
+
 
 # list of values of Y axis where characters can move
 listOfValidYAxisValues = [940, 941, 942, 740, 741, 742, 540, 541, 542, 340, 341, 342, 140, 141, 142, -10, -9, -8]
-
+listOfSoundtracks = ["song_hyouhaku", "song_kokuten", "song_rising_fighting_spirit", "song_saika", "song_senya"]
 
 class LevelGenerator(QWidget):
 
     def __init__(self):
         super().__init__()
 
-        # background image
-        self.backgroundPicture = QPixmap('images\level\\background.png')
-        self.backgroundLabel = QLabel(self)
-
-        self.setWindowState(Qt.WindowMaximized)
         self.newLevel()
 
         self.key_notifier = KeyNotifier()
@@ -32,12 +29,9 @@ class LevelGenerator(QWidget):
 
     def newLevel(self):
 
-        self.backgroundLabel.setPixmap(self.backgroundPicture)
-        self.backgroundLabel.move(0, 0)
+        self.setLevelDesign()
+        self.setLevelSoundtrack()
 
-        self.levelMusic = QSound("sounds\level\hyouhaku.wav")
-        self.levelMusic.setLoops(-1)
-        self.levelMusic.play()
 
         #self.player1 = Character(self, 100, 940, "\\naruto")
         self.player1 = Character(self, 100, 940, "\itachi")
@@ -45,6 +39,23 @@ class LevelGenerator(QWidget):
 
         self.setWindowTitle('Donkey Kong The Game')
         self.showFullScreen()
+
+
+    def setLevelDesign(self):
+        # background image
+        self.backgroundPicture = QPixmap('images\level\\background.png')
+        self.backgroundLabel = QLabel(self)
+
+        self.setWindowState(Qt.WindowMaximized)
+
+        self.backgroundLabel.setPixmap(self.backgroundPicture)
+        self.backgroundLabel.move(0, 0)
+
+    def setLevelSoundtrack(self):
+        self.song = random.choice(listOfSoundtracks)
+        self.levelMusic = QSound("sounds\level\\" + self.song + ".wav")
+        self.levelMusic.setLoops(-1)
+        self.levelMusic.play()
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
