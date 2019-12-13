@@ -69,32 +69,32 @@ class MainWindow(QWidget):
         self.player1Lb = QtWidgets.QLabel(self)
         self.player1Lb.setText("Select player 1: ")
         self.player1Lb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
-        self.player1Lb.move(200, 300)
+        self.player1Lb.move(100, 300)
 
         self.player2Lb = QtWidgets.QLabel(self)
         self.player2Lb.setText("Select player 2: ")
         self.player2Lb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
-        self.player2Lb.move(200, 350)
+        self.player2Lb.move(100, 350)
 
         self.player3Lb = QtWidgets.QLabel(self)
         self.player3Lb.setText("Select player 3: ")
         self.player3Lb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
-        self.player3Lb.move(200, 400)
+        self.player3Lb.move(100, 400)
 
         self.player3InfoLb = QtWidgets.QLabel(self)
         self.player3InfoLb.setText("(Only in tournament!)")
         self.player3InfoLb.setStyleSheet("color: red;font-size: 14px; font-family: Helvetica;");
-        self.player3InfoLb.move(460, 405)
+        self.player3InfoLb.move(360, 405)
 
         self.player4Lb = QtWidgets.QLabel(self)
         self.player4Lb.setText("Select player 4: ")
         self.player4Lb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
-        self.player4Lb.move(200, 450)
+        self.player4Lb.move(100, 450)
 
         self.player4InfoLb = QtWidgets.QLabel(self)
         self.player4InfoLb.setText("(Only in tournament!)")
         self.player4InfoLb.setStyleSheet("color: red;font-size: 14px; font-family: Helvetica;");
-        self.player4InfoLb.move(460, 455)
+        self.player4InfoLb.move(360, 455)
 
 
 
@@ -102,18 +102,18 @@ class MainWindow(QWidget):
         self.gameModeLb = QtWidgets.QLabel(self)
         self.gameModeLb.setText("Select game mode: ")
         self.gameModeLb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
-        self.gameModeLb.move(200, 525)
+        self.gameModeLb.move(100, 525)
 
         self.versusRb = QtWidgets.QRadioButton(self)
         self.versusRb.setText("Versus")
         self.versusRb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
-        self.versusRb.move(390, 522)
+        self.versusRb.move(290, 522)
         self.versusRb.setChecked(True)
 
         self.tournamentRb = QtWidgets.QRadioButton(self)
         self.tournamentRb.setText("Tournament")
         self.tournamentRb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
-        self.tournamentRb.move(490, 522)
+        self.tournamentRb.move(390, 522)
         self.tournamentRb.setChecked(False)
 
 
@@ -125,7 +125,7 @@ class MainWindow(QWidget):
         self.player1Cb.addItem("Sasuke")
         self.player1Cb.addItem("Itachi")
         self.player1Cb.model().item(0).setEnabled(False)
-        self.player1Cb.setGeometry(380, 305, 70, 20)
+        self.player1Cb.setGeometry(280, 305, 70, 20)
 
         self.player2Cb = QComboBox(self)
         self.player2Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
@@ -134,7 +134,7 @@ class MainWindow(QWidget):
         self.player2Cb.addItem("Sasuke")
         self.player2Cb.addItem("Itachi")
         self.player2Cb.model().item(0).setEnabled(False)
-        self.player2Cb.setGeometry(380, 355, 70, 20)
+        self.player2Cb.setGeometry(280, 355, 70, 20)
 
         self.player3Cb = QComboBox(self)
         self.player3Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
@@ -143,7 +143,7 @@ class MainWindow(QWidget):
         self.player3Cb.addItem("Sasuke")
         self.player3Cb.addItem("Itachi")
         self.player3Cb.model().item(0).setEnabled(False)
-        self.player3Cb.setGeometry(380, 405, 70, 20)
+        self.player3Cb.setGeometry(280, 405, 70, 20)
 
         self.player4Cb = QComboBox(self)
         self.player4Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
@@ -152,31 +152,31 @@ class MainWindow(QWidget):
         self.player4Cb.addItem("Sasuke")
         self.player4Cb.addItem("Itachi")
         self.player4Cb.model().item(0).setEnabled(False)
-        self.player4Cb.setGeometry(380, 455, 70, 20)
+        self.player4Cb.setGeometry(280, 455, 70, 20)
 
     def initMainMenuButtons(self):
         self.startButton = QtWidgets.QPushButton(self)
         self.startButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
         self.startButton.setText("START GAME")
-        self.startButton.setGeometry(200, 600, 350, 50)
+        self.startButton.setGeometry(100, 600, 350, 50)
         self.startButton.clicked.connect(self.run)
 
         self.quitButton = QtWidgets.QPushButton(self)
         self.quitButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
         self.quitButton.setText("EXIT TO DESKTOP")
-        self.quitButton.setGeometry(200, 700, 350, 50)
+        self.quitButton.setGeometry(100, 700, 350, 50)
         self.quitButton.clicked.connect(self.quit)
 
     def initMainMenuImages(self):
-        self.logoPic = QPixmap('images\menu\donkey_logo.png')
+        self.logoPic = QPixmap('images\menu\logo.png')
         self.logoLabel = QtWidgets.QLabel(self)
         self.logoLabel.setPixmap(self.logoPic)
-        self.logoLabel.move(880, 120)
+        self.logoLabel.move(920, 100)
 
-        self.monkeyPic = QPixmap('images\menu\donkey_monkey.png')
+        self.monkeyPic = QPixmap('images\menu\main_menu.png')
         self.monkeyLabel = QtWidgets.QLabel(self)
         self.monkeyLabel.setPixmap(self.monkeyPic)
-        self.monkeyLabel.move(970, 300)
+        self.monkeyLabel.move(530, 410)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
