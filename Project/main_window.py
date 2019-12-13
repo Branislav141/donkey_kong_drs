@@ -16,7 +16,15 @@ class MainWindow(QWidget):
         self.initUI()
 
     def run(self):
-        self.levelGenerator = LevelGenerator()
+        player1 = str(self.player1Cb.currentText())
+        player2 = str(self.player2Cb.currentText())
+        gameMode = ""
+        if self.versusRb.isChecked():
+            gameMode = "versus"
+        else:
+            gameMode = "tournament"
+
+        self.levelGenerator = LevelGenerator(gameMode, player1, player2, "", "")
 
     def quit(self):
         app = QApplication.instance()

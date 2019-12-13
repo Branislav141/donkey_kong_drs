@@ -5,6 +5,7 @@ from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton
 
+
 from key_notifier import KeyNotifier
 from Character import Character
 
@@ -18,20 +19,26 @@ listOfSoundtracks = ["song_hyouhaku", "song_kokuten", "song_rising_fighting_spir
 
 class LevelGenerator(QWidget):
 
-    def __init__(self):
+    def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
 
         self.newLevel()
 
+
+
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
+
+
 
     def newLevel(self):
 
         self.setLevelDesign()
         self.setLevelSoundtrack()
         self.initPlayers()
+
+
 
         self.showFullScreen()
 
@@ -46,11 +53,12 @@ class LevelGenerator(QWidget):
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
 
-        self.quitButton = QPushButton(self)
-        self.quitButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 18px; font-family: Segoe Script;");
-        self.quitButton.setText("QUIT")
-        self.quitButton.setGeometry(1400, 0, 90, 25)
-        self.quitButton.clicked.connect(self.quit)
+        #self.exitButton = QPushButton(self)
+        #self.exitButton.setGeometry(1400, 0, 90, 25)
+        #self.exitButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 18px; font-family: Segoe Script;");
+        #self.exitButton.setText("QUIT")
+        #self.exitButton.clicked.connect(self.exitLevel)
+
 
     def setLevelSoundtrack(self):
         self.song = random.choice(listOfSoundtracks)
@@ -220,6 +228,6 @@ class LevelGenerator(QWidget):
     def closeEvent(self, event):
         self.key_notifier.die()
 
-    def quit(self):
+    def exitLevel(self):
         self.levelMusic.stop()
         self.close()
