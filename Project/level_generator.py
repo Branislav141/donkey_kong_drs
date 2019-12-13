@@ -15,7 +15,7 @@ import random
 
 # list of values of Y axis where characters can move
 listOfValidYAxisValues = [940, 941, 942, 740, 741, 742, 540, 541, 542, 340, 341, 342, 140, 141, 142, -10, -9, -8]
-listOfSoundtracks = ["song_hyouhaku", "song_kokuten", "song_rising_fighting_spirit", "song_saika", "song_senya"]
+listOfSoundtracks = ["song_hyouhaku", "song_kokuten", "song_raising_fighting_spirit", "song_saika", "song_senya"]
 
 class LevelGenerator(QWidget):
 
@@ -145,6 +145,10 @@ class LevelGenerator(QWidget):
     def __update_position__(self, key):
         rec1 = self.player1.playerLabel.geometry()
         rec2 = self.player2.playerLabel.geometry()
+
+        if key == Qt.Key_Escape:
+            self.levelMusic.stop()
+            self.close()
 
         if key == Qt.Key_D:
             if self.checkLeftRight(rec1.y()):
