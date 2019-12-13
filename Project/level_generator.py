@@ -37,14 +37,23 @@ class LevelGenerator(QWidget):
         self.showFullScreen()
 
     def setLevelDesign(self):
+
         # background image
         self.backgroundPicture = QPixmap('images\level\\background.png')
         self.backgroundLabel = QLabel(self)
 
-        self.setWindowState(Qt.WindowMaximized)
-
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
+
+        #  princess
+        self.princessIdle = QMovie('images\\npc\\npc_flame_princess\\npc_flame_princess_idle.gif')
+        self.princessLabel = QLabel(self)
+
+        self.princessLabel.setMovie(self.princessIdle)
+        self.princessIdle.start()
+        self.princessLabel.setGeometry(1150, -10, 120, 120)
+
+        self.setWindowState(Qt.WindowMaximized)
 
         #self.exitButton = QPushButton(self)
         #self.exitButton.setGeometry(1400, 0, 90, 25)
