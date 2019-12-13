@@ -22,26 +22,19 @@ class LevelGenerator(QWidget):
     def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
 
-        self.newLevel()
-
-
-
+        self.newLevel(gameMode, player1, player2, player3, player4)
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
 
 
-
-    def newLevel(self):
+    def newLevel(self, mode, character1, character2, character3, character4):
 
         self.setLevelDesign()
         self.setLevelSoundtrack()
-        self.initPlayers()
-
-
+        self.initPlayers(character1, character2)
 
         self.showFullScreen()
-
 
     def setLevelDesign(self):
         # background image
@@ -66,10 +59,10 @@ class LevelGenerator(QWidget):
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
 
-    def initPlayers(self):
+    def initPlayers(self, chr1, chr2):
         #self.player1 = Character(self, 100, 940, "\\naruto")
-        self.player1 = Character(self, 100, 940, "\itachi")
-        self.player2 = Character(self, 1720, 940, "\sasuke")
+        self.player1 = Character(self, 100, 940, chr1)
+        self.player2 = Character(self, 1720, 940, chr2)
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():

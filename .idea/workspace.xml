@@ -98,22 +98,38 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="285" key="GridCell.Tab.0.bottom" timestamp="1576198375134">
+    <state width="1899" height="352" key="GridCell.Tab.0.bottom" timestamp="1576205735782">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1899" height="285" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1576198375134" />
-    <state width="1899" height="285" key="GridCell.Tab.0.center" timestamp="1576198375134">
+    <state width="1899" height="352" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
+    <state width="1899" height="352" key="GridCell.Tab.0.center" timestamp="1576205735782">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1899" height="285" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1576198375134" />
-    <state width="1899" height="285" key="GridCell.Tab.0.left" timestamp="1576198375134">
+    <state width="1899" height="352" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
+    <state width="1899" height="352" key="GridCell.Tab.0.left" timestamp="1576205735782">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1899" height="285" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1576198375134" />
-    <state width="1899" height="285" key="GridCell.Tab.0.right" timestamp="1576198375134">
+    <state width="1899" height="352" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
+    <state width="1899" height="352" key="GridCell.Tab.0.right" timestamp="1576205735782">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1899" height="285" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1576198375134" />
+    <state width="1899" height="352" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
+    <state width="1899" height="352" key="GridCell.Tab.1.bottom" timestamp="1576205735782">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1899" height="352" key="GridCell.Tab.1.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
+    <state width="1899" height="352" key="GridCell.Tab.1.center" timestamp="1576205735782">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1899" height="352" key="GridCell.Tab.1.center/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
+    <state width="1899" height="352" key="GridCell.Tab.1.left" timestamp="1576205735782">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1899" height="352" key="GridCell.Tab.1.left/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
+    <state width="1899" height="352" key="GridCell.Tab.1.right" timestamp="1576205735782">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1899" height="352" key="GridCell.Tab.1.right/0.0.1920.1050@0.0.1920.1050" timestamp="1576205735782" />
     <state x="461" y="167" key="SettingsEditor" timestamp="1576026308994">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -122,5 +138,20 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="661" y="348" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1576196897429" />
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1576203212172">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1576203212172" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
