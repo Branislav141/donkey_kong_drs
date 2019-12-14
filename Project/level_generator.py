@@ -26,7 +26,7 @@ class LevelGenerator(QWidget):
 
         self.newLevel(gameMode, player1, player2, player3, player4)
 
-        new_thread = Thread(target=self.start__)
+        new_thread = Thread(target=self.countdown__)
         new_thread.setDaemon(True)
         new_thread.start()
 
@@ -34,8 +34,15 @@ class LevelGenerator(QWidget):
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
 
-    def start__(self):
-        time.sleep(4)
+    def countdown__(self):
+        time.sleep(2)
+        self.countdownLabel.show()
+        time.sleep(1)
+        self.countdownLabel.setPixmap(self.cdnTwo)
+        time.sleep(1)
+        self.countdownLabel.setPixmap(self.cdnOne)
+        time.sleep(1)
+        self.countdownLabel.hide()
         self.startLabel.show()
         time.sleep(2)
         self.startLabel.hide()
@@ -56,16 +63,25 @@ class LevelGenerator(QWidget):
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
 
-        self.startPicture = QPixmap('images\level\start.png')
+        # countdown
+        self.cdnOne = QPixmap('images\level\one.png')
+        self.cdnTwo = QPixmap('images\level\\two.png')
+        self.cdnThree = QPixmap('images\level\\three.png')
+        self.countdownLabel = QLabel(self)
+        self.countdownLabel.hide()
+        self.countdownLabel.setPixmap(self.cdnThree)
+        self.countdownLabel.move(755, 300)
+
+        # begin
+        self.startPicture = QPixmap('images\level\\begin.png')
         self.startLabel = QLabel(self)
         self.startLabel.hide()
         self.startLabel.setPixmap(self.startPicture)
-        self.startLabel.move(620, 270)
+        self.startLabel.move(585, 300)
 
         #  princess
         self.princessIdle = QMovie('images\\npc\\npc_flame_princess\\npc_flame_princess_idle.gif')
         self.princessLabel = QLabel(self)
-
         self.princessLabel.setMovie(self.princessIdle)
         self.princessIdle.start()
         self.princessLabel.setGeometry(1150, -10, 120, 120)

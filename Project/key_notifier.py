@@ -44,7 +44,7 @@ class KeyNotifier(QObject):
         """
         A slot with no params.
         """
-        time.sleep(6)
+        time.sleep(7)
         while not self.is_done:
             for k in self.keys:
                 self.key_signal.emit(k)

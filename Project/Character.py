@@ -50,6 +50,7 @@ class Character(QFrame):
             self.playerNameLabel.move(0, 80)
             self.playerLabel.setMovie(self.playerIdleRight)
             self.playerIdleRight.start()
+
         else:
             self.playerProfilePictureLabel.move(1830, 0)
             self.playerNameLabel.move(1830, 80)
