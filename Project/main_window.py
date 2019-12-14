@@ -1,5 +1,6 @@
+
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QDesktopWidget, QComboBox
+from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QDesktopWidget, QComboBox, QMessageBox
 from PyQt5.QtGui import QPixmap, QCursor
 from PyQt5.QtCore import Qt
 import sys
@@ -14,18 +15,37 @@ class MainWindow(QWidget):
 
     def __init__(self):
         super().__init__()
+
         self.initUI()
 
-    def run(self):
-        player1 = str(self.player1Cb.currentText())
-        player2 = str(self.player2Cb.currentText())
-        gameMode = ""
-        if self.versusRb.isChecked():
-            gameMode = "versus"
-        else:
-            gameMode = "tournament"
 
-        self.levelGenerator = LevelGenerator(gameMode, player1, player2, "", "")
+    def run(self):
+        if self.versusRb.isChecked():
+            if str(self.player1Cb.currentText()) == "" or str(self.player2Cb.currentText()) == "":
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.NoIcon)
+                msg.setText("You need to select characters for player1 and player2 in order to play versus.")
+                msg.setWindowTitle("Error")
+                msg.exec_()
+            else:
+                player1 = str(self.player1Cb.currentText())
+                player2 = str(self.player2Cb.currentText())
+                gameMode = "versus"
+                self.levelGenerator = LevelGenerator(gameMode, player1, player2, "", "")
+        else:
+            if str(self.player1Cb.currentText()) == "" or str(self.player2Cb.currentText()) == "" or str(self.player3Cb.currentText()) == "" or str(self.player4Cb.currentText()) == "":
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.NoIcon)
+                msg.setText("You need to select characters for all players in order to play tournament.")
+                msg.setWindowTitle("Error")
+                msg.exec_()
+            else:
+                player1 = str(self.player1Cb.currentText())
+                player2 = str(self.player2Cb.currentText())
+                player3 = str(self.player3Cb.currentText())
+                player4 = str(self.player4Cb.currentText())
+                gameMode = "tournament"
+                self.levelGenerator = LevelGenerator(gameMode, player1, player2, player3, player4)
 
     def quit(self):
         app = QApplication.instance()
@@ -168,6 +188,7 @@ class MainWindow(QWidget):
     def initMainMenuButtons(self):
         self.startButton = QtWidgets.QPushButton(self)
         self.startButton.setCursor(Qt.PointingHandCursor)
+       # self.startButton.setEnabled(False)
         self.startButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
         self.startButton.setText("START GAME")
         self.startButton.setGeometry(100, 600, 350, 50)
