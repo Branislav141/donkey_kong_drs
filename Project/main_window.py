@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QDesktopWidget, QComboBox
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QCursor
+from PyQt5.QtCore import Qt
 import sys
 
 from level_generator import LevelGenerator
@@ -105,12 +106,14 @@ class MainWindow(QWidget):
         self.gameModeLb.move(100, 525)
 
         self.versusRb = QtWidgets.QRadioButton(self)
+        self.versusRb.setCursor(Qt.PointingHandCursor)
         self.versusRb.setText("Versus")
         self.versusRb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
         self.versusRb.move(290, 522)
         self.versusRb.setChecked(True)
 
         self.tournamentRb = QtWidgets.QRadioButton(self)
+        self.tournamentRb.setCursor(Qt.PointingHandCursor)
         self.tournamentRb.setText("Tournament")
         self.tournamentRb.setStyleSheet("color: red;font-size: 18px; font-family: Segoe Script;");
         self.tournamentRb.move(390, 522)
@@ -119,6 +122,7 @@ class MainWindow(QWidget):
 
     def initPlayerSelectionComboBoxes(self):
         self.player1Cb = QComboBox(self)
+        self.player1Cb.setCursor(Qt.PointingHandCursor)
         self.player1Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
         self.player1Cb.addItem("")
         self.player1Cb.addItem("Naruto")
@@ -129,6 +133,7 @@ class MainWindow(QWidget):
         self.player1Cb.setGeometry(280, 305, 70, 20)
 
         self.player2Cb = QComboBox(self)
+        self.player2Cb.setCursor(Qt.PointingHandCursor)
         self.player2Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
         self.player2Cb.addItem("")
         self.player2Cb.addItem("Naruto")
@@ -139,6 +144,7 @@ class MainWindow(QWidget):
         self.player2Cb.setGeometry(280, 355, 70, 20)
 
         self.player3Cb = QComboBox(self)
+        self.player3Cb.setCursor(Qt.PointingHandCursor)
         self.player3Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
         self.player3Cb.addItem("")
         self.player3Cb.addItem("Naruto")
@@ -149,6 +155,7 @@ class MainWindow(QWidget):
         self.player3Cb.setGeometry(280, 405, 70, 20)
 
         self.player4Cb = QComboBox(self)
+        self.player4Cb.setCursor(Qt.PointingHandCursor)
         self.player4Cb.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red; font-family: Helvetica;");
         self.player4Cb.addItem("")
         self.player4Cb.addItem("Naruto")
@@ -160,12 +167,14 @@ class MainWindow(QWidget):
 
     def initMainMenuButtons(self):
         self.startButton = QtWidgets.QPushButton(self)
+        self.startButton.setCursor(Qt.PointingHandCursor)
         self.startButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
         self.startButton.setText("START GAME")
         self.startButton.setGeometry(100, 600, 350, 50)
         self.startButton.clicked.connect(self.run)
 
         self.quitButton = QtWidgets.QPushButton(self)
+        self.quitButton.setCursor(Qt.PointingHandCursor)
         self.quitButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
         self.quitButton.setText("EXIT TO DESKTOP")
         self.quitButton.setGeometry(100, 700, 350, 50)
