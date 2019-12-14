@@ -190,6 +190,8 @@ class LevelGenerator(QWidget):
 
         if key == Qt.Key_Escape:
             self.levelMusic.stop()
+            from Project.main_window import MainWindow
+            self.mainMenu = MainWindow()
             self.close()
 
         if key == Qt.Key_D:

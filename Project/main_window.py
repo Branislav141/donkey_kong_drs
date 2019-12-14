@@ -32,6 +32,7 @@ class MainWindow(QWidget):
                 player2 = str(self.player2Cb.currentText())
                 gameMode = "versus"
                 self.levelGenerator = LevelGenerator(gameMode, player1, player2, "", "")
+                self.close()
         else:
             if str(self.player1Cb.currentText()) == "" or str(self.player2Cb.currentText()) == "" or str(self.player3Cb.currentText()) == "" or str(self.player4Cb.currentText()) == "":
                 msg = QMessageBox()
