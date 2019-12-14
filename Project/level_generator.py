@@ -25,17 +25,19 @@ class LevelGenerator(QWidget):
         super().__init__()
 
         self.newLevel(gameMode, player1, player2, player3, player4)
+        self.levelIntroHandle();
 
+        self.key_notifier = KeyNotifier()
+        self.key_notifier.key_signal.connect(self.__update_position__)
+        self.key_notifier.start()
+
+    def levelIntroHandle(self):
         countdownThread = Thread(target=self.countdown__)
         countdownThread.setDaemon(True)
         countdownThread.start()
 
         self.player1.playerIntroRight.finished.connect(self.char1Intro)
         self.player2.playerIntroLeft.finished.connect(self.char2Intro)
-
-        self.key_notifier = KeyNotifier()
-        self.key_notifier.key_signal.connect(self.__update_position__)
-        self.key_notifier.start()
 
     def char1Intro(self):
         self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
@@ -58,7 +60,6 @@ class LevelGenerator(QWidget):
         self.startLabel.show()
         time.sleep(2)
         self.startLabel.hide()
-
 
     def newLevel(self, mode, character1, character2, character3, character4):
 
