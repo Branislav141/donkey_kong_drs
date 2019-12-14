@@ -1,4 +1,6 @@
 import sys
+import time
+from threading import Thread
 
 from PyQt5.QtCore import Qt, QTime
 from PyQt5.QtGui import QPixmap, QMovie
@@ -23,9 +25,20 @@ class LevelGenerator(QWidget):
         super().__init__()
 
         self.newLevel(gameMode, player1, player2, player3, player4)
+
+        new_thread = Thread(target=self.start__)
+        new_thread.setDaemon(True)
+        new_thread.start()
+
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
+
+    def start__(self):
+        time.sleep(4)
+        self.startLabel.show()
+        time.sleep(2)
+        self.startLabel.hide()
 
 
     def newLevel(self, mode, character1, character2, character3, character4):
@@ -33,7 +46,6 @@ class LevelGenerator(QWidget):
         self.setLevelDesign()
         self.setLevelSoundtrack()
         self.initPlayers(character1, character2)
-
         self.showFullScreen()
 
     def setLevelDesign(self):
@@ -41,9 +53,14 @@ class LevelGenerator(QWidget):
         # background image
         self.backgroundPicture = QPixmap('images\level\\background.png')
         self.backgroundLabel = QLabel(self)
-
         self.backgroundLabel.setPixmap(self.backgroundPicture)
         self.backgroundLabel.move(0, 0)
+
+        self.startPicture = QPixmap('images\level\start.png')
+        self.startLabel = QLabel(self)
+        self.startLabel.hide()
+        self.startLabel.setPixmap(self.startPicture)
+        self.startLabel.move(620, 270)
 
         #  princess
         self.princessIdle = QMovie('images\\npc\\npc_flame_princess\\npc_flame_princess_idle.gif')
