@@ -9,6 +9,8 @@ class Character(QFrame):
     playerLabel = 0
     playerIdleRight = 0
     playerIdleLeft = 0
+    playerIntroRight = 0
+    playerIntroLeft = 0
     playerRunRight = 0
     playerRunLeft = 0
     playerClimb = 0
@@ -16,6 +18,7 @@ class Character(QFrame):
     playerProfilePicture = 0
     playerProfilePictureLabel = 0
     playerNameLabel = 0
+
 
     def __init__(self, parent, x, y, player):
         super().__init__(parent)
@@ -35,6 +38,9 @@ class Character(QFrame):
         self.playerClimb = QMovie("images\characters" + parsedName + "_climb.gif");
         self.playerClimbPicture = QPixmap("images\characters" + parsedName + "_climb.gif");
         self.playerProfilePicture = QPixmap("images\characters" + parsedName + "_profile.png");
+        self.playerIntroRight = QMovie("images\characters" + parsedName + "_intro_right.gif");
+        self.playerIntroLeft = QMovie("images\characters" + parsedName + "_intro_left.gif");
+
 
         self.playerProfilePictureLabel = QLabel(parent)
         self.playerProfilePictureLabel.setPixmap(self.playerProfilePicture)
@@ -48,14 +54,15 @@ class Character(QFrame):
         if x < 900:
             self.playerProfilePictureLabel.move(0,0)
             self.playerNameLabel.move(0, 80)
-            self.playerLabel.setMovie(self.playerIdleRight)
-            self.playerIdleRight.start()
+            self.playerLabel.setMovie(self.playerIntroRight)
+            self.playerIntroRight.start()
+
 
         else:
             self.playerProfilePictureLabel.move(1830, 0)
             self.playerNameLabel.move(1830, 80)
-            self.playerLabel.setMovie(self.playerIdleLeft)
-            self.playerIdleLeft.start()
+            self.playerLabel.setMovie(self.playerIntroLeft)
+            self.playerIntroLeft.start()
 
 
     def updatePosition(self, x, y):
