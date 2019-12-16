@@ -150,7 +150,6 @@ class MainWindow(QWidget):
         self.player1Cb.addItem("Sasuke")
         self.player1Cb.addItem("Itachi")
         self.player1Cb.addItem("Madara")
-        self.player1Cb.addItem("Test")
         self.player1Cb.model().item(0).setEnabled(False)
         self.player1Cb.setGeometry(280, 305, 70, 20)
 
@@ -162,7 +161,6 @@ class MainWindow(QWidget):
         self.player2Cb.addItem("Sasuke")
         self.player2Cb.addItem("Itachi")
         self.player2Cb.addItem("Madara")
-        self.player2Cb.addItem("Test")
         self.player2Cb.model().item(0).setEnabled(False)
         self.player2Cb.setGeometry(280, 355, 70, 20)
 

@@ -50,7 +50,8 @@ class Character(QFrame):
         self.playerNameLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;");
 
         self.playerLabel = QLabel(parent)
-        self.playerLabel.setGeometry(x, y, 120, 120)
+        self.playerLabel.setStyleSheet("background-color: lime;")
+        self.playerLabel.move(x, y)
         if x < 900:
             self.playerProfilePictureLabel.move(0,0)
             self.playerNameLabel.move(0, 80)
@@ -66,6 +67,6 @@ class Character(QFrame):
 
 
     def updatePosition(self, x, y):
-        self.playerLabel.setGeometry(x, y, 120, 120)
+        self.playerLabel.move(x, y)
 
 

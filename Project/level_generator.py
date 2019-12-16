@@ -97,6 +97,7 @@ class LevelGenerator(QWidget):
         #  princess
         self.princessIdle = QMovie('images\\npc\\npc_flame_princess\\npc_flame_princess_idle.gif')
         self.princessLabel = QLabel(self)
+        self.princessLabel.setStyleSheet("background-color: lime;")
         self.princessLabel.setMovie(self.princessIdle)
         self.princessIdle.start()
         self.princessLabel.setGeometry(1150, -10, 120, 120)
@@ -117,7 +118,6 @@ class LevelGenerator(QWidget):
         self.levelMusic.play()
 
     def initPlayers(self, chr1, chr2):
-        #self.player1 = Character(self, 100, 940, "\\naruto")
         self.player1 = Character(self, 100, 940, chr1)
         self.player2 = Character(self, 1720, 940, chr2)
 
