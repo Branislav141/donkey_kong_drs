@@ -36,8 +36,32 @@ class LevelGenerator(QWidget):
         countdownThread.setDaemon(True)
         countdownThread.start()
 
+        winnerThread = Thread(target=self.winnerTrigger__)
+        winnerThread.setDaemon(True)
+        winnerThread.start()
+
         self.player1.playerIntroRight.finished.connect(self.char1Intro)
         self.player2.playerIntroLeft.finished.connect(self.char2Intro)
+
+    def winnerTrigger__(self):
+        while True:
+            self.p1geo = self.player1.playerLabel.geometry()
+            self.p2geo = self.player2.playerLabel.geometry()
+            time.sleep(0.1)
+            if self.isTopLadder(self.p1geo.y()):
+                if self.p1geo.x() >= 1107:
+                    # player 1 wins
+                    break
+            if self.isTopLadder(self.p2geo.y()):
+                if self.p2geo.x() >= 1107:
+                    # player 2 wins
+                    break
+
+        self.levelMusic.stop()
+        from Project.main_window import MainWindow
+        self.mainMenu = MainWindow()
+        self.close()
+
 
     def char1Intro(self):
         self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
@@ -118,8 +142,8 @@ class LevelGenerator(QWidget):
         self.levelMusic.play()
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 950, chr1)
-        self.player2 = Character(self, 1720, 950, chr2)
+        self.player1 = Character(self, 100, 150, chr1)
+        self.player2 = Character(self, 1720, 150, chr2)
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
@@ -138,11 +162,9 @@ class LevelGenerator(QWidget):
             self.player1.playerLabel.setPixmap(self.player1.playerClimbPicture)
         else:
             if rec1.x() >= rec2.x():
-                self.player1.playerLabel.setPixmap(self.reset)
                 self.player1.playerLabel.setMovie(self.player1.playerIdleLeft)
                 self.player1.playerIdleLeft.start()
             else:
-                self.player1.playerLabel.setPixmap(self.reset)
                 self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
                 self.player1.playerIdleRight.start()
 
@@ -150,11 +172,9 @@ class LevelGenerator(QWidget):
             self.player2.playerLabel.setPixmap(self.player2.playerClimbPicture)
         else:
             if rec1.x() >= rec2.x():
-                self.player2.playerLabel.setPixmap(self.reset)
                 self.player2.playerLabel.setMovie(self.player2.playerIdleRight)
                 self.player2.playerIdleRight.start()
             else:
-                self.player2.playerLabel.setPixmap(self.reset)
                 self.player2.playerLabel.setMovie(self.player2.playerIdleLeft)
                 self.player2.playerIdleLeft.start()
 
