@@ -20,7 +20,7 @@ class Character(QFrame):
     playerNameLabel = 0
     winnerLabel = 0
 
-    sig = pyqtSignal()
+    winnerSignal = pyqtSignal()
 
     def __init__(self, parent, x, y, player):
         super().__init__(parent)
@@ -76,9 +76,10 @@ class Character(QFrame):
 
     def updatePosition(self, x, y):
         self.playerLabel.setGeometry(x, y, 100, 100)
+
         if self.isTopLadder(y):
             if x >= 1107:
-                self.sig.emit()
+                self.winnerSignal.emit()
 
 
     def isTopLadder(self, y):

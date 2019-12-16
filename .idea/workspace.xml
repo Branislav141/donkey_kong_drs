@@ -44,6 +44,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="level_generator" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="donkey_kong_drs" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Slavko\AppData\Local\Programs\Python\Python37\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Project" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Project/level_generator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main_window" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="donkey_kong_drs" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -87,12 +108,14 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.level_generator" />
       <item itemvalue="Python.main_window" />
       <item itemvalue="Python.sim_move_demo" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main_window" />
+        <item itemvalue="Python.level_generator" />
         <item itemvalue="Python.sim_move_demo" />
       </list>
     </recent_temporary>
@@ -128,26 +151,26 @@
     </state>
     <state x="828" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576252835871" />
     <state x="456" y="127" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1576338459880" />
-    <state width="1899" height="285" key="GridCell.Tab.0.bottom" timestamp="1576523165502">
+    <state width="1899" height="285" key="GridCell.Tab.0.bottom" timestamp="1576536440537">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="936" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1576253175251" />
-    <state width="1899" height="285" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1576523165502" />
-    <state width="1899" height="285" key="GridCell.Tab.0.center" timestamp="1576523165502">
+    <state width="1899" height="285" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1576536440537" />
+    <state width="1899" height="285" key="GridCell.Tab.0.center" timestamp="1576536440537">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="936" height="279" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1576253175250" />
-    <state width="1899" height="285" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1576523165502" />
-    <state width="1899" height="285" key="GridCell.Tab.0.left" timestamp="1576523165502">
+    <state width="1899" height="285" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1576536440537" />
+    <state width="1899" height="285" key="GridCell.Tab.0.left" timestamp="1576536440537">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="936" height="279" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1576253175250" />
-    <state width="1899" height="285" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1576523165502" />
-    <state width="1899" height="285" key="GridCell.Tab.0.right" timestamp="1576523165502">
+    <state width="1899" height="285" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1576536440537" />
+    <state width="1899" height="285" key="GridCell.Tab.0.right" timestamp="1576536440537">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="936" height="279" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1576253175250" />
-    <state width="1899" height="285" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1576523165502" />
+    <state width="1899" height="285" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1576536440537" />
     <state width="1899" height="352" key="GridCell.Tab.1.bottom" timestamp="1576205735782">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -168,11 +191,11 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="461" y="167" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1576026308994" />
-    <state x="661" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1576522869021">
+    <state x="661" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1576536578674">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="661" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576253075999" />
-    <state x="661" y="348" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1576522869021" />
+    <state x="661" y="348" key="com.intellij.ide.util.TipDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1576536578674" />
     <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1576203212172">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
