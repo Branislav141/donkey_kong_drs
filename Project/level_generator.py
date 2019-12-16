@@ -31,6 +31,9 @@ class LevelGenerator(QWidget):
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
 
+        self.player1.sig.connect(self.winner1Trigger__)
+        self.player2.sig.connect(self.winner2Trigger__)
+
     def levelIntroHandle(self):
         countdownThread = Thread(target=self.countdown__)
         countdownThread.setDaemon(True)
@@ -39,15 +42,12 @@ class LevelGenerator(QWidget):
         self.player1.playerIntroRight.finished.connect(self.char1Intro)
         self.player2.playerIntroLeft.finished.connect(self.char2Intro)
 
-        self.player1.sig.connect(self.winnerTrigger__)
-        self.player2.sig.connect(self.winnerTrigger__)
 
-    def winnerTrigger__(self):
-        self.levelMusic.stop()
-        from Project.main_window import MainWindow
-        self.mainMenu = MainWindow()
-        self.close()
+    def winner1Trigger__(self):
+        self.player1.winnerLabel.show()
 
+    def winner2Trigger__(self):
+        self.player2.winnerLabel.show()
 
 
     def char1Intro(self):

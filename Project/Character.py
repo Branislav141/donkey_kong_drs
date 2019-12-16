@@ -18,6 +18,7 @@ class Character(QFrame):
     playerProfilePicture = 0
     playerProfilePictureLabel = 0
     playerNameLabel = 0
+    winnerLabel = 0
 
     sig = pyqtSignal()
 
@@ -50,19 +51,25 @@ class Character(QFrame):
         self.playerNameLabel.setText(str(characterName))
         self.playerNameLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;");
 
+        self.winnerLabel = QLabel(parent)
+        self.winnerLabel.setText("Winner!")
+        self.winnerLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;");
+        self.winnerLabel.hide()
+
         self.playerLabel = QLabel(parent)
         self.playerLabel.setStyleSheet("background-color: lime;")
         self.playerLabel.setGeometry(x, y, 100, 100)
+
         if x < 900:
             self.playerProfilePictureLabel.move(0,0)
             self.playerNameLabel.move(0, 80)
+            self.winnerLabel.move(0, 110)
             self.playerLabel.setMovie(self.playerIntroRight)
             self.playerIntroRight.start()
-
-
         else:
             self.playerProfilePictureLabel.move(1830, 0)
             self.playerNameLabel.move(1830, 80)
+            self.winnerLabel.move(1830, 110)
             self.playerLabel.setMovie(self.playerIntroLeft)
             self.playerIntroLeft.start()
 
