@@ -36,31 +36,18 @@ class LevelGenerator(QWidget):
         countdownThread.setDaemon(True)
         countdownThread.start()
 
-        winnerThread = Thread(target=self.winnerTrigger__)
-        winnerThread.setDaemon(True)
-        winnerThread.start()
-
         self.player1.playerIntroRight.finished.connect(self.char1Intro)
         self.player2.playerIntroLeft.finished.connect(self.char2Intro)
 
-    def winnerTrigger__(self):
-        while True:
-            self.p1geo = self.player1.playerLabel.geometry()
-            self.p2geo = self.player2.playerLabel.geometry()
-            time.sleep(0.1)
-            if self.isTopLadder(self.p1geo.y()):
-                if self.p1geo.x() >= 1107:
-                    # player 1 wins
-                    break
-            if self.isTopLadder(self.p2geo.y()):
-                if self.p2geo.x() >= 1107:
-                    # player 2 wins
-                    break
+        self.player1.sig.connect(self.winnerTrigger__)
+        self.player2.sig.connect(self.winnerTrigger__)
 
+    def winnerTrigger__(self):
         self.levelMusic.stop()
         from Project.main_window import MainWindow
         self.mainMenu = MainWindow()
         self.close()
+
 
 
     def char1Intro(self):

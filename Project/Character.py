@@ -19,6 +19,7 @@ class Character(QFrame):
     playerProfilePictureLabel = 0
     playerNameLabel = 0
 
+    sig = pyqtSignal()
 
     def __init__(self, parent, x, y, player):
         super().__init__(parent)
@@ -68,5 +69,13 @@ class Character(QFrame):
 
     def updatePosition(self, x, y):
         self.playerLabel.setGeometry(x, y, 100, 100)
+        if self.isTopLadder(y):
+            if x >= 1107:
+                self.sig.emit()
 
 
+    def isTopLadder(self, y):
+        if y == 2 or y == 1 or y == 0:
+            return True
+        else:
+            return False
