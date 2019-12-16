@@ -70,6 +70,8 @@ class LevelGenerator(QWidget):
 
     def setLevelDesign(self):
 
+        self.reset = QPixmap('images\characters\\reset.png')
+
         # background image
         self.backgroundPicture = QPixmap('images\level\\background.png')
         self.backgroundLabel = QLabel(self)
@@ -136,9 +138,11 @@ class LevelGenerator(QWidget):
             self.player1.playerLabel.setPixmap(self.player1.playerClimbPicture)
         else:
             if rec1.x() >= rec2.x():
+                self.player1.playerLabel.setPixmap(self.reset)
                 self.player1.playerLabel.setMovie(self.player1.playerIdleLeft)
                 self.player1.playerIdleLeft.start()
             else:
+                self.player1.playerLabel.setPixmap(self.reset)
                 self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
                 self.player1.playerIdleRight.start()
 
