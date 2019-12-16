@@ -150,9 +150,11 @@ class LevelGenerator(QWidget):
             self.player2.playerLabel.setPixmap(self.player2.playerClimbPicture)
         else:
             if rec1.x() >= rec2.x():
+                self.player2.playerLabel.setPixmap(self.reset)
                 self.player2.playerLabel.setMovie(self.player2.playerIdleRight)
                 self.player2.playerIdleRight.start()
             else:
+                self.player2.playerLabel.setPixmap(self.reset)
                 self.player2.playerLabel.setMovie(self.player2.playerIdleLeft)
                 self.player2.playerIdleLeft.start()
 
