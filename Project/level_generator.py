@@ -16,7 +16,7 @@ import random
 
 
 # list of values of Y axis where characters can move
-listOfValidYAxisValues = [940, 941, 942, 740, 741, 742, 540, 541, 542, 340, 341, 342, 140, 141, 142, -10, -9, -8]
+listOfValidYAxisValues = [950, 951, 952, 750, 751, 752, 550, 551, 552, 350, 351, 352, 150, 151, 152, 0, 1, 2]
 listOfSoundtracks = ["song_hyouhaku", "song_kokuten", "song_raising_fighting_spirit", "song_saika", "song_senya", "song_madara_theme"]
 
 class LevelGenerator(QWidget):
@@ -100,7 +100,7 @@ class LevelGenerator(QWidget):
         self.princessLabel.setStyleSheet("background-color: lime;")
         self.princessLabel.setMovie(self.princessIdle)
         self.princessIdle.start()
-        self.princessLabel.setGeometry(1150, -10, 120, 120)
+        self.princessLabel.move(1150, 0)
 
         self.setWindowState(Qt.WindowMaximized)
 
@@ -118,8 +118,8 @@ class LevelGenerator(QWidget):
         self.levelMusic.play()
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 940, chr1)
-        self.player2 = Character(self, 1720, 940, chr2)
+        self.player1 = Character(self, 100, 950, chr1)
+        self.player2 = Character(self, 1720, 950, chr2)
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
@@ -160,30 +160,30 @@ class LevelGenerator(QWidget):
 
     # check if character can move up
     def checkLadderUp(self, x, y):
-        if 900 <= x <= (900 + 20) and y >= 741:
+        if 900 <= x <= (900 + 20) and y >= 751:
             return True
-        elif 115 <= x <= (115 + 20) and 541 <= y <= 741:
+        elif 115 <= x <= (115 + 20) and 551 <= y <= 751:
             return True
-        elif 1732 <= x <= (1732 + 20) and 341 <= y <= 541:
+        elif 1732 <= x <= (1732 + 20) and 351 <= y <= 551:
             return True
-        elif 323 <= x <= (323 + 20) and 141 <= y <= 341:
+        elif 323 <= x <= (323 + 20) and 151 <= y <= 351:
             return True
-        elif 900 <= x <= (900 + 20) and 0 <= y <= 141:
+        elif 900 <= x <= (900 + 20) and 10 <= y <= 151:
             return True
         else:
             return False
 
     # check if character can move down
     def checkLadderDown(self, x, y):
-        if 900 <= x <= (900 + 20) and y >= 739:
+        if 900 <= x <= (900 + 20) and y >= 749:
             return True
-        elif 115 <= x <= (115 + 20) and 539 <= y <= 739:
+        elif 115 <= x <= (115 + 20) and 549 <= y <= 749:
             return True
-        elif 1732 <= x <= (1732 + 20) and 339 <= y <= 539:
+        elif 1732 <= x <= (1732 + 20) and 349 <= y <= 549:
             return True
-        elif 323 <= x <= (323 + 20) and 139 <= y <= 339:
+        elif 323 <= x <= (323 + 20) and 149 <= y <= 349:
             return True
-        elif 900 <= x <= (900 + 20) and -11 <= y <= 139:
+        elif 900 <= x <= (900 + 20) and -1 <= y <= 149:
             return True
         else:
             return False
@@ -197,7 +197,7 @@ class LevelGenerator(QWidget):
 
     # check if character is on top ladder
     def isTopLadder(self, y):
-        if y == -8 or y == -9 or y == -10:
+        if y == 2 or y == 1 or y == 0:
             return True
         else:
             return False
@@ -226,7 +226,7 @@ class LevelGenerator(QWidget):
                         self.player1.playerRunRight.start()
                         self.player1.updatePosition(rec1.x() + 10, rec1.y())
         elif key == Qt.Key_S:
-            if rec1.y() < 940:
+            if rec1.y() < 950:
                 if self.checkLadderDown(rec1.x(), rec1.y()):
                     self.player1.playerLabel.setMovie(self.player1.playerClimb)
                     self.player1.playerClimb.start()
@@ -244,7 +244,7 @@ class LevelGenerator(QWidget):
                         self.player1.playerRunLeft.start()
                         self.player1.updatePosition(rec1.x() - 10, rec1.y())
                 else:
-                    if rec1.x() > -25:
+                    if rec1.x() > -5:
                         self.player1.playerLabel.setMovie(self.player1.playerRunLeft)
                         self.player1.playerRunLeft.start()
                         self.player1.updatePosition(rec1.x() - 10, rec1.y())
@@ -262,7 +262,7 @@ class LevelGenerator(QWidget):
                         self.player2.playerRunRight.start()
                         self.player2.updatePosition(rec2.x() + 10, rec2.y())
         elif key == Qt.Key_Down:
-            if rec2.y() < 940:
+            if rec2.y() < 950:
                 if self.checkLadderDown(rec2.x(), rec2.y()):
                     self.player2.playerLabel.setMovie(self.player2.playerClimb)
                     self.player2.playerClimb.start()
@@ -280,7 +280,7 @@ class LevelGenerator(QWidget):
                         self.player2.playerRunLeft.start()
                         self.player2.updatePosition(rec2.x() - 10, rec2.y())
                 else:
-                    if rec2.x() > -25:
+                    if rec2.x() > -5:
                         self.player2.playerLabel.setMovie(self.player2.playerRunLeft)
                         self.player2.playerRunLeft.start()
                         self.player2.updatePosition(rec2.x() - 10, rec2.y())

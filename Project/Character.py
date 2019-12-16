@@ -51,7 +51,7 @@ class Character(QFrame):
 
         self.playerLabel = QLabel(parent)
         self.playerLabel.setStyleSheet("background-color: lime;")
-        self.playerLabel.move(x, y)
+        self.playerLabel.setGeometry(x, y, 100, 100)
         if x < 900:
             self.playerProfilePictureLabel.move(0,0)
             self.playerNameLabel.move(0, 80)
@@ -67,6 +67,6 @@ class Character(QFrame):
 
 
     def updatePosition(self, x, y):
-        self.playerLabel.move(x, y)
+        self.playerLabel.setGeometry(x, y, 100, 100)
 
 
