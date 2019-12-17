@@ -34,21 +34,61 @@ class LevelGenerator(QWidget):
         self.player1.winnerSignal.connect(self.winner1Trigger__)
         self.player2.winnerSignal.connect(self.winner2Trigger__)
 
+        self.pointCounterHandle()
+
+    def pointCounterHandle(self):
+        # args[750] - prve merdevine
+        player1PointCounterThread = Thread(target=self.player1PointCounter__, args=[750])
+        player1PointCounterThread.setDaemon(True)
+        player1PointCounterThread.start()
+
+        player2PointCounterThread = Thread(target=self.player2PointCounter__, args=[750])
+        player2PointCounterThread.setDaemon(True)
+        player2PointCounterThread.start()
+
+
+    def player1PointCounter__(self, y):
+        while True:
+            time.sleep(0.5)
+            rec1 = self.player1.playerLabel.geometry()
+            if rec1.y() <= y:
+                break
+        self.player1.playerPoints += 1
+        self.player1.pointsLabel.setText(str(self.player1.playerPoints))
+        callbackThread = Thread(target=self.player1PointCounter__, args=[y - 200])
+        callbackThread.setDaemon(True)
+        callbackThread.start()
+
+    def player2PointCounter__(self, y):
+        while True:
+            time.sleep(0.5)
+            rec2 = self.player2.playerLabel.geometry()
+            if rec2.y() <= y:
+                break
+        self.player2.playerPoints += 1
+        self.player2.pointsLabel.setText(str(self.player2.playerPoints))
+        callbackThread = Thread(target=self.player2PointCounter__, args=[y - 200])
+        callbackThread.setDaemon(True)
+        callbackThread.start()
+
+
     def levelIntroHandle(self):
         countdownThread = Thread(target=self.countdown__)
         countdownThread.setDaemon(True)
         countdownThread.start()
-
         self.player1.playerIntroRight.finished.connect(self.char1Intro)
         self.player2.playerIntroLeft.finished.connect(self.char2Intro)
 
-
     def winner1Trigger__(self):
         self.player1.winnerLabel.show()
+        self.player1.playerPoints += 2
+        self.player1.pointsLabel.setText(str(self.player1.playerPoints))
         self.key_notifier.die()
 
     def winner2Trigger__(self):
         self.player2.winnerLabel.show()
+        self.player2.playerPoints += 2
+        self.player2.pointsLabel.setText(str(self.player2.playerPoints))
         self.key_notifier.die()
         
     def char1Intro(self):
@@ -116,13 +156,6 @@ class LevelGenerator(QWidget):
 
         self.setWindowState(Qt.WindowMaximized)
 
-        #self.exitButton = QPushButton(self)
-        #self.exitButton.setGeometry(1400, 0, 90, 25)
-        #self.exitButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 18px; font-family: Segoe Script;");
-        #self.exitButton.setText("QUIT")
-        #self.exitButton.clicked.connect(self.exitLevel)
-
-
     def setLevelSoundtrack(self):
         self.song = random.choice(listOfSoundtracks)
         self.levelMusic = QSound("sounds\level\\" + self.song + ".wav")
@@ -130,8 +163,8 @@ class LevelGenerator(QWidget):
         self.levelMusic.play()
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 150, chr1)
-        self.player2 = Character(self, 1720, 150, chr2)
+        self.player1 = Character(self, 100, 950, chr1)
+        self.player2 = Character(self, 1720, 950, chr2)
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
