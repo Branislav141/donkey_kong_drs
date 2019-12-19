@@ -35,6 +35,29 @@ class LevelGenerator(QWidget):
         self.player2.winnerSignal.connect(self.winner2Trigger__)
 
         self.pointCounterHandle()
+        self.forceThreadRun()
+
+
+    def forceThreadRun(self):
+        forceThread = Thread(target=self.initForce__)
+        forceThread.setDaemon(True)
+        forceThread.start()
+
+    def initForce__(self):
+        arrayOfValidYAxisValues = [960, 760, 560, 360, 160]
+        while True:
+            self.forceLabel.show()
+            self.forceLabel.setMovie(self.forceIdle)
+            self.forceIdle.start()
+            y = random.sample(arrayOfValidYAxisValues, 1)  # dobijamo jednu vrednost iz niza
+            y = y[0]
+            x = random.randint(100, 1720)  # X MOZE BITI OD 100 DO 1720 BILO KOJI BROj
+            self.forceLabel.setFixedSize(60,60)
+            self.forceLabel.move(x,y)
+            time.sleep(4)
+            self.forceLabel.hide()
+            time.sleep(10)
+
 
     def pointCounterHandle(self):
         # args[750] - prve merdevine
@@ -117,7 +140,9 @@ class LevelGenerator(QWidget):
 
         self.setLevelDesign()
         self.setLevelSoundtrack()
+        #self.initForce()
         self.initPlayers(character1, character2)
+
         self.showFullScreen()
 
     def setLevelDesign(self):
@@ -154,6 +179,11 @@ class LevelGenerator(QWidget):
         self.princessIdle.start()
         self.princessLabel.move(1150, 0)
 
+        #force
+        self.forceIdle = QMovie('images\\forces\\force.gif')
+        self.forceLabel = QLabel(self)
+
+
         self.setWindowState(Qt.WindowMaximized)
 
     def setLevelSoundtrack(self):
@@ -162,9 +192,11 @@ class LevelGenerator(QWidget):
         self.levelMusic.setLoops(-1)
         self.levelMusic.play()
 
+
     def initPlayers(self, chr1, chr2):
         self.player1 = Character(self, 100, 950, chr1)
         self.player2 = Character(self, 1720, 950, chr2)
+
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat():
