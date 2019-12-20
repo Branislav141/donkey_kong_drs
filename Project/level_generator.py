@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton
 
 from key_notifier import KeyNotifier
 from Character import Character
+from Gorilla import Gorilla
 
 import datetime
 import random
@@ -142,6 +143,7 @@ class LevelGenerator(QWidget):
         self.setLevelSoundtrack()
         #self.initForce()
         self.initPlayers(character1, character2)
+        #self.initGorilla()
 
         self.showFullScreen()
 
@@ -196,6 +198,10 @@ class LevelGenerator(QWidget):
     def initPlayers(self, chr1, chr2):
         self.player1 = Character(self, 100, 950, chr1)
         self.player2 = Character(self, 1720, 950, chr2)
+
+    #def initGorilla(self):
+        self.gorilla = Gorilla(self)
+
 
 
     def keyPressEvent(self, event):
