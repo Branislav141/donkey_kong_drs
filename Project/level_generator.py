@@ -26,7 +26,7 @@ class LevelGenerator(QWidget):
         super().__init__()
 
         self.newLevel(gameMode, player1, player2, player3, player4)
-        self.levelIntroHandle();
+        self.levelIntroHandle()
 
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
@@ -143,7 +143,7 @@ class LevelGenerator(QWidget):
         self.setLevelSoundtrack()
         #self.initForce()
         self.initPlayers(character1, character2)
-        #self.initGorilla()
+        self.initGorilla()
 
         self.showFullScreen()
 
@@ -201,6 +201,10 @@ class LevelGenerator(QWidget):
 
     def initGorilla(self):
         self.gorilla = Gorilla(self)
+        gorillaThread = Thread(target=self.gorilla.startRunning)
+        gorillaThread.setDaemon(True)
+        gorillaThread.start()
+
 
 
 
@@ -288,7 +292,7 @@ class LevelGenerator(QWidget):
 
         if key == Qt.Key_Escape:
             self.levelMusic.stop()
-            from Project.main_window import MainWindow
+            from main_window import MainWindow
             self.mainMenu = MainWindow()
             self.close()
 

@@ -14,6 +14,9 @@ class Gorilla(QFrame):
 
     gorillaLabel = 0
 
+    leftDirectionSignal = pyqtSignal()
+    rightDirectionSignal = pyqtSignal()
+
 
 
     def __init__(self, parent):
@@ -24,16 +27,21 @@ class Gorilla(QFrame):
 
     def initGorilla(self, parent):
 
-        self.gorillaPositionX = 700
+        self.gorillaPositionX = 900
         self.gorillaPositionY = 150
 
-        self.gorillaIdle = QMovie("images\\npc\\npc_gorilla\standing2.gif")
+        self.gorillaIdle = QPixmap("images\\npc\\npc_gorilla\standing2.png")
         self.gorillaRunRight = QMovie("images\\npc\\npc_gorilla\\right.gif")
         self.gorillaRunLeft = QMovie("images\\npc\\npc_gorilla\left.gif")
 
         self.gorillaLabel = QLabel(parent)
+        #self.gorillaLabel.setStyleSheet("background-color: lime;")  # For test purposes
         self.gorillaLabel.setGeometry(self.gorillaPositionX, self.gorillaPositionY, 100, 100)
 
+        self.gorillaLabel.setPixmap(self.gorillaIdle)
+
+        self.leftDirectionSignal.connect(self.leftDirectionGifSetup)
+        self.rightDirectionSignal.connect(self.rightDirectionGifSetup)
 
     def updatePosition(self, x, y):
 
@@ -43,16 +51,28 @@ class Gorilla(QFrame):
         self.gorillaLabel.move(x, y)
 
     def startRunning(self):
+        time.sleep(7)
+        self.rightDirectionSignal.emit()
         while 1:
             if self.gorillaRunningDirection == "right":
-                if self.gorillaPositionX >= 950:
+                if self.gorillaPositionX >= 1820:
                     self.gorillaRunningDirection = "left"
+                    self.leftDirectionSignal.emit()
                 else:
-                    self.updatePosition(self.gorillaPositionX + 5, self.gorillaPositionY)
+                    self.updatePosition(self.gorillaPositionX + 15, self.gorillaPositionY)
             else:
                 if self.gorillaPositionX == 0:
                     self.gorillaRunningDirection = "right"
+                    self.rightDirectionSignal.emit()
                 else:
-                    self.updatePosition(self.gorillaPositionX - 5, self.gorillaPositionY)
+                    self.updatePosition(self.gorillaPositionX - 15, self.gorillaPositionY)
 
             time.sleep(0.1)
+
+    def leftDirectionGifSetup(self):
+         self.gorillaLabel.setMovie(self.gorillaRunLeft)
+         self.gorillaRunLeft.start()
+
+    def rightDirectionGifSetup(self):
+         self.gorillaLabel.setMovie(self.gorillaRunRight)
+         self.gorillaRunRight.start()
