@@ -7,9 +7,9 @@ import time
 class Gorilla(QFrame):
     gorillaPositionX = 0
     gorillaPositionY = 0
-    playerIdle = 0
-    playerRunRight = 0
-    playerRunLeft = 0
+    gorillaIdle = 0
+    gorillaRunRight = 0
+    gorillaRunLeft = 0
     gorillaRunningDirection = "right"
 
     gorillaLabel = 0
@@ -25,11 +25,11 @@ class Gorilla(QFrame):
     def initGorilla(self, parent):
 
         self.gorillaPositionX = 700
-        self.gorillaPositionY = 200
+        self.gorillaPositionY = 150
 
-        #self.playerIdle = QMovie("images\characters" + parsedName + "_run_left.gif");
-        #self.playerRunRight = QMovie("images\characters" + parsedName + "_run_right.gif");
-        #self.playerRunLeft = QMovie("images\characters" + parsedName + "_run_left.gif");
+        self.gorillaIdle = QMovie("images\\npc\\npc_gorilla\standing2.gif")
+        self.gorillaRunRight = QMovie("images\\npc\\npc_gorilla\\right.gif")
+        self.gorillaRunLeft = QMovie("images\\npc\\npc_gorilla\left.gif")
 
         self.gorillaLabel = QLabel(parent)
         self.gorillaLabel.setGeometry(self.gorillaPositionX, self.gorillaPositionY, 100, 100)
