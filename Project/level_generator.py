@@ -285,6 +285,16 @@ class LevelGenerator(QWidget):
         else:
             return False
 
+    def checkGorillaCollision(self, x, y):
+        if self.gorilla.gorillaPositionY == y:
+            if x >= self.gorilla.gorillaPositionX and x <= self.gorilla.gorillaPositionX + 100:
+                return True
+            elif x + 100 >= self.gorilla.gorillaPositionX and x + 100 <= self.gorilla.gorillaPositionX + 100:
+                return True
+
+        return False
+
+
     # updates position of character
     def __update_position__(self, key):
         rec1 = self.player1.playerLabel.geometry()
@@ -308,6 +318,10 @@ class LevelGenerator(QWidget):
                         self.player1.playerLabel.setMovie(self.player1.playerRunRight)
                         self.player1.playerRunRight.start()
                         self.player1.updatePosition(rec1.x() + 10, rec1.y())
+
+                if self.checkGorillaCollision(rec1.x(), rec1.y()):
+                    self.player1.updatePosition(100, 950)
+
         elif key == Qt.Key_S:
             if rec1.y() < 950:
                 if self.checkLadderDown(rec1.x(), rec1.y()):
@@ -332,6 +346,9 @@ class LevelGenerator(QWidget):
                         self.player1.playerRunLeft.start()
                         self.player1.updatePosition(rec1.x() - 10, rec1.y())
 
+                if self.checkGorillaCollision(rec1.x(), rec1.y()):
+                    self.player1.updatePosition(100, 950)
+
         if key == Qt.Key_Right:
             if self.checkLeftRight(rec2.y()):
                 if self.isTopLadder(rec2.y()):
@@ -344,6 +361,10 @@ class LevelGenerator(QWidget):
                         self.player2.playerLabel.setMovie(self.player2.playerRunRight)
                         self.player2.playerRunRight.start()
                         self.player2.updatePosition(rec2.x() + 10, rec2.y())
+
+                if self.checkGorillaCollision(rec2.x(), rec2.y()):
+                    self.player2.updatePosition(1720, 950)
+
         elif key == Qt.Key_Down:
             if rec2.y() < 950:
                 if self.checkLadderDown(rec2.x(), rec2.y()):
@@ -367,6 +388,9 @@ class LevelGenerator(QWidget):
                         self.player2.playerLabel.setMovie(self.player2.playerRunLeft)
                         self.player2.playerRunLeft.start()
                         self.player2.updatePosition(rec2.x() - 10, rec2.y())
+
+                if self.checkGorillaCollision(rec2.x(), rec2.y()):
+                    self.player2.updatePosition(1720, 950)
 
     def closeEvent(self, event):
         self.key_notifier.die()
