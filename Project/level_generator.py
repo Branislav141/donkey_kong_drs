@@ -35,8 +35,6 @@ class LevelGenerator(QWidget):
         self.player1.winnerSignal.connect(self.winner1Trigger__)
         self.player2.winnerSignal.connect(self.winner2Trigger__)
 
-
-
         self.pointCounterHandle()
         self.forceThreadRun()
 
@@ -56,7 +54,7 @@ class LevelGenerator(QWidget):
             x = random.randint(100, 1720)  # X MOZE BITI OD 100 DO 1720 BILO KOJI BROj
             self.forceLabel.setFixedSize(60,60)
             self.forceLabel.move(x,y)
-            for j in range(0,40):
+            for j in range(0,80):
                 self.charForve()
                 time.sleep(0.2)
             self.forceLabel.hide()
@@ -74,13 +72,17 @@ class LevelGenerator(QWidget):
         y = recForce.y()
         if (x1 - 40) <= (x) <= (x1 + 40):
             if (y1 - 15) <= (y) <= (y1 + 15):
-                self.player1.playerLabel.setStyleSheet("background-color: lime;")
-                time.sleep(10) #vreme travanja sile
-
-        if (x2 - 40) <= (x) <= (x2 + 40):
+                self.player1.korak=20
+                self.forceLabel.hide()
+                time.sleep(6) #vreme travanja sile
+                self.player1.korak = 10
+        elif (x2 - 40) <= (x) <= (x2 + 40): #elif da ne bi i ovaj karakter pokupio istu silu posle prvog
             if (y2 - 15) <= (y) <= (y2 + 15):
-                self.player2.playerLabel.setStyleSheet("background-color: lime;")
-                time.sleep(10)  # vreme travanja sile
+                self.player2.korak=20
+                self.forceLabel.move(100, 0)
+                self.forceLabel.hide()
+                time.sleep(6) #vreme travanja sile
+                self.player2.korak = 10
 
     def pointCounterHandle(self):
         # args[750] - prve merdevine
@@ -334,12 +336,12 @@ class LevelGenerator(QWidget):
                     if rec1.x() < 1160:
                         self.player1.playerLabel.setMovie(self.player1.playerRunRight)
                         self.player1.playerRunRight.start()
-                        self.player1.updatePosition(rec1.x() + 10, rec1.y())
+                        self.player1.updatePosition(rec1.x() + self.player1.korak, rec1.y())
                 else:
                     if rec1.x() < 1825:
                         self.player1.playerLabel.setMovie(self.player1.playerRunRight)
                         self.player1.playerRunRight.start()
-                        self.player1.updatePosition(rec1.x() + 10, rec1.y())
+                        self.player1.updatePosition(rec1.x() + self.player1.korak, rec1.y())
 
                 if self.checkGorillaCollision(rec1.x(), rec1.y()):
                     self.player1.updatePosition(100, 950)
@@ -349,24 +351,26 @@ class LevelGenerator(QWidget):
                 if self.checkLadderDown(rec1.x(), rec1.y()):
                     self.player1.playerLabel.setMovie(self.player1.playerClimb)
                     self.player1.playerClimb.start()
-                    self.player1.updatePosition(rec1.x(), rec1.y() + 10)
+                    self.player1.updatePosition(rec1.x(), rec1.y() + self.player1.korak)
         elif key == Qt.Key_W:
+            if rec1.y()<152 and self.player1.korak==20: # ako ostane korak 20 ode mnogo gore pa ne moze levo i desno
+                self.player1.korak=10
             if self.checkLadderUp(rec1.x(), rec1.y()):
                 self.player1.playerLabel.setMovie(self.player1.playerClimb)
                 self.player1.playerClimb.start()
-                self.player1.updatePosition(rec1.x(), rec1.y() - 10)
+                self.player1.updatePosition(rec1.x(), rec1.y() - self.player1.korak)
         elif key == Qt.Key_A:
             if self.checkLeftRight(rec1.y()):
                 if self.isTopLadder(rec1.y()):
                     if rec1.x() > 645:
                         self.player1.playerLabel.setMovie(self.player1.playerRunLeft)
                         self.player1.playerRunLeft.start()
-                        self.player1.updatePosition(rec1.x() - 10, rec1.y())
+                        self.player1.updatePosition(rec1.x() - self.player1.korak, rec1.y())
                 else:
                     if rec1.x() > -5:
                         self.player1.playerLabel.setMovie(self.player1.playerRunLeft)
                         self.player1.playerRunLeft.start()
-                        self.player1.updatePosition(rec1.x() - 10, rec1.y())
+                        self.player1.updatePosition(rec1.x() - self.player1.korak, rec1.y())
 
                 if self.checkGorillaCollision(rec1.x(), rec1.y()):
                     self.player1.updatePosition(100, 950)
@@ -377,12 +381,12 @@ class LevelGenerator(QWidget):
                     if rec2.x() < 1160:
                         self.player2.playerLabel.setMovie(self.player2.playerRunRight)
                         self.player2.playerRunRight.start()
-                        self.player2.updatePosition(rec2.x() + 10, rec2.y())
+                        self.player2.updatePosition(rec2.x() + self.player2.korak, rec2.y())
                 else:
                     if rec2.x() < 1825:
                         self.player2.playerLabel.setMovie(self.player2.playerRunRight)
                         self.player2.playerRunRight.start()
-                        self.player2.updatePosition(rec2.x() + 10, rec2.y())
+                        self.player2.updatePosition(rec2.x() + self.player2.korak, rec2.y())
 
                 if self.checkGorillaCollision(rec2.x(), rec2.y()):
                     self.player2.updatePosition(1720, 950)
@@ -392,24 +396,26 @@ class LevelGenerator(QWidget):
                 if self.checkLadderDown(rec2.x(), rec2.y()):
                     self.player2.playerLabel.setMovie(self.player2.playerClimb)
                     self.player2.playerClimb.start()
-                    self.player2.updatePosition(rec2.x(), rec2.y() + 10)
+                    self.player2.updatePosition(rec2.x(), rec2.y() + self.player2.korak)
         elif key == Qt.Key_Up:
+            if rec2.y() < 152 and self.player2.korak == 20:  # ako ostane korak 20 ode mnogo gore pa ne moze levo i desno
+                self.player2.korak = 10
             if self.checkLadderUp(rec2.x(), rec2.y()):
                 self.player2.playerLabel.setMovie(self.player2.playerClimb)
                 self.player2.playerClimb.start()
-                self.player2.updatePosition(rec2.x(), rec2.y() - 10)
+                self.player2.updatePosition(rec2.x(), rec2.y() - self.player2.korak)
         elif key == Qt.Key_Left:
             if self.checkLeftRight(rec2.y()):
                 if self.isTopLadder(rec2.y()):
                     if rec2.x() > 645:
                         self.player2.playerLabel.setMovie(self.player2.playerRunLeft)
                         self.player2.playerRunLeft.start()
-                        self.player2.updatePosition(rec2.x() - 10, rec2.y())
+                        self.player2.updatePosition(rec2.x() - self.player2.korak, rec2.y())
                 else:
                     if rec2.x() > -5:
                         self.player2.playerLabel.setMovie(self.player2.playerRunLeft)
                         self.player2.playerRunLeft.start()
-                        self.player2.updatePosition(rec2.x() - 10, rec2.y())
+                        self.player2.updatePosition(rec2.x() - self.player2.korak, rec2.y())
 
                 if self.checkGorillaCollision(rec2.x(), rec2.y()):
                     self.player2.updatePosition(1720, 950)
