@@ -50,21 +50,19 @@ class LevelGenerator(QWidget):
     def initForce__(self):
         arrayOfValidYAxisValues = [960, 760, 560, 360, 160]
         while True:
+            time.sleep(10)
             self.forceLabel.show()
-            self.forceLabel.setMovie(self.forceIdle)
-            self.forceIdle.start()
             y = random.sample(arrayOfValidYAxisValues, 1)  # dobijamo jednu vrednost iz niza
             y = y[0]
             x = random.randint(100, 1720)  # X MOZE BITI OD 100 DO 1720 BILO KOJI BROj
             self.forceLabel.setFixedSize(60,60)
             self.forceLabel.move(x,y)
-            for j in range(0,80):
-                self.charForve()
+            for j in range(0,60):
+                self.catchUpForce()
                 time.sleep(0.2)
             self.forceLabel.hide()
-            time.sleep(10)
 
-    def charForve(self):
+    def catchUpForce(self):
         rec1 = self.player1.playerLabel.geometry()
         rec2 = self.player2.playerLabel.geometry()
         recForce = self.forceLabel.geometry()
@@ -78,14 +76,14 @@ class LevelGenerator(QWidget):
             if (y1 - 15) <= (y) <= (y1 + 15):
                 self.player1.korak=20
                 self.forceLabel.hide()
-                time.sleep(6) #vreme travanja sile
+                time.sleep(6) #vreme trajanja sile
                 self.player1.korak = 10
         elif (x2 - 40) <= (x) <= (x2 + 40): #elif da ne bi i ovaj karakter pokupio istu silu posle prvog
             if (y2 - 15) <= (y) <= (y2 + 15):
                 self.player2.korak=20
                 self.forceLabel.move(100, 0)
                 self.forceLabel.hide()
-                time.sleep(6) #vreme travanja sile
+                time.sleep(6) #vreme trajanja sile
                 self.player2.korak = 10
 
     def pointCounterHandle(self):
@@ -250,6 +248,8 @@ class LevelGenerator(QWidget):
         #force
         self.forceIdle = QMovie('images\\forces\\force.gif')
         self.forceLabel = QLabel(self)
+        self.forceLabel.setMovie(self.forceIdle)
+        self.forceIdle.start()
 
 
         self.setWindowState(Qt.WindowMaximized)
