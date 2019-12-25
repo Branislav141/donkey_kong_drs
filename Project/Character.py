@@ -1,3 +1,4 @@
+from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QMainWindow, QLabel, QFrame, QDesktopWidget, QApplication
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal
 from PyQt5.QtGui import QPainter, QColor, QPixmap, QMovie
@@ -23,6 +24,8 @@ class Character(QFrame):
     playerPoints = 0
     playerName = 0
     korak = 10
+    playerWin = 0
+    playerWinQuote = 0
 
     winnerSignal = pyqtSignal()
 
@@ -49,6 +52,10 @@ class Character(QFrame):
         self.playerProfilePicture = QPixmap("images\characters" + parsedName + "_profile.png");
         self.playerIntroRight = QMovie("images\characters" + parsedName + "_intro_right.gif");
         self.playerIntroLeft = QMovie("images\characters" + parsedName + "_intro_left.gif");
+
+        self.playerWin = QMovie("images\characters" + parsedName + "_win.gif");
+        self.playerWinQuote = QSound("sounds\characters" + parsedName + "_win.wav");
+        self.playerWinQuote.setLoops(1)
 
         self.pointsLabel = QLabel(parent)
         self.pointsLabel.setStyleSheet("color: red;font-size: 30px; font-family: Segoe Script;")

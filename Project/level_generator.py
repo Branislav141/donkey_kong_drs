@@ -22,6 +22,10 @@ listOfSoundtracks = ["song_hyouhaku", "song_kokuten", "song_raising_fighting_spi
 
 class LevelGenerator(QWidget):
 
+
+
+    gameIsOver = False
+
     def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
 
@@ -128,16 +132,54 @@ class LevelGenerator(QWidget):
         self.player2.playerIntroLeft.finished.connect(self.char2Intro)
 
     def winner1Trigger__(self):
+        self.gameIsOver = True
         self.player1.winnerLabel.show()
         self.player1.playerPoints += 2
         self.player1.pointsLabel.setText(str(self.player1.playerPoints))
         self.key_notifier.die()
+        self.player1.playerLabel.setMovie(self.player1.playerWin)
+        self.player1.playerWin.start()
+        self.player1.playerWinQuote.play()
+
+        rec1 = self.player1.playerLabel.geometry()
+        rec2 = self.player2.playerLabel.geometry()
+
+        if not self.checkLeftRight(rec2.y()):
+            self.player2.playerLabel.setPixmap(self.player2.playerClimbPicture)
+        else:
+            if rec1.x() >= rec2.x():
+                self.player2.playerLabel.setMovie(self.player2.playerIdleRight)
+                self.player2.playerIdleRight.start()
+            else:
+                self.player2.playerLabel.setMovie(self.player2.playerIdleLeft)
+                self.player2.playerIdleLeft.start()
+
+        # Add end level logic
 
     def winner2Trigger__(self):
+        self.gameIsOver = True
         self.player2.winnerLabel.show()
         self.player2.playerPoints += 2
         self.player2.pointsLabel.setText(str(self.player2.playerPoints))
         self.key_notifier.die()
+        self.player2.playerLabel.setMovie(self.player2.playerWin)
+        self.player2.playerWin.start()
+        self.player2.playerWinQuote.play()
+
+        rec1 = self.player1.playerLabel.geometry()
+        rec2 = self.player2.playerLabel.geometry()
+
+        if not self.checkLeftRight(rec1.y()):
+            self.player1.playerLabel.setPixmap(self.player1.playerClimbPicture)
+        else:
+            if rec1.x() >= rec2.x():
+                self.player1.playerLabel.setMovie(self.player1.playerIdleLeft)
+                self.player1.playerIdleLeft.start()
+            else:
+                self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
+                self.player1.playerIdleRight.start()
+
+        # Add end level logic
         
     def char1Intro(self):
         self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
@@ -220,8 +262,8 @@ class LevelGenerator(QWidget):
 
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 950, chr1)
-        self.player2 = Character(self, 1720, 950, chr2)
+        self.player1 = Character(self, 100, 150, chr1)
+        self.player2 = Character(self, 1720, 150, chr2)
 
     def initGorilla(self):
         self.gorilla = Gorilla(self)
@@ -229,16 +271,14 @@ class LevelGenerator(QWidget):
         gorillaThread.setDaemon(True)
         gorillaThread.start()
 
-
-
-
     def keyPressEvent(self, event):
-        if event.isAutoRepeat():
+        if event.isAutoRepeat() or self.gameIsOver == True:
             return
+
         self.key_notifier.add_key(event.key())
 
     def keyReleaseEvent(self, event):
-        if event.isAutoRepeat():
+        if event.isAutoRepeat() or self.gameIsOver == True:
             return
         self.key_notifier.rem_key(event.key())
 
