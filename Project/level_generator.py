@@ -35,9 +35,10 @@ class LevelGenerator(QWidget):
         self.player1.winnerSignal.connect(self.winner1Trigger__)
         self.player2.winnerSignal.connect(self.winner2Trigger__)
 
+
+
         self.pointCounterHandle()
         self.forceThreadRun()
-
 
     def forceThreadRun(self):
         forceThread = Thread(target=self.initForce__)
@@ -55,10 +56,31 @@ class LevelGenerator(QWidget):
             x = random.randint(100, 1720)  # X MOZE BITI OD 100 DO 1720 BILO KOJI BROj
             self.forceLabel.setFixedSize(60,60)
             self.forceLabel.move(x,y)
-            time.sleep(4)
+            for j in range(0,40):
+                self.charForve()
+                time.sleep(0.2)
             self.forceLabel.hide()
             time.sleep(10)
 
+    def charForve(self):
+        rec1 = self.player1.playerLabel.geometry()
+        rec2 = self.player2.playerLabel.geometry()
+        recForce = self.forceLabel.geometry()
+        x1 = rec1.x()
+        y1 = rec1.y()
+        x2 = rec2.x()
+        y2 = rec2.y()
+        x = recForce.x()
+        y = recForce.y()
+        if (x1 - 40) <= (x) <= (x1 + 40):
+            if (y1 - 15) <= (y) <= (y1 + 15):
+                self.player1.playerLabel.setStyleSheet("background-color: lime;")
+                time.sleep(10) #vreme travanja sile
+
+        if (x2 - 40) <= (x) <= (x2 + 40):
+            if (y2 - 15) <= (y) <= (y2 + 15):
+                self.player2.playerLabel.setStyleSheet("background-color: lime;")
+                time.sleep(10)  # vreme travanja sile
 
     def pointCounterHandle(self):
         # args[750] - prve merdevine

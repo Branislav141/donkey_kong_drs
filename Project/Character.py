@@ -22,6 +22,7 @@ class Character(QFrame):
     pointsLabel = 0
     playerPoints = 0
     playerName = 0
+    korak = 10
 
     winnerSignal = pyqtSignal()
 
