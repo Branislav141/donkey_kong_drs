@@ -240,7 +240,7 @@ class LevelGenerator(QWidget):
         #  princess
         self.princessIdle = QMovie('images\\npc\\npc_flame_princess\\npc_flame_princess_idle.gif')
         self.princessLabel = QLabel(self)
-        self.princessLabel.setStyleSheet("background-color: lime;")
+        #self.princessLabel.setStyleSheet("background-color: lime;")
         self.princessLabel.setMovie(self.princessIdle)
         self.princessIdle.start()
         self.princessLabel.move(1150, 0)
@@ -262,8 +262,8 @@ class LevelGenerator(QWidget):
 
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 150, chr1)
-        self.player2 = Character(self, 1720, 150, chr2)
+        self.player1 = Character(self, 100, 950, chr1)
+        self.player2 = Character(self, 1720, 950, chr2)
 
     def initGorilla(self):
         self.gorilla = Gorilla(self)
