@@ -271,9 +271,9 @@ class LevelGenerator(QWidget):
         gorillaThread = Thread(target=self.gorilla.startRunning)
         gorillaThread.setDaemon(True)
         gorillaThread.start()
-        gorillaThread = Thread(target=self.gorilla.createBarrelThread)
-        gorillaThread.setDaemon(True)
-        gorillaThread.start()
+        #gorillaThread = Thread(target=self.gorilla.createBarrelThread)
+        #gorillaThread.setDaemon(True)
+        #gorillaThread.start()
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat() or self.gameIsOver == True:
