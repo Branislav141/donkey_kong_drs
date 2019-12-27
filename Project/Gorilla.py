@@ -15,7 +15,8 @@ class Gorilla(QFrame):
     gorillaIdle = 0
     gorillaRunRight = 0
     gorillaRunLeft = 0
-    gorillaRunningDirection = "right"
+    gorillaRunningDirection = 0
+    gorillaRunningDirections = ['left', 'right']
 
     gorillaLabel = 0
 
@@ -34,6 +35,8 @@ class Gorilla(QFrame):
 
         self.gorillaPositionX = 900
         self.gorillaPositionY = 150
+
+        self.gorillaRunningDirection = random.choice(self.gorillaRunningDirections)
 
         self.gorillaIdle = QPixmap("images\\npc\\npc_gorilla\standing2.png")
         self.gorillaRunRight = QMovie("images\\npc\\npc_gorilla\\right.gif")
@@ -78,22 +81,26 @@ class Gorilla(QFrame):
 
     def startRunning(self):
         time.sleep(7)
-        self.rightDirectionSignal.emit()
+        if self.gorillaRunningDirection == 'right':
+            self.rightDirectionSignal.emit()
+        else:
+            self.leftDirectionSignal.emit()
+
         while 1:
-            if self.gorillaRunningDirection == "right":
+            if self.gorillaRunningDirection == 'right':
                 if self.gorillaPositionX >= 1820:
-                    self.gorillaRunningDirection = "left"
+                    self.gorillaRunningDirection = 'left'
                     self.leftDirectionSignal.emit()
                 else:
-                    self.updatePosition(self.gorillaPositionX + 15, self.gorillaPositionY)
+                    self.updatePosition(self.gorillaPositionX + 5, self.gorillaPositionY)
             else:
                 if self.gorillaPositionX == 0:
-                    self.gorillaRunningDirection = "right"
+                    self.gorillaRunningDirection = 'right'
                     self.rightDirectionSignal.emit()
                 else:
-                    self.updatePosition(self.gorillaPositionX - 15, self.gorillaPositionY)
+                    self.updatePosition(self.gorillaPositionX - 5, self.gorillaPositionY)
 
-            time.sleep(0.1)
+            time.sleep(0.05)
 
     def leftDirectionGifSetup(self):
          self.gorillaLabel.setMovie(self.gorillaRunLeft)
