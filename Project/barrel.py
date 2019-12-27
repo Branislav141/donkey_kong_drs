@@ -24,12 +24,13 @@ class Barrel(QFrame):
     def initBarrel(self, parent, x, y):
         self.barrelIdlePicture = QPixmap("images\items\\barrel.png")
         self.barrelLabel = QLabel(parent)
-        self.barrelLabel.setGeometry(x, y, 50, 50)
+        self.barrelLabel.setGeometry(x, y, 100, 100)
 
 
     def updatePosition(self, x, y):
         if self.setImage == 1:
             self.barrelLabel.setPixmap(self.barrelIdlePicture)
+            self.setImage = 0
         self.barrelPositionX = x
         self.barrelPositionY = y
         self.barrelLabel.move(x, y)

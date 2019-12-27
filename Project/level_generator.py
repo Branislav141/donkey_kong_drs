@@ -12,6 +12,7 @@ from key_notifier import KeyNotifier
 from Character import Character
 from Gorilla import Gorilla
 
+
 import datetime
 import random
 
@@ -268,6 +269,9 @@ class LevelGenerator(QWidget):
     def initGorilla(self):
         self.gorilla = Gorilla(self)
         gorillaThread = Thread(target=self.gorilla.startRunning)
+        gorillaThread.setDaemon(True)
+        gorillaThread.start()
+        gorillaThread = Thread(target=self.gorilla.createBarrelThread)
         gorillaThread.setDaemon(True)
         gorillaThread.start()
 
