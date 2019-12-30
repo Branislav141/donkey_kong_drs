@@ -43,18 +43,18 @@ class Character(QFrame):
         self.playerPoints = 0
 
         # gif animations and images
-        self.playerIdleRight = QMovie("images\characters" + parsedName + "_idle_right.gif");
-        self.playerIdleLeft = QMovie("images\characters" + parsedName + "_idle_left.gif");
-        self.playerRunRight = QMovie("images\characters" + parsedName + "_run_right.gif");
-        self.playerRunLeft = QMovie("images\characters" + parsedName + "_run_left.gif");
-        self.playerClimb = QMovie("images\characters" + parsedName + "_climb.gif");
-        self.playerClimbPicture = QPixmap("images\characters" + parsedName + "_climb.gif");
-        self.playerProfilePicture = QPixmap("images\characters" + parsedName + "_profile.png");
-        self.playerIntroRight = QMovie("images\characters" + parsedName + "_intro_right.gif");
-        self.playerIntroLeft = QMovie("images\characters" + parsedName + "_intro_left.gif");
+        self.playerIdleRight = QMovie("images\characters" + parsedName + "_idle_right.gif")
+        self.playerIdleLeft = QMovie("images\characters" + parsedName + "_idle_left.gif")
+        self.playerRunRight = QMovie("images\characters" + parsedName + "_run_right.gif")
+        self.playerRunLeft = QMovie("images\characters" + parsedName + "_run_left.gif")
+        self.playerClimb = QMovie("images\characters" + parsedName + "_climb.gif")
+        self.playerClimbPicture = QPixmap("images\characters" + parsedName + "_climb.gif")
+        self.playerProfilePicture = QPixmap("images\characters" + parsedName + "_profile.png")
+        self.playerIntroRight = QMovie("images\characters" + parsedName + "_intro_right.gif")
+        self.playerIntroLeft = QMovie("images\characters" + parsedName + "_intro_left.gif")
 
         self.playerWin = QMovie("images\characters" + parsedName + "_win.gif");
-        self.playerWinQuote = QSound("sounds\characters" + parsedName + "_win.wav");
+        self.playerWinQuote = QSound("sounds\characters" + parsedName + "_win.wav")
         self.playerWinQuote.setLoops(1)
 
         self.pointsLabel = QLabel(parent)
@@ -66,11 +66,11 @@ class Character(QFrame):
 
         self.playerNameLabel = QLabel(parent)
         self.playerNameLabel.setText(str(characterName))
-        self.playerNameLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;");
+        self.playerNameLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;")
 
         self.winnerLabel = QLabel(parent)
         self.winnerLabel.setText("Winner!")
-        self.winnerLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;");
+        self.winnerLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;")
         self.winnerLabel.hide()
 
         self.playerLabel = QLabel(parent)

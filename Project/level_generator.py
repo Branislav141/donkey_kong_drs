@@ -30,18 +30,25 @@ class LevelGenerator(QWidget):
     def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
 
+        self.gameMode=gameMode
+        self.player1Chr1=player1
+        self.player2Chr2 = player2
+        self.player3Chr3 = player3
+        self.player4Chr4 = player4
+
         self.newLevel(gameMode, player1, player2, player3, player4)
-        self.levelIntroHandle()
+        #self.levelIntroHandle()
 
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
 
+
         self.player1.winnerSignal.connect(self.winner1Trigger__)
         self.player2.winnerSignal.connect(self.winner2Trigger__)
 
         self.pointCounterHandle()
-        self.forceThreadRun()
+        #self.forceThreadRun()
 
     def forceThreadRun(self):
         forceThread = Thread(target=self.initForce__)
@@ -49,7 +56,7 @@ class LevelGenerator(QWidget):
         forceThread.start()
 
     def initForce__(self):
-        arrayOfValidYAxisValues = [960, 760, 560, 360, 160]
+        arrayOfValidYAxisValues = [760, 560, 360, 160]
         while True:
             time.sleep(10)
             self.forceLabel.show()
@@ -77,13 +84,14 @@ class LevelGenerator(QWidget):
             if (y1 - 15) <= (y) <= (y1 + 15):
                 self.player1.korak=20
                 self.forceLabel.hide()
+                self.forceLabel.move(100, 0)
                 time.sleep(6) #vreme trajanja sile
                 self.player1.korak = 10
         elif (x2 - 40) <= (x) <= (x2 + 40): #elif da ne bi i ovaj karakter pokupio istu silu posle prvog
             if (y2 - 15) <= (y) <= (y2 + 15):
                 self.player2.korak=20
-                self.forceLabel.move(100, 0)
                 self.forceLabel.hide()
+                self.forceLabel.move(100, 0)
                 time.sleep(6) #vreme trajanja sile
                 self.player2.korak = 10
 
@@ -153,7 +161,16 @@ class LevelGenerator(QWidget):
                 self.player2.playerLabel.setMovie(self.player2.playerIdleLeft)
                 self.player2.playerIdleLeft.start()
 
-        # Add end level logic
+        finis=self.player1.playerWinQuote.isFinished()
+        while True:
+            if finis == True:
+                self.gameIsOver = False
+                # self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+                self.nextLevel()
+                break
+            finis = self.player1.playerWinQuote.isFinished()
+
+
 
     def winner2Trigger__(self):
         self.gameIsOver = True
@@ -179,7 +196,15 @@ class LevelGenerator(QWidget):
                 self.player1.playerIdleRight.start()
 
         # Add end level logic
-        
+        finis=self.player2.playerWinQuote.isFinished()
+        while True:
+            if finis==True:
+                self.gameIsOver=False
+                        #self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+                self.nextLevel()
+            finis = self.player2.playerWinQuote.isFinished()
+
+
     def char1Intro(self):
         self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
         self.player1.playerIdleRight.start()
@@ -202,6 +227,18 @@ class LevelGenerator(QWidget):
         time.sleep(2)
         self.startLabel.hide()
 
+
+
+    def nextLevel(self):
+        self.setLevelSoundtrack()
+        self.player1.updatePosition(100, 150)
+        self.player2.updatePosition(1720, 150)
+        self.initGorilla()
+        self.key_notifier.is_done = False
+        self.key_notifier.start()
+        self.levelIntroHandle()
+
+
     def newLevel(self, mode, character1, character2, character3, character4):
 
         self.setLevelDesign()
@@ -209,8 +246,8 @@ class LevelGenerator(QWidget):
         #self.initForce()
         self.initPlayers(character1, character2)
         self.initGorilla()
-
         self.showFullScreen()
+        self.levelIntroHandle()
 
     def setLevelDesign(self):
 
@@ -251,6 +288,7 @@ class LevelGenerator(QWidget):
         self.forceLabel = QLabel(self)
         self.forceLabel.setMovie(self.forceIdle)
         self.forceIdle.start()
+        self.forceThreadRun()
 
 
         self.setWindowState(Qt.WindowMaximized)
@@ -263,8 +301,8 @@ class LevelGenerator(QWidget):
 
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 950, chr1)
-        self.player2 = Character(self, 1720, 950, chr2)
+        self.player1 = Character(self, 100, 150, chr1)
+        self.player2 = Character(self, 1720, 150, chr2)
 
     def initGorilla(self):
         self.gorilla = Gorilla(self)
