@@ -161,14 +161,20 @@ class LevelGenerator(QWidget):
                 self.player2.playerLabel.setMovie(self.player2.playerIdleLeft)
                 self.player2.playerIdleLeft.start()
 
-        finis=self.player1.playerWinQuote.isFinished()
-        while True:
-            if finis == True:
-                self.gameIsOver = False
-                # self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
-                self.nextLevel()
-                break
-            finis = self.player1.playerWinQuote.isFinished()
+
+       # winnerQuoteIsFinishedThread= Thread(target=self.winnerQuoteIsFinished__)
+        #winnerQuoteIsFinishedThread.setDaemon(True)
+        # winnerQuoteIsFinishedThread.start()
+
+        self.gameIsOver = False
+        # self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+        self.nextLevel()
+
+
+    def winnerQuoteIsFinished__(self):
+        while not (self.player1.playerWinQuote.isFinished()):
+            continue
+        self.gameIsOver = False
 
 
 
@@ -196,13 +202,17 @@ class LevelGenerator(QWidget):
                 self.player1.playerIdleRight.start()
 
         # Add end level logic
-        finis=self.player2.playerWinQuote.isFinished()
-        while True:
-            if finis==True:
-                self.gameIsOver=False
+        #finis=self.player2.playerWinQuote.isFinished()
+        #while True:
+        #    if finis==True:
+        #        self.gameIsOver=False
                         #self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
-                self.nextLevel()
-            finis = self.player2.playerWinQuote.isFinished()
+        #        self.nextLevel()
+        #    finis = self.player2.playerWinQuote.isFinished()
+
+        self.gameIsOver = False
+        # self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+        self.nextLevel()
 
 
     def char1Intro(self):
@@ -230,12 +240,15 @@ class LevelGenerator(QWidget):
 
 
     def nextLevel(self):
+        self.forceLabel.hide()
+        self.setLevelDesign()
         self.setLevelSoundtrack()
         self.player1.updatePosition(100, 150)
         self.player2.updatePosition(1720, 150)
         self.initGorilla()
         self.key_notifier.is_done = False
         self.key_notifier.start()
+        self.showFullScreen()
         self.levelIntroHandle()
 
 
@@ -246,6 +259,7 @@ class LevelGenerator(QWidget):
         #self.initForce()
         self.initPlayers(character1, character2)
         self.initGorilla()
+        self.forceThreadRun()
         self.showFullScreen()
         self.levelIntroHandle()
 
@@ -288,7 +302,6 @@ class LevelGenerator(QWidget):
         self.forceLabel = QLabel(self)
         self.forceLabel.setMovie(self.forceIdle)
         self.forceIdle.start()
-        self.forceThreadRun()
 
 
         self.setWindowState(Qt.WindowMaximized)
