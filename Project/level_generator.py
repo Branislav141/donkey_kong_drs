@@ -3,7 +3,7 @@ import time
 from threading import Thread
 
 
-from PyQt5.QtCore import Qt, QTime, QThread
+from PyQt5.QtCore import Qt, QTime, QThread, pyqtSignal
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton
@@ -26,8 +26,10 @@ class LevelGenerator(QWidget):
 
     player1Points = 0
     player2Points = 0
+    currentLevel = 1
 
     gameIsOver = False
+    checkCollisionSignal = pyqtSignal()
 
     def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
@@ -250,6 +252,7 @@ class LevelGenerator(QWidget):
         #self.initForce()
         self.initPlayers(character1, character2)
         self.initGorilla()
+        self.initCheckCollisions()
         self.forceThreadRun()
         self.showFullScreen()
         self.levelIntroHandle()
@@ -257,6 +260,8 @@ class LevelGenerator(QWidget):
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
+
+
 
 
         self.player1.winnerSignal.connect(self.winner1Trigger__)
@@ -442,8 +447,8 @@ class LevelGenerator(QWidget):
                         self.player1.playerRunRight.start()
                         self.player1.updatePosition(rec1.x() + self.player1.korak, rec1.y())
 
-                if self.checkGorillaCollision(rec1.x(), rec1.y()):
-                    self.player1.updatePosition(100, 950)
+                #if self.checkGorillaCollision(rec1.x(), rec1.y()):
+                #   self.player1.updatePosition(100, 950)
 
         elif key == Qt.Key_S:
             if rec1.y() < 950:
@@ -471,8 +476,8 @@ class LevelGenerator(QWidget):
                         self.player1.playerRunLeft.start()
                         self.player1.updatePosition(rec1.x() - self.player1.korak, rec1.y())
 
-                if self.checkGorillaCollision(rec1.x(), rec1.y()):
-                    self.player1.updatePosition(100, 950)
+                #if self.checkGorillaCollision(rec1.x(), rec1.y()):
+                #    self.player1.updatePosition(100, 950)
 
         if key == Qt.Key_Right:
             if self.checkLeftRight(rec2.y()):
@@ -487,8 +492,8 @@ class LevelGenerator(QWidget):
                         self.player2.playerRunRight.start()
                         self.player2.updatePosition(rec2.x() + self.player2.korak, rec2.y())
 
-                if self.checkGorillaCollision(rec2.x(), rec2.y()):
-                    self.player2.updatePosition(1720, 950)
+                #if self.checkGorillaCollision(rec2.x(), rec2.y()):
+                #    self.player2.updatePosition(1720, 950)
 
         elif key == Qt.Key_Down:
             if rec2.y() < 950:
@@ -516,8 +521,72 @@ class LevelGenerator(QWidget):
                         self.player2.playerRunLeft.start()
                         self.player2.updatePosition(rec2.x() - self.player2.korak, rec2.y())
 
-                if self.checkGorillaCollision(rec2.x(), rec2.y()):
+                #if self.checkGorillaCollision(rec2.x(), rec2.y()):
+                #    self.player2.updatePosition(1720, 950)
+
+
+    def initCheckCollisions(self):
+        self.checkCollisionSignal.connect(self.checkCollisions)
+        self.collisionThread = Thread(target=self.checkCollisionThread)
+        self.collisionThread.setDaemon(True)
+        self.collisionThread.start()
+
+
+    def checkCollisionThread(self):
+        time.sleep(7)
+        while 1:
+            time.sleep(0.2)
+            self.checkCollisionSignal.emit()
+
+    def checkCollisions(self):
+        if self.gorilla.gorillaLabel.x() <= self.player1.playerLabel.x() <= self.gorilla.gorillaLabel.x() + 100 or self.gorilla.gorillaLabel.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.gorillaLabel.x() + 100:
+            if self.gorilla.gorillaLabel.y() <= self.player1.playerLabel.y() <= self.gorilla.gorillaLabel.y() + 100 or self.gorilla.gorillaLabel.y() <= self.player1.playerLabel.y() + 100 <= self.gorilla.gorillaLabel.y() + 100:
+                self.player1.updatePosition(100, 950)
+
+        if self.gorilla.gorillaLabel.x() <= self.player2.playerLabel.x() <= self.gorilla.gorillaLabel.x() + 100 or self.gorilla.gorillaLabel.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.gorillaLabel.x() + 100:
+            if self.gorilla.gorillaLabel.y() <= self.player2.playerLabel.y() <= self.gorilla.gorillaLabel.y() + 100 or self.gorilla.gorillaLabel.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.gorillaLabel.y() + 100:
+                self.player2.updatePosition(1720, 950)
+
+        if self.gorilla.barrel1LabelCreated == 1:
+            if self.gorilla.barrel1Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel1Label.x() + 100 or self.gorilla.barrel1Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel1Label.x() + 100:
+                if self.gorilla.barrel1Label.y() <= self.player1.playerLabel.y() <= self.gorilla.barrel1Label.y() + 100 or self.gorilla.barrel1Label.y() <= self.player1.playerLabel.y() + 100 <= self.gorilla.barrel1Label.y() + 100:
+                    self.player1.updatePosition(100, 950)
+            if self.gorilla.barrel1Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel1Label.x() + 100 or self.gorilla.barrel1Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel1Label.x() + 100:
+                if self.gorilla.barrel1Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel1Label.y() + 100 or self.gorilla.barrel1Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel1Label.y() + 100:
                     self.player2.updatePosition(1720, 950)
+
+        if self.gorilla.barrel2LabelCreated == 1:
+            if self.gorilla.barrel2Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel2Label.x() + 100 or self.gorilla.barrel2Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel2Label.x() + 100:
+                if self.gorilla.barrel2Label.y() <= self.player1.playerLabel.y() <= self.gorilla.barrel2Label.y() + 100 or self.gorilla.barrel2Label.y() <= self.player1.playerLabel.y() + 100 <= self.gorilla.barrel2Label.y() + 100:
+                    self.player1.updatePosition(100, 950)
+            if self.gorilla.barrel2Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel2Label.x() + 100 or self.gorilla.barrel2Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel2Label.x() + 100:
+                if self.gorilla.barrel2Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel2Label.y() + 100 or self.gorilla.barrel2Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel2Label.y() + 100:
+                    self.player2.updatePosition(1720, 950)
+
+        if self.gorilla.barrel3LabelCreated == 1:
+            if self.gorilla.barrel3Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel3Label.x() + 100 or self.gorilla.barrel3Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel3Label.x() + 100:
+                if self.gorilla.barrel3Label.y() <= self.player1.playerLabel.y() <= self.gorilla.barrel3Label.y() + 100 or self.gorilla.barrel3Label.y() <= self.player1.playerLabel.y() + 100 <= self.gorilla.barrel3Label.y() + 100:
+                    self.player1.updatePosition(100, 950)
+            if self.gorilla.barrel3Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel3Label.x() + 100 or self.gorilla.barrel3Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel3Label.x() + 100:
+                if self.gorilla.barrel3Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel3Label.y() + 100 or self.gorilla.barrel3Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel3Label.y() + 100:
+                    self.player2.updatePosition(1720, 950)
+
+        if self.gorilla.barrel4LabelCreated == 1:
+            if self.gorilla.barrel4Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel4Label.x() + 100 or self.gorilla.barrel4Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel4Label.x() + 100:
+                if self.gorilla.barrel4Label.y() <= self.player1.playerLabel.y() <= self.gorilla.barrel4Label.y() + 100 or self.gorilla.barrel4Label.y() <= self.player1.playerLabel.y() + 100 <= self.gorilla.barrel4Label.y() + 100:
+                    self.player1.updatePosition(100, 950)
+            if self.gorilla.barrel4Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel4Label.x() + 100 or self.gorilla.barrel4Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel4Label.x() + 100:
+                if self.gorilla.barrel4Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel4Label.y() + 100 or self.gorilla.barrel4Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel4Label.y() + 100:
+                    self.player2.updatePosition(1720, 950)
+
+        if self.gorilla.barrel5LabelCreated == 1:
+            if self.gorilla.barrel5Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel5Label.x() + 100 or self.gorilla.barrel5Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel5Label.x() + 100:
+                if self.gorilla.barrel5Label.y() <= self.player1.playerLabel.y() <= self.gorilla.barrel5Label.y() + 100 or self.gorilla.barrel5Label.y() <= self.player1.playerLabel.y() + 100 <= self.gorilla.barrel5Label.y() + 100:
+                    self.player1.updatePosition(100, 950)
+            if self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel5Label.x() + 100 or self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel5Label.x() + 100:
+                if self.gorilla.barrel5Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel5Label.y() + 100 or self.gorilla.barrel5Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel5Label.y() + 100:
+ ddddd                   self.player2.updatePosition(1720, 950)
+
 
     def closeEvent(self, event):
         self.key_notifier.die()
