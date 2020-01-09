@@ -2,7 +2,8 @@ import sys
 import time
 from threading import Thread
 
-from PyQt5.QtCore import Qt, QTime
+
+from PyQt5.QtCore import Qt, QTime, QThread
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton
@@ -23,32 +24,18 @@ listOfSoundtracks = ["song_hyouhaku", "song_kokuten", "song_raising_fighting_spi
 
 class LevelGenerator(QWidget):
 
-
+    player1Points = 0
+    player2Points = 0
 
     gameIsOver = False
 
     def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
 
-        self.gameMode=gameMode
-        self.player1Chr1=player1
-        self.player2Chr2 = player2
-        self.player3Chr3 = player3
-        self.player4Chr4 = player4
-
         self.newLevel(gameMode, player1, player2, player3, player4)
-        #self.levelIntroHandle()
-
-        self.key_notifier = KeyNotifier()
-        self.key_notifier.key_signal.connect(self.__update_position__)
-        self.key_notifier.start()
 
 
-        self.player1.winnerSignal.connect(self.winner1Trigger__)
-        self.player2.winnerSignal.connect(self.winner2Trigger__)
 
-        self.pointCounterHandle()
-        #self.forceThreadRun()
 
     def forceThreadRun(self):
         forceThread = Thread(target=self.initForce__)
@@ -162,13 +149,14 @@ class LevelGenerator(QWidget):
                 self.player2.playerIdleLeft.start()
 
 
-       # winnerQuoteIsFinishedThread= Thread(target=self.winnerQuoteIsFinished__)
-        #winnerQuoteIsFinishedThread.setDaemon(True)
-        # winnerQuoteIsFinishedThread.start()
 
-        self.gameIsOver = False
-        # self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
-        self.nextLevel()
+        self.player1Points = self.player1.playerPoints
+        self.player2Points = self.player2.playerPoints
+        self.forceLabel.hide()
+
+        self.close()
+        self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+
 
 
     def winnerQuoteIsFinished__(self):
@@ -201,18 +189,14 @@ class LevelGenerator(QWidget):
                 self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
                 self.player1.playerIdleRight.start()
 
-        # Add end level logic
-        #finis=self.player2.playerWinQuote.isFinished()
-        #while True:
-        #    if finis==True:
-        #        self.gameIsOver=False
-                        #self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
-        #        self.nextLevel()
-        #    finis = self.player2.playerWinQuote.isFinished()
 
-        self.gameIsOver = False
-        # self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
-        self.nextLevel()
+        self.player1Points = self.player1.playerPoints
+        self.player2Points = self.player2.playerPoints
+        self.forceLabel.hide()
+
+        self.close()
+        self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+
 
 
     def char1Intro(self):
@@ -254,6 +238,13 @@ class LevelGenerator(QWidget):
 
     def newLevel(self, mode, character1, character2, character3, character4):
 
+        self.gameIsOver = False
+        self.gameMode=mode
+        self.player1Chr1=character1
+        self.player2Chr2 = character2
+        self.player3Chr3 = character3
+        self.player4Chr4 = character4
+
         self.setLevelDesign()
         self.setLevelSoundtrack()
         #self.initForce()
@@ -262,6 +253,16 @@ class LevelGenerator(QWidget):
         self.forceThreadRun()
         self.showFullScreen()
         self.levelIntroHandle()
+
+        self.key_notifier = KeyNotifier()
+        self.key_notifier.key_signal.connect(self.__update_position__)
+        self.key_notifier.start()
+
+
+        self.player1.winnerSignal.connect(self.winner1Trigger__)
+        self.player2.winnerSignal.connect(self.winner2Trigger__)
+
+        self.pointCounterHandle()
 
     def setLevelDesign(self):
 
@@ -314,17 +315,20 @@ class LevelGenerator(QWidget):
 
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 150, chr1)
-        self.player2 = Character(self, 1720, 150, chr2)
+        self.player1 = Character(self, 100, 150, chr1, self.player1Points)
+        self.player2 = Character(self, 1720, 150, chr2, self.player2Points)
 
     def initGorilla(self):
         self.gorilla = Gorilla(self)
-        gorillaThread = Thread(target=self.gorilla.startRunning)
-        gorillaThread.setDaemon(True)
-        gorillaThread.start()
-        #gorillaThread = Thread(target=self.gorilla.createBarrelThread)
-        #gorillaThread.setDaemon(True)
-        #gorillaThread.start()
+        self.gorilla.leftDirectionSignal.connect(self.gorilla.leftDirectionGifSetup)
+        self.gorilla.rightDirectionSignal.connect(self.gorilla.rightDirectionGifSetup)
+        self.gorilla.updatePositionSignal.connect(self.gorilla.updatePosition)
+        self.gorilla.createBarrelSignal.connect(self.gorilla.createBarrel)
+        self.gorilla.moveBarrelsSignal.connect(self.gorilla.moveBarrels)
+        self.gorillaThread = Thread(target=self.gorilla.startRunning)
+        self.gorillaThread.setDaemon(True)
+        self.gorillaThread.start()
+
 
     def keyPressEvent(self, event):
         if event.isAutoRepeat() or self.gameIsOver == True:

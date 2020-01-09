@@ -29,18 +29,18 @@ class Character(QFrame):
 
     winnerSignal = pyqtSignal()
 
-    def __init__(self, parent, x, y, player):
+    def __init__(self, parent, x, y, player, points):
         super().__init__(parent)
 
-        self.initCharacter(parent, x, y, player)
+        self.initCharacter(parent, x, y, player, points)
 
 
-    def initCharacter(self, parent,  x, y, characterName):
+    def initCharacter(self, parent,  x, y, characterName, points):
         parsedName = characterName.lower()
         parsedName = r"\ch_" + parsedName + r"\ch_" + parsedName
 
         self.playerName = characterName
-        self.playerPoints = 0
+        self.playerPoints = points
 
         # gif animations and images
         self.playerIdleRight = QMovie("images\characters" + parsedName + "_idle_right.gif")
@@ -78,14 +78,14 @@ class Character(QFrame):
         self.playerLabel.setGeometry(x, y, 100, 100)
 
         if x < 900:
-            self.pointsLabel.move(100, 0)
+            self.pointsLabel.setGeometry(100, 0, 100, 100)
             self.playerProfilePictureLabel.move(0,0)
             self.playerNameLabel.move(0, 80)
             self.winnerLabel.move(0, 110)
             self.playerLabel.setMovie(self.playerIntroRight)
             self.playerIntroRight.start()
         else:
-            self.pointsLabel.move(1790, 0)
+            self.pointsLabel.setGeometry(1775, 0, 100, 100)
             self.playerProfilePictureLabel.move(1830, 0)
             self.playerNameLabel.move(1830, 80)
             self.winnerLabel.move(1830, 110)
