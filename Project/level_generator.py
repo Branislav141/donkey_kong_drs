@@ -33,7 +33,7 @@ class LevelGenerator(QWidget):
 
     def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
-
+        self.forceThreadRun()
         self.newLevel(gameMode, player1, player2, player3, player4)
 
 
@@ -42,7 +42,9 @@ class LevelGenerator(QWidget):
     def forceThreadRun(self):
         forceThread = Thread(target=self.initForce__)
         forceThread.setDaemon(True)
-        forceThread.start()
+        if not(forceThread.isAlive()):
+            forceThread.start()
+
 
     def initForce__(self):
         arrayOfValidYAxisValues = [760, 560, 360, 160]
@@ -54,9 +56,9 @@ class LevelGenerator(QWidget):
             x = random.randint(100, 1720)  # X MOZE BITI OD 100 DO 1720 BILO KOJI BROj
             self.forceLabel.setFixedSize(60,60)
             self.forceLabel.move(x,y)
-            for j in range(0,60):
+            for j in range(0,70):
                 self.catchUpForce()
-                time.sleep(0.2)
+                time.sleep(0.1)
             self.forceLabel.hide()
 
     def catchUpForce(self):
@@ -72,15 +74,15 @@ class LevelGenerator(QWidget):
         if (x1 - 40) <= (x) <= (x1 + 40):
             if (y1 - 15) <= (y) <= (y1 + 15):
                 self.player1.korak=20
-                self.forceLabel.hide()
                 self.forceLabel.move(100, 0)
+                self.forceLabel.hide()
                 time.sleep(6) #vreme trajanja sile
                 self.player1.korak = 10
         elif (x2 - 40) <= (x) <= (x2 + 40): #elif da ne bi i ovaj karakter pokupio istu silu posle prvog
             if (y2 - 15) <= (y) <= (y2 + 15):
                 self.player2.korak=20
-                self.forceLabel.hide()
                 self.forceLabel.move(100, 0)
+                self.forceLabel.hide()
                 time.sleep(6) #vreme trajanja sile
                 self.player2.korak = 10
 
@@ -156,7 +158,8 @@ class LevelGenerator(QWidget):
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
 
-        self.close()
+        # self.close()
+        self.exitLevel()
         self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
 
 
@@ -196,7 +199,8 @@ class LevelGenerator(QWidget):
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
 
-        self.close()
+        #self.close()
+        self.exitLevel()
         self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
 
 
@@ -225,19 +229,6 @@ class LevelGenerator(QWidget):
 
 
 
-    def nextLevel(self):
-        self.forceLabel.hide()
-        self.setLevelDesign()
-        self.setLevelSoundtrack()
-        self.player1.updatePosition(100, 150)
-        self.player2.updatePosition(1720, 150)
-        self.initGorilla()
-        self.key_notifier.is_done = False
-        self.key_notifier.start()
-        self.showFullScreen()
-        self.levelIntroHandle()
-
-
     def newLevel(self, mode, character1, character2, character3, character4):
 
         self.gameIsOver = False
@@ -253,7 +244,7 @@ class LevelGenerator(QWidget):
         self.initPlayers(character1, character2)
         self.initGorilla()
         self.initCheckCollisions()
-        self.forceThreadRun()
+        #self.forceThreadRun()
         self.showFullScreen()
         self.levelIntroHandle()
 
@@ -457,7 +448,7 @@ class LevelGenerator(QWidget):
                     self.player1.playerClimb.start()
                     self.player1.updatePosition(rec1.x(), rec1.y() + self.player1.korak)
         elif key == Qt.Key_W:
-            if rec1.y()<152 and self.player1.korak==20: # ako ostane korak 20 ode mnogo gore pa ne moze levo i desno
+            if rec1.y()<150 and self.player1.korak==20: # ako ostane korak 20 ode mnogo gore pa ne moze levo i desno
                 self.player1.korak=10
             if self.checkLadderUp(rec1.x(), rec1.y()):
                 self.player1.playerLabel.setMovie(self.player1.playerClimb)
@@ -502,7 +493,7 @@ class LevelGenerator(QWidget):
                     self.player2.playerClimb.start()
                     self.player2.updatePosition(rec2.x(), rec2.y() + self.player2.korak)
         elif key == Qt.Key_Up:
-            if rec2.y() < 152 and self.player2.korak == 20:  # ako ostane korak 20 ode mnogo gore pa ne moze levo i desno
+            if rec2.y() < 150 and self.player2.korak == 20:  # ako ostane korak 20 ode mnogo gore pa ne moze levo i desno
                 self.player2.korak = 10
             if self.checkLadderUp(rec2.x(), rec2.y()):
                 self.player2.playerLabel.setMovie(self.player2.playerClimb)
@@ -585,7 +576,7 @@ class LevelGenerator(QWidget):
                     self.player1.updatePosition(100, 950)
             if self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel5Label.x() + 100 or self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel5Label.x() + 100:
                 if self.gorilla.barrel5Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel5Label.y() + 100 or self.gorilla.barrel5Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel5Label.y() + 100:
- ddddd                   self.player2.updatePosition(1720, 950)
+                     self.player2.updatePosition(1720, 950)
 
 
     def closeEvent(self, event):
