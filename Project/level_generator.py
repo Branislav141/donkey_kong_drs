@@ -30,6 +30,7 @@ class LevelGenerator(QWidget):
 
     gameIsOver = False
     checkCollisionSignal = pyqtSignal()
+    callEndLevel = pyqtSignal()
 
     def __init__(self, gameMode, player1, player2, player3, player4):
         super().__init__()
@@ -158,18 +159,19 @@ class LevelGenerator(QWidget):
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
 
-        # self.close()
+        waitForEndThread = Thread(target=self.waitForEnd__)
+        waitForEndThread.setDaemon(True)
+        waitForEndThread.start()
+
+
+
+    def waitForEnd__(self):
+        time.sleep(5)
+        self.callEndLevel.emit()
+
+    def goToNextLevel(self):
         self.exitLevel()
         self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
-
-
-
-    def winnerQuoteIsFinished__(self):
-        while not (self.player1.playerWinQuote.isFinished()):
-            continue
-        self.gameIsOver = False
-
-
 
     def winner2Trigger__(self):
         self.gameIsOver = True
@@ -198,12 +200,10 @@ class LevelGenerator(QWidget):
         self.player1Points = self.player1.playerPoints
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
-
-        #self.close()
-        self.exitLevel()
-        self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
-
-
+        
+        waitForEndThread = Thread(target=self.waitForEnd__)
+        waitForEndThread.setDaemon(True)
+        waitForEndThread.start()
 
     def char1Intro(self):
         self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
@@ -230,6 +230,9 @@ class LevelGenerator(QWidget):
 
 
     def newLevel(self, mode, character1, character2, character3, character4):
+
+        self.callEndLevel.connect(self.goToNextLevel)
+
         self.currentLevel += 1
         self.gameIsOver = False
         self.gameMode=mode
