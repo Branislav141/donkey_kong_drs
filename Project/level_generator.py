@@ -26,7 +26,7 @@ class LevelGenerator(QWidget):
 
     player1Points = 0
     player2Points = 0
-    currentLevel = 1
+    currentLevel = 0
 
     gameIsOver = False
     checkCollisionSignal = pyqtSignal()
@@ -230,7 +230,7 @@ class LevelGenerator(QWidget):
 
 
     def newLevel(self, mode, character1, character2, character3, character4):
-
+        self.currentLevel += 1
         self.gameIsOver = False
         self.gameMode=mode
         self.player1Chr1=character1
@@ -316,6 +316,8 @@ class LevelGenerator(QWidget):
 
     def initGorilla(self):
         self.gorilla = Gorilla(self)
+        self.gorilla.gorillaMoveSpeed += 2 * self.currentLevel
+        self.gorilla.barrelMoveSpeed += 2 * self.currentLevel
         self.gorilla.leftDirectionSignal.connect(self.gorilla.leftDirectionGifSetup)
         self.gorilla.rightDirectionSignal.connect(self.gorilla.rightDirectionGifSetup)
         self.gorilla.updatePositionSignal.connect(self.gorilla.updatePosition)
@@ -404,14 +406,6 @@ class LevelGenerator(QWidget):
         else:
             return False
 
-    def checkGorillaCollision(self, x, y):
-        if self.gorilla.gorillaPositionY == y:
-            if x >= self.gorilla.gorillaPositionX and x <= self.gorilla.gorillaPositionX + 100:
-                return True
-            elif x + 100 >= self.gorilla.gorillaPositionX and x + 100 <= self.gorilla.gorillaPositionX + 100:
-                return True
-
-        return False
 
 
     # updates position of character

@@ -59,7 +59,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\HP 650 G2\AppData\Local\Programs\Python\Python38-32\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\luka\Desktop\Distribuirani racunarski sistemi\vjezbanje\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -101,7 +101,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\HP 650 G2\AppData\Local\Programs\Python\Python38-32\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\luka\Desktop\Distribuirani racunarski sistemi\vjezbanje\venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />

@@ -27,8 +27,8 @@ class Gorilla(QFrame):
     moveBarrelsSignal = pyqtSignal()
 
 
-    barrelMoveSpeed = 5
-    gorillaMoveSpeed = 5
+    barrelMoveSpeed = 3
+    gorillaMoveSpeed = 3
 
 
 
@@ -108,7 +108,7 @@ class Gorilla(QFrame):
                     self.updatePositionSignal.emit(self.gorillaPositionX + self.gorillaMoveSpeed, self.gorillaPositionY)
                     #self.updatePosition(self.gorillaPositionX + 5, self.gorillaPositionY)
             else:
-                if self.gorillaPositionX == 0:
+                if self.gorillaPositionX <= 0:
                     self.gorillaRunningDirection = 'right'
                     self.rightDirectionSignal.emit()
                 else:
