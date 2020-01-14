@@ -26,6 +26,10 @@ class Character(QFrame):
     korak = 10
     playerWin = 0
     playerWinQuote = 0
+    livesLabel = 0
+    playerLives = 0
+    pLabel = 0
+    lLabel = 0
 
     winnerSignal = pyqtSignal()
 
@@ -41,6 +45,7 @@ class Character(QFrame):
 
         self.playerName = characterName
         self.playerPoints = points
+        self.playerLives = 3
 
         # gif animations and images
         self.playerIdleRight = QMovie("images\characters" + parsedName + "_idle_right.gif")
@@ -77,14 +82,32 @@ class Character(QFrame):
         #self.playerLabel.setStyleSheet("background-color: lime;")  # For test purposes
         self.playerLabel.setGeometry(x, y, 100, 100)
 
+        self.pLabel = QLabel(parent)
+        self.pLabel.setText('Points: ')
+        self.pLabel.setStyleSheet("color: red;font-size: 25px; font-family: Segoe Script;")
+
+        self.lLabel = QLabel(parent)
+        self.lLabel.setText('Lives: ')
+        self.lLabel.setStyleSheet("color: red;font-size: 25px; font-family: Segoe Script;")
+
+        self.livesLabel = QLabel(parent)
+        self.livesLabel.setStyleSheet("color: red;font-size: 30px; font-family: Segoe Script;")
+        self.livesLabel.setText(str(self.playerLives))
+
         if x < 900:
-            self.pointsLabel.setGeometry(100, 0, 100, 100)
+            self.pLabel.move(100, 30)
+            self.lLabel.move(100, 70)
+            self.livesLabel.move(200, 67)
+            self.pointsLabel.setGeometry(200, 0, 100, 100)
             self.playerProfilePictureLabel.move(0,0)
             self.playerNameLabel.move(0, 80)
             self.winnerLabel.move(0, 110)
             self.playerLabel.setMovie(self.playerIntroRight)
             self.playerIntroRight.start()
         else:
+            self.pLabel.move(1675, 30)
+            self.lLabel.move(1675, 70)
+            self.livesLabel.move(1775, 67)
             self.pointsLabel.setGeometry(1775, 0, 100, 100)
             self.playerProfilePictureLabel.move(1830, 0)
             self.playerNameLabel.move(1830, 80)
