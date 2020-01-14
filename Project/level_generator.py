@@ -230,38 +230,128 @@ class LevelGenerator(QWidget):
 
 
     def newLevel(self, mode, character1, character2, character3, character4):
-
         self.callEndLevel.connect(self.goToNextLevel)
+        if mode=="versus":
 
-        self.currentLevel += 1
-        self.gameIsOver = False
-        self.gameMode=mode
-        self.player1Chr1=character1
-        self.player2Chr2 = character2
-        self.player3Chr3 = character3
-        self.player4Chr4 = character4
+            self.gameIsOver = False
+            self.gameMode=mode
+            self.player1Chr1=character1
+            self.player2Chr2 = character2
+            self.player3Chr3 = character3
+            self.player4Chr4 = character4
 
-        self.setLevelDesign()
-        self.setLevelSoundtrack()
-        #self.initForce()
-        self.initPlayers(character1, character2)
-        self.initGorilla()
-        self.initCheckCollisions()
-        #self.forceThreadRun()
-        self.showFullScreen()
-        self.levelIntroHandle()
+            self.setLevelDesign()
+            self.setLevelSoundtrack()
+            #self.initForce()
+            self.initPlayers(character1, character2)
+            self.initGorilla()
+            self.initCheckCollisions()
+            #self.forceThreadRun()
+            self.showFullScreen()
+            self.levelIntroHandle()
 
-        self.key_notifier = KeyNotifier()
-        self.key_notifier.key_signal.connect(self.__update_position__)
-        self.key_notifier.start()
+            self.key_notifier = KeyNotifier()
+            self.key_notifier.key_signal.connect(self.__update_position__)
+            self.key_notifier.start()
+
+            self.player1.winnerSignal.connect(self.winner1Trigger__)
+            self.player2.winnerSignal.connect(self.winner2Trigger__)
+
+            self.pointCounterHandle()
+        else: #ako je turnir
+
+            self.currentLevel += 1
+
+            self.gameIsOver = False
+            self.gameMode = mode
+            self.player1Chr1 = character1
+            self.player2Chr2 = character2
+            self.player3Chr3 = character3
+            self.player4Chr4 = character4
+
+            if self.currentLevel == 1: #u prvom nivou prva dva igraca
+
+                self.setLevelDesign()
+                self.setLevelSoundtrack()
+                # self.initForce()
+                self.initPlayers(character1, character2)
+                self.initGorilla()
+                self.initCheckCollisions()
+                # self.forceThreadRun()
+                self.showFullScreen()
+                self.levelIntroHandle()
+
+                self.key_notifier = KeyNotifier()
+                self.key_notifier.key_signal.connect(self.__update_position__)
+                self.key_notifier.start()
+
+                self.player1.winnerSignal.connect(self.winner1Trigger__)
+                self.player2.winnerSignal.connect(self.winner2Trigger__)
+
+                self.pointCounterHandle()
+
+            elif self.currentLevel == 2: #u drugom nivou druga dva igraca
+                if self.player1Points > self.player2Points:
+                    self.winner1Chr = self.player1Chr1
+                else:
+                    self.winner1Chr = self.player2Chr2
+
+                self.player1Points = 0
+                self.player2Points = 0
+
+                self.setLevelDesign()
+                self.setLevelSoundtrack()
+                # self.initForce()
+                self.initPlayers(character3, character4)
+                self.initGorilla()
+                self.initCheckCollisions()
+                # self.forceThreadRun()
+                self.showFullScreen()
+                self.levelIntroHandle()
+
+                self.key_notifier = KeyNotifier()
+                self.key_notifier.key_signal.connect(self.__update_position__)
+                self.key_notifier.start()
+
+                self.player1.winnerSignal.connect(self.winner1Trigger__)
+                self.player2.winnerSignal.connect(self.winner2Trigger__)
+
+                self.pointCounterHandle()
+
+            elif self.currentLevel == 3:  #u trecem nivou dprethodni pobednici
+                if self.player1Points > self.player2Points:
+                    self.winner2Chr = self.player3Chr3
+                else:
+                    self.winner2Chr = self.player4Chr4
+
+                self.player1Points = 0
+                self.player2Points = 0
+
+
+                self.setLevelDesign()
+                self.setLevelSoundtrack()
+                # self.initForce()
+                self.initPlayers( self.winner1Chr,  self.winner2Chr)
+                self.initGorilla()
+                self.initCheckCollisions()
+                # self.forceThreadRun()
+                self.showFullScreen()
+                self.levelIntroHandle()
+
+                self.key_notifier = KeyNotifier()
+                self.key_notifier.key_signal.connect(self.__update_position__)
+                self.key_notifier.start()
+
+                self.player1.winnerSignal.connect(self.winner1Trigger__)
+                self.player2.winnerSignal.connect(self.winner2Trigger__)
+
+                self.pointCounterHandle()
 
 
 
 
-        self.player1.winnerSignal.connect(self.winner1Trigger__)
-        self.player2.winnerSignal.connect(self.winner2Trigger__)
 
-        self.pointCounterHandle()
+
 
     def setLevelDesign(self):
 
