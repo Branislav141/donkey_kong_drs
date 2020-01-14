@@ -200,7 +200,7 @@ class LevelGenerator(QWidget):
         self.player1Points = self.player1.playerPoints
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
-        
+
         waitForEndThread = Thread(target=self.waitForEnd__)
         waitForEndThread.setDaemon(True)
         waitForEndThread.start()
@@ -260,8 +260,6 @@ class LevelGenerator(QWidget):
             self.pointCounterHandle()
         else: #ako je turnir
 
-            self.currentLevel += 1
-
             self.gameIsOver = False
             self.gameMode = mode
             self.player1Chr1 = character1
@@ -269,8 +267,8 @@ class LevelGenerator(QWidget):
             self.player3Chr3 = character3
             self.player4Chr4 = character4
 
-            if self.currentLevel == 1: #u prvom nivou prva dva igraca
-
+            if self.currentLevel == 0: #u prvom nivou prva dva igraca
+                self.currentLevel += 1
                 self.setLevelDesign()
                 self.setLevelSoundtrack()
                 # self.initForce()
@@ -290,12 +288,13 @@ class LevelGenerator(QWidget):
 
                 self.pointCounterHandle()
 
-            elif self.currentLevel == 2: #u drugom nivou druga dva igraca
-                if self.player1Points > self.player2Points:
+            elif self.currentLevel == 1: #u drugom nivou druga dva igraca
+                if self.player1Points > self.player2Points: #Bolji igrac iz prethodne igre
                     self.winner1Chr = self.player1Chr1
                 else:
                     self.winner1Chr = self.player2Chr2
 
+                self.currentLevel += 1
                 self.player1Points = 0
                 self.player2Points = 0
 
@@ -318,15 +317,14 @@ class LevelGenerator(QWidget):
 
                 self.pointCounterHandle()
 
-            elif self.currentLevel == 3:  #u trecem nivou dprethodni pobednici
-                if self.player1Points > self.player2Points:
+            elif self.currentLevel == 2:  #u trecem nivou dprethodni pobednici
+                if self.player1Points > self.player2Points: #Bolji igrac iz prethodne igre
                     self.winner2Chr = self.player3Chr3
                 else:
                     self.winner2Chr = self.player4Chr4
-
+                self.currentLevel += 1
                 self.player1Points = 0
                 self.player2Points = 0
-
 
                 self.setLevelDesign()
                 self.setLevelSoundtrack()
@@ -347,7 +345,23 @@ class LevelGenerator(QWidget):
 
                 self.pointCounterHandle()
 
+            elif self.currentLevel == 3:
+                self.currentLevel += 1
 
+                self.setLevelSoundtrack()
+                self.key_notifier = KeyNotifier()
+                self.key_notifier.key_signal.connect(self.__update_position__)
+                self.key_notifier.start()
+                self.showFullScreen()
+            else:
+                self.showFullScreen()
+                self.setLevelSoundtrack()
+                self.theEndGif = QMovie('images\level\\end.gif')
+                self.EndTekst = QLabel(self)
+                self.EndTekst.setMovie(self.theEndGif)
+                self.theEndGif.start()
+                self.EndTekst.move(300, -100)
+                self.EndTekst.show()
 
 
 
