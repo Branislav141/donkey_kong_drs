@@ -28,8 +28,11 @@ class LevelGenerator(QWidget):
     player2Points = 0
     currentLevel = 0
     numberWiners=0
-
+    tournamentCompleted=False
     gameIsOver = False
+    firstFinalistChosen=False
+    secondFinalistChosen=False
+
     checkCollisionSignal = pyqtSignal()
     callEndLevel = pyqtSignal()
 
@@ -106,6 +109,7 @@ class LevelGenerator(QWidget):
             if rec1.y() <= y:
                 break
         self.player1.playerPoints += 1
+        self.player1Points +=1
         self.player1.pointsLabel.setText(str(self.player1.playerPoints))
         callbackThread = Thread(target=self.player1PointCounter__, args=[y - 200])
         callbackThread.setDaemon(True)
@@ -118,6 +122,7 @@ class LevelGenerator(QWidget):
             if rec2.y() <= y:
                 break
         self.player2.playerPoints += 1
+        self.player2Points +=1
         self.player2.pointsLabel.setText(str(self.player2.playerPoints))
         callbackThread = Thread(target=self.player2PointCounter__, args=[y - 200])
         callbackThread.setDaemon(True)
@@ -135,6 +140,7 @@ class LevelGenerator(QWidget):
         self.gameIsOver = True
         self.player1.winnerLabel.show()
         self.player1.playerPoints += 2
+        self.player1Points += 2
         self.player1.pointsLabel.setText(str(self.player1.playerPoints))
         self.key_notifier.die()
         self.player1.playerLabel.setMovie(self.player1.playerWin)
@@ -168,17 +174,32 @@ class LevelGenerator(QWidget):
 
 
     def waitForEnd__(self):
-        time.sleep(5)
+        time.sleep(6)
         self.callEndLevel.emit()
 
     def goToNextLevel(self):
-        self.exitLevel()
-        self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+        if self.gameMode=="tournament" and self.numberWiners > 2: #Ako se igra turnir, posle 3. pobednika je kraj turnira
+            if self.tournamentCompleted==False:
+                self.tournamentCompleted=True
+                if self.player1.playerPoints > self.player2.playerPoints:  # Bolji igrac iz prethodne igre.. zbog ispisa konacnog pobednika turnira
+                    self.winner = self.firstFinalist
+                else:
+                    self.winner = self.secondFinalist
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Information)
+                msg.setText("Turnir je završen! \r\nPobednik je: %s" %self.winner)
+                msg.setWindowTitle("Kraj")
+                msg.exec_()
+            self.exitLevel()
+        else:
+            self.exitLevel()
+            self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
 
     def winner2Trigger__(self):
         self.gameIsOver = True
         self.player2.winnerLabel.show()
         self.player2.playerPoints += 2
+        self.player2Points += 2
         self.player2.pointsLabel.setText(str(self.player2.playerPoints))
         self.key_notifier.die()
         self.player2.playerLabel.setMovie(self.player2.playerWin)
@@ -235,19 +256,24 @@ class LevelGenerator(QWidget):
             self.callEndLevel.connect(self.goToNextLevel)
             self.gameIsOver = False
             self.gameMode=mode
-            self.player1Chr1=  character1
+            self.player1Chr1 = character1
             self.player2Chr2 = character2
             self.player3Chr3 = character3
             self.player4Chr4 = character4
 
-            self.currentCharacter1=character1
-            self.currentCharacter2=character2
-
             self.setLevelDesign()
             self.setLevelSoundtrack()
             #self.initForce()
-            self.nextCharacter() #sledeci igraci turnira
+            if self.gameMode == "tournament":
+
+                self.nextCharacter() # izbor igraca za sledecu rundu turnira
+
+            else:
+                self.currentCharacter1 = character1
+                self.currentCharacter2 = character2
+
             self.initPlayers(self.currentCharacter1, self.currentCharacter2)
+
             self.initGorilla()
             self.initCheckCollisions()
             #self.forceThreadRun()
@@ -264,37 +290,33 @@ class LevelGenerator(QWidget):
             self.pointCounterHandle()
 
     def nextCharacter(self):
-        if self.gameMode == "tournament":
-            if self.numberWiners == 1:  # u drugom nivou druga dva igraca
-                if self.player1Points > self.player2Points:  # Bolji igrac iz prethodne igre
-                    self.winner1Chr = self.player1Chr1
-                else:
-                    self.winner1Chr = self.player2Chr2
-
-                self.player1Points = 0
-                self.player2Points = 0
-                self.currentCharacter1 = self.player3Chr3
-                self.currentCharacter2 = self.player4Chr4
-            elif self.numberWiners == 2:  # u trecem nivou dprethodni pobednici
-                if self.player1Points > self.player2Points:  # Bolji igrac iz prethodne igre
-                   self.winner2Chr = self.player3Chr3
-                else:
-                   self.winner2Chr = self.player4Chr4
-                self.player1Points = 0
-                self.player2Points = 0
-                self.currentCharacter1 = self.winner1Chr
-                self.currentCharacter2 = self.winner2Chr
-            elif self.numberWiners > 2:
-                msg = QMessageBox()
-                msg.setIcon(QMessageBox.NoIcon)
-                msg.setText("Turnir je zavrsen")
-                msg.setWindowTitle("Error")
-                msg.exec_()
-                self.levelMusic.stop()
-                from main_window import MainWindow
-                self.mainMenu = MainWindow()
-                self.close()
-
+        if self.numberWiners == 0:
+            self.currentCharacter1 = self.player1Chr1
+            self.currentCharacter2 = self.player2Chr2
+        elif self.numberWiners == 1 and self.firstFinalistChosen==False:  # u drugoj rundi igraju druga dva igraca
+            self.firstFinalistChosen=True
+            if self.player1.playerPoints > self.player2.playerPoints:  # Bolji igrac iz prve runde- Prvi Finalista
+                self.firstFinalist = self.player1Chr1
+            else:
+                self.firstFinalist = self.player2Chr2
+            self.currentCharacter1 = self.player3Chr3
+            self.currentCharacter2 = self.player4Chr4
+            self.player1Points = 0
+            self.player2Points = 0
+            self.player1.playerPoints = 0
+            self.player2.playerPoints = 0
+        elif self.numberWiners == 2  and self.secondFinalistChosen==False:  # u trecoj rundi igraju finalisti
+            self.secondFinalistChosen= True
+            if self.player1.playerPoints > self.player2.playerPoints:  # Bolji igrac iz druge runde- Drugi Finalista
+                self.secondFinalist = self.player3Chr3
+            else:
+                self.secondFinalist = self.player4Chr4
+            self.currentCharacter1 = self.firstFinalist
+            self.currentCharacter2 = self.secondFinalist
+            self.player1Points = 0
+            self.player2Points = 0
+            self.player1.playerPoints = 0
+            self.player2.playerPoints = 0
 
     def setLevelDesign(self):
 
