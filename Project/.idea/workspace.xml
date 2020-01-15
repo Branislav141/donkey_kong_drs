@@ -236,8 +236,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/level_generator.py</url>
-          <line>347</line>
-          <option name="timeStamp" value="1" />
+          <line>267</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/level_generator.py</url>
+          <line>251</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/level_generator.py</url>
+          <line>254</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_window.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
