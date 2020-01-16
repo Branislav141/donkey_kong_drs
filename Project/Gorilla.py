@@ -20,6 +20,7 @@ class Gorilla(QFrame):
 
     gorillaLabel = 0
 
+
     leftDirectionSignal = pyqtSignal()
     rightDirectionSignal = pyqtSignal()
     updatePositionSignal = pyqtSignal(int, int)
@@ -29,6 +30,7 @@ class Gorilla(QFrame):
 
     barrelMoveSpeed = 3
     gorillaMoveSpeed = 3
+    closeGorillaThread = 0
 
 
 
@@ -115,6 +117,8 @@ class Gorilla(QFrame):
                     self.updatePositionSignal.emit(self.gorillaPositionX - self.gorillaMoveSpeed, self.gorillaPositionY)
                     #self.updatePosition(self.gorillaPositionX - 5, self.gorillaPositionY)
 
+            if self.closeGorillaThread == 1:
+                break
             time.sleep(0.05)
 
 
@@ -176,8 +180,6 @@ class Gorilla(QFrame):
             self.barrel5Label.show()
             self.barrel5LabelCreated = 1
 
-
-
-
-
-
+    def stopGorillaThread(self):
+        self.gorillaLabel.setPixmap(self.gorillaIdle)
+        self.closeGorillaThread = 1

@@ -6,7 +6,7 @@ from threading import Thread
 from PyQt5.QtCore import Qt, QTime, QThread, pyqtSignal
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtMultimedia import QSound
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton
 
 
 from key_notifier import KeyNotifier
@@ -27,18 +27,14 @@ class LevelGenerator(QWidget):
     player1Points = 0
     player2Points = 0
     currentLevel = 0
-    numberWiners=0
-    tournamentCompleted=False
-    gameIsOver = False
-    firstFinalistChosen=False
-    secondFinalistChosen=False
 
+    gameIsOver = False
     checkCollisionSignal = pyqtSignal()
     callEndLevel = pyqtSignal()
 
     def __init__(self, gameMode, player1, player2, player3, player4):
-        super().__init__()
-        self.forceThreadRun()
+
+        #self.forceThreadRun()
         self.newLevel(gameMode, player1, player2, player3, player4)
 
 
@@ -109,7 +105,6 @@ class LevelGenerator(QWidget):
             if rec1.y() <= y:
                 break
         self.player1.playerPoints += 1
-        self.player1Points +=1
         self.player1.pointsLabel.setText(str(self.player1.playerPoints))
         callbackThread = Thread(target=self.player1PointCounter__, args=[y - 200])
         callbackThread.setDaemon(True)
@@ -122,7 +117,6 @@ class LevelGenerator(QWidget):
             if rec2.y() <= y:
                 break
         self.player2.playerPoints += 1
-        self.player2Points +=1
         self.player2.pointsLabel.setText(str(self.player2.playerPoints))
         callbackThread = Thread(target=self.player2PointCounter__, args=[y - 200])
         callbackThread.setDaemon(True)
@@ -140,7 +134,6 @@ class LevelGenerator(QWidget):
         self.gameIsOver = True
         self.player1.winnerLabel.show()
         self.player1.playerPoints += 2
-        self.player1Points += 2
         self.player1.pointsLabel.setText(str(self.player1.playerPoints))
         self.key_notifier.die()
         self.player1.playerLabel.setMovie(self.player1.playerWin)
@@ -165,7 +158,6 @@ class LevelGenerator(QWidget):
         self.player1Points = self.player1.playerPoints
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
-        self.numberWiners += 1
 
         waitForEndThread = Thread(target=self.waitForEnd__)
         waitForEndThread.setDaemon(True)
@@ -174,32 +166,18 @@ class LevelGenerator(QWidget):
 
 
     def waitForEnd__(self):
-        time.sleep(6)
+        self.gorilla.stopGorillaThread()
+        time.sleep(5)
         self.callEndLevel.emit()
 
     def goToNextLevel(self):
-        if self.gameMode=="tournament" and self.numberWiners > 2: #Ako se igra turnir, posle 3. pobednika je kraj turnira
-            if self.tournamentCompleted==False:
-                self.tournamentCompleted=True
-                if self.player1.playerPoints > self.player2.playerPoints:  # Bolji igrac iz prethodne igre.. zbog ispisa konacnog pobednika turnira
-                    self.winner = self.firstFinalist
-                else:
-                    self.winner = self.secondFinalist
-                msg = QMessageBox()
-                msg.setIcon(QMessageBox.Information)
-                msg.setText("Turnir je završen! \r\nPobednik je: %s" %self.winner)
-                msg.setWindowTitle("Kraj")
-                msg.exec_()
-            self.exitLevel()
-        else:
-            self.exitLevel()
-            self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+        self.exitLevel()
+        self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
 
     def winner2Trigger__(self):
         self.gameIsOver = True
         self.player2.winnerLabel.show()
         self.player2.playerPoints += 2
-        self.player2Points += 2
         self.player2.pointsLabel.setText(str(self.player2.playerPoints))
         self.key_notifier.die()
         self.player2.playerLabel.setMovie(self.player2.playerWin)
@@ -219,11 +197,11 @@ class LevelGenerator(QWidget):
                 self.player1.playerLabel.setMovie(self.player1.playerIdleRight)
                 self.player1.playerIdleRight.start()
 
-        self.numberWiners += 1
+
         self.player1Points = self.player1.playerPoints
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
-
+        
         waitForEndThread = Thread(target=self.waitForEnd__)
         waitForEndThread.setDaemon(True)
         waitForEndThread.start()
@@ -253,70 +231,38 @@ class LevelGenerator(QWidget):
 
 
     def newLevel(self, mode, character1, character2, character3, character4):
-            self.callEndLevel.connect(self.goToNextLevel)
-            self.gameIsOver = False
-            self.gameMode=mode
-            self.player1Chr1 = character1
-            self.player2Chr2 = character2
-            self.player3Chr3 = character3
-            self.player4Chr4 = character4
+        super().__init__()
+        self.callEndLevel.connect(self.goToNextLevel)
 
-            self.setLevelDesign()
-            self.setLevelSoundtrack()
-            #self.initForce()
-            if self.gameMode == "tournament":
+        self.currentLevel += 1
+        self.gameIsOver = False
+        self.gameMode=mode
+        self.player1Chr1=character1
+        self.player2Chr2 = character2
+        self.player3Chr3 = character3
+        self.player4Chr4 = character4
 
-                self.nextCharacter() # izbor igraca za sledecu rundu turnira
+        self.setLevelDesign()
+        self.setLevelSoundtrack()
+        #self.initForce()
+        self.initPlayers(character1, character2)
+        self.initGorilla()
+        self.initCheckCollisions()
+        #self.forceThreadRun()
+        self.showFullScreen()
+        self.levelIntroHandle()
 
-            else:
-                self.currentCharacter1 = character1
-                self.currentCharacter2 = character2
+        self.key_notifier = KeyNotifier()
+        self.key_notifier.key_signal.connect(self.__update_position__)
+        self.key_notifier.start()
 
-            self.initPlayers(self.currentCharacter1, self.currentCharacter2)
 
-            self.initGorilla()
-            self.initCheckCollisions()
-            #self.forceThreadRun()
-            self.showFullScreen()
-            self.levelIntroHandle()
 
-            self.key_notifier = KeyNotifier()
-            self.key_notifier.key_signal.connect(self.__update_position__)
-            self.key_notifier.start()
 
-            self.player1.winnerSignal.connect(self.winner1Trigger__)
-            self.player2.winnerSignal.connect(self.winner2Trigger__)
+        self.player1.winnerSignal.connect(self.winner1Trigger__)
+        self.player2.winnerSignal.connect(self.winner2Trigger__)
 
-            self.pointCounterHandle()
-
-    def nextCharacter(self):
-        if self.numberWiners == 0:
-            self.currentCharacter1 = self.player1Chr1
-            self.currentCharacter2 = self.player2Chr2
-        elif self.numberWiners == 1 and self.firstFinalistChosen==False:  # u drugoj rundi igraju druga dva igraca
-            self.firstFinalistChosen=True
-            if self.player1.playerPoints > self.player2.playerPoints:  # Bolji igrac iz prve runde- Prvi Finalista
-                self.firstFinalist = self.player1Chr1
-            else:
-                self.firstFinalist = self.player2Chr2
-            self.currentCharacter1 = self.player3Chr3
-            self.currentCharacter2 = self.player4Chr4
-            self.player1Points = 0
-            self.player2Points = 0
-            self.player1.playerPoints = 0
-            self.player2.playerPoints = 0
-        elif self.numberWiners == 2  and self.secondFinalistChosen==False:  # u trecoj rundi igraju finalisti
-            self.secondFinalistChosen= True
-            if self.player1.playerPoints > self.player2.playerPoints:  # Bolji igrac iz druge runde- Drugi Finalista
-                self.secondFinalist = self.player3Chr3
-            else:
-                self.secondFinalist = self.player4Chr4
-            self.currentCharacter1 = self.firstFinalist
-            self.currentCharacter2 = self.secondFinalist
-            self.player1Points = 0
-            self.player2Points = 0
-            self.player1.playerPoints = 0
-            self.player2.playerPoints = 0
+        self.pointCounterHandle()
 
     def setLevelDesign(self):
 
@@ -699,5 +645,6 @@ class LevelGenerator(QWidget):
         self.key_notifier.die()
 
     def exitLevel(self):
+
         self.levelMusic.stop()
         self.close()
