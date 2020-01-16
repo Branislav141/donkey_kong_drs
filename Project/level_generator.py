@@ -6,13 +6,14 @@ from threading import Thread
 from PyQt5.QtCore import Qt, QTime, QThread, pyqtSignal
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtMultimedia import QSound
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton
-
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton, QMessageBox
 
 from key_notifier import KeyNotifier
 from Character import Character
 from Gorilla import Gorilla
 
+from tkinter import *
+from tkinter import messagebox
 
 import datetime
 import random
@@ -545,6 +546,7 @@ class LevelGenerator(QWidget):
                     self.player1.updatePosition(2500, 500)
                 else:
                     self.player1.updatePosition(100, 950)
+                self.checkIfBothDead()
 
         if self.gorilla.gorillaLabel.x() <= self.player2.playerLabel.x() <= self.gorilla.gorillaLabel.x() + 100 or self.gorilla.gorillaLabel.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.gorillaLabel.x() + 100:
             if self.gorilla.gorillaLabel.y() <= self.player2.playerLabel.y() <= self.gorilla.gorillaLabel.y() + 100 or self.gorilla.gorillaLabel.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.gorillaLabel.y() + 100:
@@ -554,6 +556,7 @@ class LevelGenerator(QWidget):
                     self.player2.updatePosition(2500, 800)
                 else:
                     self.player2.updatePosition(1720, 950)
+                self.checkIfBothDead()
 
         if self.gorilla.barrel1LabelCreated == 1:
             if self.gorilla.barrel1Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel1Label.x() + 100 or self.gorilla.barrel1Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel1Label.x() + 100:
@@ -564,6 +567,7 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(2500, 500)
                     else:
                         self.player1.updatePosition(100, 950)
+                    self.checkIfBothDead()
 
             if self.gorilla.barrel1Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel1Label.x() + 100 or self.gorilla.barrel1Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel1Label.x() + 100:
                 if self.gorilla.barrel1Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel1Label.y() + 100 or self.gorilla.barrel1Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel1Label.y() + 100:
@@ -573,6 +577,7 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(2500, 800)
                     else:
                         self.player2.updatePosition(1720, 950)
+                    self.checkIfBothDead()
 
         if self.gorilla.barrel2LabelCreated == 1:
             if self.gorilla.barrel2Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel2Label.x() + 100 or self.gorilla.barrel2Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel2Label.x() + 100:
@@ -583,6 +588,7 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(2500, 500)
                     else:
                         self.player1.updatePosition(100, 950)
+                    self.checkIfBothDead()
 
             if self.gorilla.barrel2Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel2Label.x() + 100 or self.gorilla.barrel2Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel2Label.x() + 100:
                 if self.gorilla.barrel2Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel2Label.y() + 100 or self.gorilla.barrel2Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel2Label.y() + 100:
@@ -592,6 +598,7 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(2500, 800)
                     else:
                         self.player2.updatePosition(1720, 950)
+                    self.checkIfBothDead()
 
         if self.gorilla.barrel3LabelCreated == 1:
             if self.gorilla.barrel3Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel3Label.x() + 100 or self.gorilla.barrel3Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel3Label.x() + 100:
@@ -602,6 +609,7 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(2500, 500)
                     else:
                         self.player1.updatePosition(100, 950)
+                    self.checkIfBothDead()
 
             if self.gorilla.barrel3Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel3Label.x() + 100 or self.gorilla.barrel3Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel3Label.x() + 100:
                 if self.gorilla.barrel3Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel3Label.y() + 100 or self.gorilla.barrel3Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel3Label.y() + 100:
@@ -611,6 +619,7 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(2500, 800)
                     else:
                         self.player2.updatePosition(1720, 950)
+                    self.checkIfBothDead()
 
         if self.gorilla.barrel4LabelCreated == 1:
             if self.gorilla.barrel4Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel4Label.x() + 100 or self.gorilla.barrel4Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel4Label.x() + 100:
@@ -621,6 +630,7 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(2500, 500)
                     else:
                         self.player1.updatePosition(100, 950)
+                    self.checkIfBothDead()
 
             if self.gorilla.barrel4Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel4Label.x() + 100 or self.gorilla.barrel4Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel4Label.x() + 100:
                 if self.gorilla.barrel4Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel4Label.y() + 100 or self.gorilla.barrel4Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel4Label.y() + 100:
@@ -630,6 +640,7 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(2500, 800)
                     else:
                         self.player2.updatePosition(1720, 950)
+                    self.checkIfBothDead()
 
         if self.gorilla.barrel5LabelCreated == 1:
             if self.gorilla.barrel5Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel5Label.x() + 100 or self.gorilla.barrel5Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel5Label.x() + 100:
@@ -640,6 +651,8 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(2500, 500)
                     else:
                         self.player1.updatePosition(100, 950)
+                    self.checkIfBothDead()
+
             if self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel5Label.x() + 100 or self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel5Label.x() + 100:
                 if self.gorilla.barrel5Label.y() <= self.player2.playerLabel.y() <= self.gorilla.barrel5Label.y() + 100 or self.gorilla.barrel5Label.y() <= self.player2.playerLabel.y() + 100 <= self.gorilla.barrel5Label.y() + 100:
                      self.player2.playerLives -= 1
@@ -648,7 +661,24 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(2500, 800)
                      else:
                         self.player2.updatePosition(1720, 950)
+                     self.checkIfBothDead()
 
+
+    def checkIfBothDead(self):
+        if self.player1.playerLives == 0 and self.player2.playerLives == 0:
+            self.closeAllThreads()
+            self.gameIsOver = True
+            self.levelMusic.stop()
+
+            from main_window import MainWindow
+            self.mainMenu = MainWindow()
+            self.close()
+
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.NoIcon)
+            msg.setText('(player 1) ' + str(self.player1Chr1) + ' points: ' + str(self.player1.playerPoints) + '\n(player 2) ' + str(self.player2Chr2) + ' points: ' + str(self.player2.playerPoints))
+            msg.setWindowTitle("Game Over")
+            msg.exec_()
 
 
     def closeAllThreads(self):
