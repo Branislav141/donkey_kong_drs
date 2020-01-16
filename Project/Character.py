@@ -45,7 +45,7 @@ class Character(QFrame):
 
         self.playerName = characterName
         self.playerPoints = points
-        self.playerLives = 1
+        self.playerLives = 3
 
         # gif animations and images
         self.playerIdleRight = QMovie("images\characters" + parsedName + "_idle_right.gif")

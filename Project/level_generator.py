@@ -543,7 +543,7 @@ class LevelGenerator(QWidget):
                 self.player1.playerLives -= 1
                 self.player1.livesLabel.setText(str(self.player1.playerLives))
                 if self.player1.playerLives == 0:
-                    self.player1.updatePosition(2500, 500)
+                    self.player1.updatePosition(1100, 1100)
                 else:
                     self.player1.updatePosition(100, 950)
                 self.checkIfBothDead()
@@ -553,7 +553,7 @@ class LevelGenerator(QWidget):
                 self.player2.playerLives -= 1
                 self.player2.livesLabel.setText(str(self.player2.playerLives))
                 if self.player2.playerLives == 0:
-                    self.player2.updatePosition(2500, 800)
+                    self.player2.updatePosition(1100, 1100)
                 else:
                     self.player2.updatePosition(1720, 950)
                 self.checkIfBothDead()
@@ -564,7 +564,7 @@ class LevelGenerator(QWidget):
                     self.player1.playerLives -= 1
                     self.player1.livesLabel.setText(str(self.player1.playerLives))
                     if self.player1.playerLives == 0:
-                        self.player1.updatePosition(2500, 500)
+                        self.player1.updatePosition(1100, 1100)
                     else:
                         self.player1.updatePosition(100, 950)
                     self.checkIfBothDead()
@@ -574,7 +574,7 @@ class LevelGenerator(QWidget):
                     self.player2.playerLives -= 1
                     self.player2.livesLabel.setText(str(self.player2.playerLives))
                     if self.player2.playerLives == 0:
-                        self.player2.updatePosition(2500, 800)
+                        self.player2.updatePosition(1100, 1100)
                     else:
                         self.player2.updatePosition(1720, 950)
                     self.checkIfBothDead()
@@ -585,7 +585,7 @@ class LevelGenerator(QWidget):
                     self.player1.playerLives -= 1
                     self.player1.livesLabel.setText(str(self.player1.playerLives))
                     if self.player1.playerLives == 0:
-                        self.player1.updatePosition(2500, 500)
+                        self.player1.updatePosition(1100, 1100)
                     else:
                         self.player1.updatePosition(100, 950)
                     self.checkIfBothDead()
@@ -595,7 +595,7 @@ class LevelGenerator(QWidget):
                     self.player2.playerLives -= 1
                     self.player2.livesLabel.setText(str(self.player2.playerLives))
                     if self.player2.playerLives == 0:
-                        self.player2.updatePosition(2500, 800)
+                        self.player2.updatePosition(1100, 1100)
                     else:
                         self.player2.updatePosition(1720, 950)
                     self.checkIfBothDead()
@@ -606,7 +606,7 @@ class LevelGenerator(QWidget):
                     self.player1.playerLives -= 1
                     self.player1.livesLabel.setText(str(self.player1.playerLives))
                     if self.player1.playerLives == 0:
-                        self.player1.updatePosition(2500, 500)
+                        self.player1.updatePosition(1100, 1100)
                     else:
                         self.player1.updatePosition(100, 950)
                     self.checkIfBothDead()
@@ -616,7 +616,7 @@ class LevelGenerator(QWidget):
                     self.player2.playerLives -= 1
                     self.player2.livesLabel.setText(str(self.player2.playerLives))
                     if self.player2.playerLives == 0:
-                        self.player2.updatePosition(2500, 800)
+                        self.player2.updatePosition(1100, 1100)
                     else:
                         self.player2.updatePosition(1720, 950)
                     self.checkIfBothDead()
@@ -627,7 +627,7 @@ class LevelGenerator(QWidget):
                     self.player1.playerLives -= 1
                     self.player1.livesLabel.setText(str(self.player1.playerLives))
                     if self.player1.playerLives == 0:
-                        self.player1.updatePosition(2500, 500)
+                        self.player1.updatePosition(1100, 1100)
                     else:
                         self.player1.updatePosition(100, 950)
                     self.checkIfBothDead()
@@ -637,7 +637,7 @@ class LevelGenerator(QWidget):
                     self.player2.playerLives -= 1
                     self.player2.livesLabel.setText(str(self.player2.playerLives))
                     if self.player2.playerLives == 0:
-                        self.player2.updatePosition(2500, 800)
+                        self.player2.updatePosition(1100, 1100)
                     else:
                         self.player2.updatePosition(1720, 950)
                     self.checkIfBothDead()
@@ -648,7 +648,7 @@ class LevelGenerator(QWidget):
                     self.player1.playerLives -= 1
                     self.player1.livesLabel.setText(str(self.player1.playerLives))
                     if self.player1.playerLives == 0:
-                        self.player1.updatePosition(2500, 500)
+                        self.player1.updatePosition(1100, 1100)
                     else:
                         self.player1.updatePosition(100, 950)
                     self.checkIfBothDead()
@@ -658,7 +658,7 @@ class LevelGenerator(QWidget):
                      self.player2.playerLives -= 1
                      self.player2.livesLabel.setText(str(self.player2.playerLives))
                      if self.player2.playerLives == 0:
-                        self.player2.updatePosition(2500, 800)
+                        self.player2.updatePosition(1100, 1100)
                      else:
                         self.player2.updatePosition(1720, 950)
                      self.checkIfBothDead()

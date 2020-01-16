@@ -42,7 +42,7 @@ class Gorilla(QFrame):
 
     def initGorilla(self, parent):
 
-        self.gorillaPositionX = 900
+        self.gorillaPositionX = 911
         self.gorillaPositionY = 150
         self.gorillaRunningDirection = random.choice(self.gorillaRunningDirections)
 
