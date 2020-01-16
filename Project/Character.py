@@ -123,7 +123,7 @@ class Character(QFrame):
         self.playerLabel.setGeometry(x, y, 100, 100)
 
         if self.isTopLadder(y):
-            if x >= 1107:
+            if x >= 1080:
                 self.winnerSignal.emit()
 
 
