@@ -70,7 +70,10 @@ class Character(QFrame):
         self.playerProfilePictureLabel.setPixmap(self.playerProfilePicture)
 
         self.playerNameLabel = QLabel(parent)
-        self.playerNameLabel.setText(str(characterName))
+        if len(str(characterName)) > 6:
+            self.playerNameLabel.setText(str(characterName)[0:6] + '.')
+        else:
+            self.playerNameLabel.setText(str(characterName))
         self.playerNameLabel.setStyleSheet("color: red;font-size: 21px; font-family: Segoe Script;")
 
         self.winnerLabel = QLabel(parent)
