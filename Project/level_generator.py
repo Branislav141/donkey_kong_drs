@@ -102,7 +102,7 @@ class LevelGenerator(QWidget):
         while True:
             time.sleep(0.5)
             rec1 = self.player1.playerLabel.geometry()
-            if y < 150:
+            if y < 150 or self.gameIsOver:
                 return
             if rec1.y() <= y:
                 break
@@ -117,7 +117,7 @@ class LevelGenerator(QWidget):
         while True:
             time.sleep(0.5)
             rec2 = self.player2.playerLabel.geometry()
-            if y < 150:
+            if y < 150 or self.gameIsOver:
                 return
             if rec2.y() <= y:
                 break
@@ -140,7 +140,7 @@ class LevelGenerator(QWidget):
         self.player1.winnerLabel.show()
         self.player1.playerPoints += 2
         self.player1.pointsLabel.setText(str(self.player1.playerPoints))
-        self.key_notifier.die()
+        #self.key_notifier.die()
         self.player1.playerLabel.setMovie(self.player1.playerWin)
         self.player1.playerWin.start()
         self.player1.playerWinQuote.play()
@@ -171,7 +171,7 @@ class LevelGenerator(QWidget):
 
 
     def waitForEnd__(self):
-        self.gorilla.stopGorillaThread()
+        self.closeAllThreads()
         time.sleep(5)
         self.callEndLevel.emit()
 
@@ -184,7 +184,7 @@ class LevelGenerator(QWidget):
         self.player2.winnerLabel.show()
         self.player2.playerPoints += 2
         self.player2.pointsLabel.setText(str(self.player2.playerPoints))
-        self.key_notifier.die()
+        #self.key_notifier.die()
         self.player2.playerLabel.setMovie(self.player2.playerWin)
         self.player2.playerWin.start()
         self.player2.playerWinQuote.play()
@@ -424,6 +424,8 @@ class LevelGenerator(QWidget):
 
         if key == Qt.Key_Escape:
             self.levelMusic.stop()
+            self.gameIsOver = True
+            self.closeAllThreads()
             from main_window import MainWindow
             self.mainMenu = MainWindow()
             self.close()
@@ -531,6 +533,8 @@ class LevelGenerator(QWidget):
         while 1:
             time.sleep(0.2)
             self.checkCollisionSignal.emit()
+            if self.gameIsOver:
+                break
 
     def checkCollisions(self):
         if self.gorilla.gorillaLabel.x() <= self.player1.playerLabel.x() <= self.gorilla.gorillaLabel.x() + 100 or self.gorilla.gorillaLabel.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.gorillaLabel.x() + 100:
@@ -644,6 +648,12 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(2500, 800)
                      else:
                         self.player2.updatePosition(1720, 950)
+
+
+
+    def closeAllThreads(self):
+        self.gorilla.stopGorillaThread()
+        self.key_notifier.die()
 
 
     def closeEvent(self, event):
