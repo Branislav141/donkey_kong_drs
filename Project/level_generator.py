@@ -34,34 +34,34 @@ class LevelGenerator(QWidget):
     callEndLevel = pyqtSignal()
 
     def __init__(self, gameMode, player1, player2, player3, player4):
-
-        #self.forceThreadRun()
         self.newLevel(gameMode, player1, player2, player3, player4)
-
-
-
 
     def forceThreadRun(self):
         forceThread = Thread(target=self.initForce__)
         forceThread.setDaemon(True)
-        if not(forceThread.isAlive()):
-            forceThread.start()
-
+        forceThread.start()
 
     def initForce__(self):
         arrayOfValidYAxisValues = [760, 560, 360, 160]
+        i = 0
         while True:
-            time.sleep(10)
-            self.forceLabel.show()
-            y = random.sample(arrayOfValidYAxisValues, 1)  # dobijamo jednu vrednost iz niza
-            y = y[0]
-            x = random.randint(100, 1720)  # X MOZE BITI OD 100 DO 1720 BILO KOJI BROj
-            self.forceLabel.setFixedSize(60,60)
-            self.forceLabel.move(x,y)
-            for j in range(0,70):
-                self.catchUpForce()
-                time.sleep(0.1)
-            self.forceLabel.hide()
+            if self.gameIsOver:
+                break
+            time.sleep(0.2)
+            i += 1
+            self.catchUpForce()
+            forceGeo = self.forceLabel.geometry()
+
+            if i  == 50:
+                i = 0
+                if forceGeo.x() == 0:
+                    y = random.sample(arrayOfValidYAxisValues, 1)
+                    y = y[0]
+                    x = random.randint(100, 1720)
+                    self.forceLabel.setGeometry(x, y, 60, 60)
+                else:
+                    self.forceLabel.setGeometry(0, 0, 60, 60)
+
 
     def catchUpForce(self):
         rec1 = self.player1.playerLabel.geometry()
@@ -75,18 +75,30 @@ class LevelGenerator(QWidget):
         y = recForce.y()
         if (x1 - 40) <= (x) <= (x1 + 40):
             if (y1 - 15) <= (y) <= (y1 + 15):
-                self.player1.korak=20
-                self.forceLabel.move(100, 0)
-                self.forceLabel.hide()
-                time.sleep(6) #vreme trajanja sile
-                self.player1.korak = 10
+                self.forceLabel.move(0, 0)
+                catchUpForceThread = Thread(target=self.charSpeedUp__, args=[1])
+                catchUpForceThread.setDaemon(True)
+                catchUpForceThread.start()
+
+
         elif (x2 - 40) <= (x) <= (x2 + 40): #elif da ne bi i ovaj karakter pokupio istu silu posle prvog
             if (y2 - 15) <= (y) <= (y2 + 15):
-                self.player2.korak=20
-                self.forceLabel.move(100, 0)
-                self.forceLabel.hide()
-                time.sleep(6) #vreme trajanja sile
-                self.player2.korak = 10
+                self.forceLabel.move(0, 0)
+                catchUpForceThread = Thread(target=self.charSpeedUp__,  args=[2])
+                catchUpForceThread.setDaemon(True)
+                catchUpForceThread.start()
+
+    def charSpeedUp__(self, player):
+        if player == 1:
+            self.player1.korak = 20
+            time.sleep(6)
+            self.player1.korak = 10
+        elif player == 2:
+            self.player2.korak = 20
+            time.sleep(6)
+            self.player2.korak = 10
+
+
 
     def pointCounterHandle(self):
         # args[750] - prve merdevine
@@ -254,7 +266,7 @@ class LevelGenerator(QWidget):
         self.initPlayers(character1, character2)
         self.initGorilla()
         self.initCheckCollisions()
-        #self.forceThreadRun()
+        self.forceThreadRun()
         self.showFullScreen()
         self.levelIntroHandle()
 
@@ -309,7 +321,6 @@ class LevelGenerator(QWidget):
         self.forceLabel = QLabel(self)
         self.forceLabel.setMovie(self.forceIdle)
         self.forceIdle.start()
-
 
         self.setWindowState(Qt.WindowMaximized)
 
