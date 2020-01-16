@@ -102,8 +102,11 @@ class LevelGenerator(QWidget):
         while True:
             time.sleep(0.5)
             rec1 = self.player1.playerLabel.geometry()
+            if y < 150:
+                return
             if rec1.y() <= y:
                 break
+
         self.player1.playerPoints += 1
         self.player1.pointsLabel.setText(str(self.player1.playerPoints))
         callbackThread = Thread(target=self.player1PointCounter__, args=[y - 200])
@@ -114,6 +117,8 @@ class LevelGenerator(QWidget):
         while True:
             time.sleep(0.5)
             rec2 = self.player2.playerLabel.geometry()
+            if y < 150:
+                return
             if rec2.y() <= y:
                 break
         self.player2.playerPoints += 1
