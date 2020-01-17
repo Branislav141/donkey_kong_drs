@@ -1,4 +1,5 @@
-
+import datetime
+from multiprocessing import  Process
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QDesktopWidget, QComboBox, QMessageBox
 from PyQt5.QtGui import QPixmap, QCursor
@@ -240,8 +241,13 @@ class MainWindow(QWidget):
         self.monkeyLabel = QtWidgets.QLabel(self)
         self.monkeyLabel.setPixmap(self.monkeyPic)
         self.monkeyLabel.move(530, 410)
-
+def f():
+    print("Game started at:" + str(datetime.datetime.now()))
+    
 if __name__ == '__main__':
+    p=Process(target=f)
+    p.start()
+    p.join()
     app = QApplication(sys.argv)
     ex = MainWindow()
     sys.exit(app.exec_())
