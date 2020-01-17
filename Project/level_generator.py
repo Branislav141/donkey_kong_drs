@@ -2,7 +2,6 @@ import sys
 import time
 from threading import Thread
 
-
 from PyQt5.QtCore import Qt, QTime, QThread, pyqtSignal
 from PyQt5.QtGui import QPixmap, QMovie
 from PyQt5.QtMultimedia import QSound
@@ -11,9 +10,6 @@ from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QPushButton, QMessage
 from key_notifier import KeyNotifier
 from Character import Character
 from Gorilla import Gorilla
-
-from tkinter import *
-from tkinter import messagebox
 
 import datetime
 import random
@@ -33,8 +29,16 @@ class LevelGenerator(QWidget):
     checkCollisionSignal = pyqtSignal()
     callEndLevel = pyqtSignal()
 
+    winner1 = 0
+    winner2 = 0
+    finalWinner = 0
+    gameNo = 1
+
     def __init__(self, gameMode, player1, player2, player3, player4):
-        self.newLevel(gameMode, player1, player2, player3, player4)
+        if gameMode == 'tournament':
+            self.newTournamentLevel(gameMode, player1, player2, player3, player4)
+        else:
+            self.newLevel(gameMode, player1, player2, player3, player4)
 
     def forceThreadRun(self):
         forceThread = Thread(target=self.initForce__)
@@ -52,7 +56,7 @@ class LevelGenerator(QWidget):
             self.catchUpForce()
             forceGeo = self.forceLabel.geometry()
 
-            if i  == 50:
+            if i == 50:
                 i = 0
                 if forceGeo.x() == 0:
                     y = random.sample(arrayOfValidYAxisValues, 1)
@@ -177,6 +181,15 @@ class LevelGenerator(QWidget):
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
 
+        if self.gameMode == 'tournament':
+            if self.gameNo == 1:
+                self.winner1 = self.player1Chr1
+            elif self.gameNo == 2:
+                self.winner2 = self.player3Chr3
+            elif self.gameNo == 3:
+                self.finalWinner = self.winner1
+
+
         waitForEndThread = Thread(target=self.waitForEnd__)
         waitForEndThread.setDaemon(True)
         waitForEndThread.start()
@@ -190,7 +203,26 @@ class LevelGenerator(QWidget):
 
     def goToNextLevel(self):
         self.exitLevel()
-        self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+        if self.gameMode == 'versus':
+            self.newLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+        else:
+            self.gameNo += 1
+            if self.gameNo <= 3:
+                self.newTournamentLevel(self.gameMode, self.player1Chr1, self.player2Chr2, self.player3Chr3, self.player4Chr4)
+            else:
+                self.closeAllThreads()
+                self.gameIsOver = True
+                self.levelMusic.stop()
+
+                from main_window import MainWindow
+                self.mainMenu = MainWindow()
+                self.close()
+
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.NoIcon)
+                msg.setText('Tournament winner: ' + str(self.finalWinner))
+                msg.setWindowTitle("Tournament Over")
+                msg.exec_()
 
     def winner2Trigger__(self):
         self.gameIsOver = True
@@ -219,6 +251,14 @@ class LevelGenerator(QWidget):
         self.player1Points = self.player1.playerPoints
         self.player2Points = self.player2.playerPoints
         self.forceLabel.hide()
+
+        if self.gameMode == 'tournament':
+            if self.gameNo == 1:
+                self.winner1 = self.player2Chr2
+            elif self.gameNo == 2:
+                self.winner2 = self.player4Chr4
+            elif self.gameNo == 3:
+                self.finalWinner = self.winner2
         
         waitForEndThread = Thread(target=self.waitForEnd__)
         waitForEndThread.setDaemon(True)
@@ -246,12 +286,57 @@ class LevelGenerator(QWidget):
         time.sleep(2)
         self.startLabel.hide()
 
+    def newTournamentLevel(self, mode, character1, character2, character3, character4):
+        super().__init__()
+        self.callEndLevel.connect(self.goToNextLevel)
+
+        self.gameIsOver = False
+        self.gameMode = mode
+        self.player1Chr1 = character1
+        self.player2Chr2 = character2
+        self.player3Chr3 = character3
+        self.player4Chr4 = character4
+
+        self.setLevelDesign()
+        self.setLevelSoundtrack()
+
+        self.player1Points = 0
+        self.player2Points = 0
+
+        if self.gameNo == 1:
+            self.initPlayers(character1, character2)
+        elif self.gameNo == 2:
+            self.initPlayers(character3, character4)
+        elif self.gameNo == 3:
+            self.initPlayers(self.winner1, self.winner2)
+
+        self.initGorilla()
+        self.gorilla.gorillaMoveSpeed = 10
+        self.gorilla.barrelMoveSpeed = 10
+        self.initCheckCollisions()
+        self.forceThreadRun()
+        self.showFullScreen()
+        self.levelIntroHandle()
+
+        self.key_notifier = KeyNotifier()
+        self.key_notifier.key_signal.connect(self.__update_position__)
+        self.key_notifier.start()
+
+        self.player1.winnerSignal.connect(self.winner1Trigger__)
+        self.player2.winnerSignal.connect(self.winner2Trigger__)
+
+        self.player1.pLabel.hide()
+        self.player2.pLabel.hide()
+
+        self.player1.pointsLabel.hide()
+        self.player2.pointsLabel.hide()
+
+        #self.pointCounterHandle()
 
 
     def newLevel(self, mode, character1, character2, character3, character4):
         super().__init__()
         self.callEndLevel.connect(self.goToNextLevel)
-
         self.currentLevel += 1
         self.gameIsOver = False
         self.gameMode=mode
@@ -273,9 +358,6 @@ class LevelGenerator(QWidget):
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
-
-
-
 
         self.player1.winnerSignal.connect(self.winner1Trigger__)
         self.player2.winnerSignal.connect(self.winner2Trigger__)
@@ -569,6 +651,7 @@ class LevelGenerator(QWidget):
                     self.player2.updatePosition(1720, 950)
                 self.checkIfBothDead()
 
+
         if self.gorilla.barrel1LabelCreated == 1:
             if self.gorilla.barrel1Label.x() <= self.player1.playerLabel.x() <= self.gorilla.barrel1Label.x() + 100 or self.gorilla.barrel1Label.x() <= self.player1.playerLabel.x() + 100 <= self.gorilla.barrel1Label.x() + 100:
                 if self.gorilla.barrel1Label.y() <= self.player1.playerLabel.y() <= self.gorilla.barrel1Label.y() + 100 or self.gorilla.barrel1Label.y() <= self.player1.playerLabel.y() + 100 <= self.gorilla.barrel1Label.y() + 100:
@@ -676,20 +759,26 @@ class LevelGenerator(QWidget):
 
 
     def checkIfBothDead(self):
-        if self.player1.playerLives == 0 and self.player2.playerLives == 0:
-            self.closeAllThreads()
-            self.gameIsOver = True
-            self.levelMusic.stop()
+        if self.gameMode == 'versus':
+            if self.player1.playerLives == 0 and self.player2.playerLives == 0:
+                self.closeAllThreads()
+                self.gameIsOver = True
+                self.levelMusic.stop()
 
-            from main_window import MainWindow
-            self.mainMenu = MainWindow()
-            self.close()
+                from main_window import MainWindow
+                self.mainMenu = MainWindow()
+                self.close()
 
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.NoIcon)
-            msg.setText('(player 1) ' + str(self.player1Chr1) + ' points: ' + str(self.player1.playerPoints) + '\n(player 2) ' + str(self.player2Chr2) + ' points: ' + str(self.player2.playerPoints))
-            msg.setWindowTitle("Game Over")
-            msg.exec_()
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.NoIcon)
+                msg.setText('(player 1) ' + str(self.player1Chr1) + ' points: ' + str(self.player1.playerPoints) + '\n(player 2) ' + str(self.player2Chr2) + ' points: ' + str(self.player2.playerPoints))
+                msg.setWindowTitle("Game Over")
+                msg.exec_()
+        else:
+            if self.player1.playerLives == 0:
+                self.player2.winnerSignal.emit()
+            if self.player2.playerLives == 0:
+                self.player1.winnerSignal.emit()
 
 
     def closeAllThreads(self):

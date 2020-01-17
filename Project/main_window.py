@@ -45,8 +45,25 @@ class MainWindow(QWidget):
                 player2 = str(self.player2Cb.currentText())
                 player3 = str(self.player3Cb.currentText())
                 player4 = str(self.player4Cb.currentText())
-                gameMode = "tournament"
-                self.levelGenerator = LevelGenerator(gameMode, player1, player2, player3, player4)
+                listOfElems = [player1, player2, player3, player4]
+                result = self.checkIfDuplicates_1(listOfElems)
+
+                if result:
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.NoIcon)
+                    msg.setText("You need to select different character for each player in order to play tournament.")
+                    msg.setWindowTitle("Error")
+                    msg.exec_()
+                else:
+                    gameMode = "tournament"
+                    self.levelGenerator = LevelGenerator(gameMode, player1, player2, player3, player4)
+
+
+    def checkIfDuplicates_1(self, listOfElems):
+        if len(listOfElems) == len(set(listOfElems)):
+            return False
+        else:
+            return True
 
     def quit(self):
         app = QApplication.instance()
