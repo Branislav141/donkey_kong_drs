@@ -661,6 +661,9 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(1100, -211)
                     else:
                         self.player1.updatePosition(100, 950)
+
+                    self.gorilla.barrel1LabelCreated = 0
+                    self.gorilla.barrel1Label.move(0, 1100)
                     self.checkIfBothDead()
 
             if self.gorilla.barrel1Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel1Label.x() + 100 or self.gorilla.barrel1Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel1Label.x() + 100:
@@ -671,6 +674,9 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(1100, -211)
                     else:
                         self.player2.updatePosition(1720, 950)
+
+                    self.gorilla.barrel1LabelCreated = 0
+                    self.gorilla.barrel1Label.move(0, 1100)
                     self.checkIfBothDead()
 
         if self.gorilla.barrel2LabelCreated == 1:
@@ -682,6 +688,9 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(1100, -211)
                     else:
                         self.player1.updatePosition(100, 950)
+
+                    self.gorilla.barrel2LabelCreated = 0
+                    self.gorilla.barrel2Label.move(0, 1100)
                     self.checkIfBothDead()
 
             if self.gorilla.barrel2Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel2Label.x() + 100 or self.gorilla.barrel2Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel2Label.x() + 100:
@@ -692,6 +701,9 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(1100, -211)
                     else:
                         self.player2.updatePosition(1720, 950)
+
+                    self.gorilla.barrel2LabelCreated = 0
+                    self.gorilla.barrel2Label.move(0, 1100)
                     self.checkIfBothDead()
 
         if self.gorilla.barrel3LabelCreated == 1:
@@ -703,6 +715,9 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(1100, -211)
                     else:
                         self.player1.updatePosition(100, 950)
+
+                    self.gorilla.barrel3LabelCreated = 0
+                    self.gorilla.barrel3Label.move(0, 1100)
                     self.checkIfBothDead()
 
             if self.gorilla.barrel3Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel3Label.x() + 100 or self.gorilla.barrel3Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel3Label.x() + 100:
@@ -713,6 +728,9 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(1100, -211)
                     else:
                         self.player2.updatePosition(1720, 950)
+
+                    self.gorilla.barrel3LabelCreated = 0
+                    self.gorilla.barrel3Label.move(0, 1100)
                     self.checkIfBothDead()
 
         if self.gorilla.barrel4LabelCreated == 1:
@@ -724,6 +742,9 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(1100, -211)
                     else:
                         self.player1.updatePosition(100, 950)
+
+                    self.gorilla.barrel4LabelCreated = 0
+                    self.gorilla.barrel4Label.move(0, 1100)
                     self.checkIfBothDead()
 
             if self.gorilla.barrel4Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel4Label.x() + 100 or self.gorilla.barrel4Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel4Label.x() + 100:
@@ -734,6 +755,9 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(1100, -211)
                     else:
                         self.player2.updatePosition(1720, 950)
+
+                    self.gorilla.barrel4LabelCreated = 0
+                    self.gorilla.barrel4Label.move(0, 1100)
                     self.checkIfBothDead()
 
         if self.gorilla.barrel5LabelCreated == 1:
@@ -745,6 +769,9 @@ class LevelGenerator(QWidget):
                         self.player1.updatePosition(1100, -211)
                     else:
                         self.player1.updatePosition(100, 950)
+
+                    self.gorilla.barrel5LabelCreated = 0
+                    self.gorilla.barrel5Label.move(0, 1100)
                     self.checkIfBothDead()
 
             if self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() <= self.gorilla.barrel5Label.x() + 100 or self.gorilla.barrel5Label.x() <= self.player2.playerLabel.x() + 100 <= self.gorilla.barrel5Label.x() + 100:
@@ -755,6 +782,9 @@ class LevelGenerator(QWidget):
                         self.player2.updatePosition(1100, -211)
                      else:
                         self.player2.updatePosition(1720, 950)
+
+                     self.gorilla.barrel5LabelCreated = 0
+                     self.gorilla.barrel5Label.move(0, 1100)
                      self.checkIfBothDead()
 
 
