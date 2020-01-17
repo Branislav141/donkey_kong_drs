@@ -152,6 +152,7 @@ class MainWindow(QWidget):
         self.player1Cb.addItem("Madara")
         self.player1Cb.addItem("Shisui")
         self.player1Cb.addItem("Orochimaru")
+        self.player1Cb.addItem("Obito")
         self.player1Cb.model().item(0).setEnabled(False)
         self.player1Cb.setGeometry(280, 305, 70, 20)
 
@@ -165,6 +166,7 @@ class MainWindow(QWidget):
         self.player2Cb.addItem("Madara")
         self.player2Cb.addItem("Shisui")
         self.player2Cb.addItem("Orochimaru")
+        self.player2Cb.addItem("Obito")
         self.player2Cb.model().item(0).setEnabled(False)
         self.player2Cb.setGeometry(280, 355, 70, 20)
 
@@ -178,6 +180,7 @@ class MainWindow(QWidget):
         self.player3Cb.addItem("Madara")
         self.player3Cb.addItem("Shisui")
         self.player3Cb.addItem("Orochimaru")
+        self.player3Cb.addItem("Obito")
         self.player3Cb.model().item(0).setEnabled(False)
         self.player3Cb.setGeometry(280, 405, 70, 20)
 
@@ -191,13 +194,13 @@ class MainWindow(QWidget):
         self.player4Cb.addItem("Madara")
         self.player4Cb.addItem("Shisui")
         self.player4Cb.addItem("Orochimaru")
+        self.player4Cb.addItem("Obito")
         self.player4Cb.model().item(0).setEnabled(False)
         self.player4Cb.setGeometry(280, 455, 70, 20)
 
     def initMainMenuButtons(self):
         self.startButton = QtWidgets.QPushButton(self)
         self.startButton.setCursor(Qt.PointingHandCursor)
-       # self.startButton.setEnabled(False)
         self.startButton.setStyleSheet("border:1px solid rgb(220, 20, 60); color: red;font-size: 26px; font-family: Segoe Script;");
         self.startButton.setText("START GAME")
         self.startButton.setGeometry(100, 600, 350, 50)
