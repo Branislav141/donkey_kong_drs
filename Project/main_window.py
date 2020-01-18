@@ -172,6 +172,7 @@ class MainWindow(QWidget):
         self.player1Cb.addItem("Orochimaru")
         self.player1Cb.addItem("Obito")
         self.player1Cb.addItem("Kakashi")
+        self.player1Cb.addItem("Hashirama")
         self.player1Cb.model().item(0).setEnabled(False)
         self.player1Cb.setGeometry(280, 305, 70, 20)
 
@@ -187,6 +188,7 @@ class MainWindow(QWidget):
         self.player2Cb.addItem("Orochimaru")
         self.player2Cb.addItem("Obito")
         self.player2Cb.addItem("Kakashi")
+        self.player2Cb.addItem("Hashirama")
         self.player2Cb.model().item(0).setEnabled(False)
         self.player2Cb.setGeometry(280, 355, 70, 20)
 
@@ -202,6 +204,7 @@ class MainWindow(QWidget):
         self.player3Cb.addItem("Orochimaru")
         self.player3Cb.addItem("Obito")
         self.player3Cb.addItem("Kakashi")
+        self.player3Cb.addItem("Hashirama")
         self.player3Cb.model().item(0).setEnabled(False)
         self.player3Cb.setGeometry(280, 405, 70, 20)
 
@@ -217,6 +220,7 @@ class MainWindow(QWidget):
         self.player4Cb.addItem("Orochimaru")
         self.player4Cb.addItem("Obito")
         self.player4Cb.addItem("Kakashi")
+        self.player4Cb.addItem("Hashirama")
         self.player4Cb.model().item(0).setEnabled(False)
         self.player4Cb.setGeometry(280, 455, 70, 20)
 
