@@ -414,8 +414,8 @@ class LevelGenerator(QWidget):
 
 
     def initPlayers(self, chr1, chr2):
-        self.player1 = Character(self, 100, 150, chr1, self.player1Points)
-        self.player2 = Character(self, 1720, 150, chr2, self.player2Points)
+        self.player1 = Character(self, 100, 950, chr1, self.player1Points)
+        self.player2 = Character(self, 1720, 950, chr2, self.player2Points)
 
     def initGorilla(self):
         self.gorilla = Gorilla(self)
