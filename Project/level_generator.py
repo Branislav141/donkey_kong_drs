@@ -198,7 +198,7 @@ class LevelGenerator(QWidget):
 
     def waitForEnd__(self):
         self.closeAllThreads()
-        time.sleep(5)
+        time.sleep(7)
         self.callEndLevel.emit()
 
     def goToNextLevel(self):
